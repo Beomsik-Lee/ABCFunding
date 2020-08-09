@@ -264,7 +264,7 @@ public class ABCMemberController {
      */
     public void emailAuthentication(ABCMemberDto dto, String path) {
         try {
-            // 인증키 생성
+            // Create UUID
             String uuid = UUID.randomUUID().toString().replace("-", "");
             dto.setAuthCode(uuid);
             
@@ -341,15 +341,15 @@ public class ABCMemberController {
 
         sb.append("<HTML>\n"); 
         sb.append("<HEAD>\n"); 
-        sb.append("<TITLE>"+"안내문입니다."+"</TITLE>\n"); 
+        sb.append("<TITLE>"+"Notification"+"</TITLE>\n"); 
         sb.append("<META content=text/html; charset=utf-8>\n"); 
         sb.append("</HEAD>\n"); 
         sb.append("<BODY text=black vLink=blue aLink=red link=blue bgColor=#ffffff>\n"); 
         
-        sb.append("<P align=left><B><FONT size=8px face=굴림 color=black>메일 인증하기</FONT></B></P>\n");
-        sb.append("<P align=left><B><FONT size=6px face=굴림 color=black>"+email+"님!! 환영합니다.</FONT></B></P>\n");
-        sb.append("<P align=left><B><FONT size=6px face=굴림 color=black>아래의 링크를 눌러 인증을 완료하세요.</FONT></B></P>\n");
-        sb.append("<P align=left><a href='" + content +"'><FONT size=5px face=굴림 color=blue>지금 인증하기!!</FONT></a></P>\n");
+        sb.append("<P align=left><B><FONT size=8px color=black>Confirm Authentication</FONT></B></P>\n");
+        sb.append("<P align=left><B><FONT size=6px color=black>Welcome "+email+"!!</FONT></B></P>\n");
+        sb.append("<P align=left><B><FONT size=6px color=black>Click the button</FONT></B></P>\n");
+        sb.append("<P align=left><a href='" + content +"'><FONT size=5px color=blue>Confirm</FONT></a></P>\n");
 
         sb.append("</BODY>\n"); 
         sb.append("</HTML>\n"); 
@@ -407,17 +407,17 @@ public class ABCMemberController {
     }
     
     /**
-     * 내 대출 정보 리스트 가져오기
+     * Get list of loan data
      */
     @RequestMapping(value = "myLoanInfoList.do", method = {RequestMethod.GET,RequestMethod.POST})
     public String myLoanInfoList(HttpServletRequest request, Model model) {
-        // 기본제목에 해당 기능명을 붙인다.
-        model.addAttribute("title", "나의 대출내역 :: " + MAIN_TITLE);
+        // Set title of Loan detail
+        model.addAttribute("title", "My Loan Detail :: " + MAIN_TITLE);
         
-        // 이메일 가져오기
+        // Get email from request
         String email = request.getParameter("email");
         
-        // 나의 대출 내역 호출 후 담는다.        
+        // call service for loan list
         model.addAttribute("loanLists",service.getMyLoanInfoList(email));
         model.addAttribute("loanTranList", loanService.getTransactionBySorted(email));
         
