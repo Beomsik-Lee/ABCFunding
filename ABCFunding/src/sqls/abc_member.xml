@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ABCMember">
+	<insert id="addMember" parameterType="com.hk.abcfund.model.dto.ABCMemberDto">
+	    INSERT INTO ABC_MEMBER
+	    (EMAIL,PWD,NAME,BIRTH,GENDER,CREDIT_RATING,
+	    LOAN_COUNT,INVEST_COUNT,SUPPORT_COUNT,GRADE,AUTH_CODE)
+	    VALUES(
+	    	#{email}, #{pwd}, #{name}, #{birth}, #{gender}, #{creditRating},0,0,0,0, #{authCode}
+	    )
+	</insert>
+	<update id="doAuthCode" parameterType="com.hk.abcfund.model.dto.ABCMemberDto">
+	    UPDATE 	ABC_MEMBER
+	    SET		GRADE = 1
+	    WHERE 	EMAIL = #{email} AND AUTH_CODE = #{authCode}
+	</update>
+	<select id="login"
+	    parameterType="com.hk.abcfund.model.dto.ABCMemberDto"
+	    resultType="com.hk.abcfund.model.dto.ABCMemberDto">
+	 	SELECT 	EMAIL,PWD,NAME,BIRTH,GENDER,CREDIT_RATING CREDITRATING,
+	    		LOAN_COUNT LOANCOUNT, INVEST_COUNT INVESTCOUNT,GRADE
+	    FROM 	ABC_MEMBER
+	    WHERE 	EMAIL = #{email} AND PWD = #{pwd}
+	</select>
+	<update id="changePwd"
+	    parameterType="com.hk.abcfund.model.dto.ABCMemberDto">
+		UPDATE	ABC_MEMBER
+		SET		PWD = #{pwd}
+		WHERE	EMAIL = #{email}
+	</update>
+	<update id="changeAuthCode"
+	    parameterType="com.hk.abcfund.model.dto.ABCMemberDto">
+	    UPDATE	ABC_MEMBER
+	    SET		AUTH_CODE = #{authCode}
+	    WHERE	EMAIL = #{email}
+	</update>
+	<update id="changePwdOnAuth"
+	    parameterType="com.hk.abcfund.model.dto.ABCMemberDto">
+	    UPDATE	ABC_MEMBER
+	    SET		PWD = #{pwd}
+	    WHERE	EMAIL = #{email} AND AUTH_CODE = #{authCode}
+	</update>
+	
+	<select id="getMember"
+	    parameterType="java.lang.String"
+	    resultType="com.hk.abcfund.model.dto.ABCMemberDto">
+	 	SELECT	EMAIL, NAME, BIRTH, GENDER, CREDIT_RATING CREDITRATING, GRADE
+	 	FROM	ABC_MEMBER
+	 	WHERE	EMAIL = #{email}
+	</select>
+	
+	<update id="incInvest" parameterType="java.lang.String">
+		UPDATE	ABC_MEMBER
+		SET		INVEST_COUNT = INVEST_COUNT+1
+		WHERE	EMAIL = #{email}
+	</update>
+	
+	<update id="incLoan" parameterType="java.lang.String">
+		UPDATE	ABC_MEMBER
+		SET		LOAN_COUNT = LOAN_COUNT+1
+		WHERE	EMAIL = #{email}
+	</update>
+	
+	<select id="getMyInfo" parameterType="java.lang.String"
+	resultType="com.hk.abcfund.model.dto.ABCMyInfoDto">
+		SELECT
+			MEMBER.NAME NAME,MEMBER.BIRTH BIRTH,MEMBER.GENDER GENDER,MEMBER.CREDIT_RATING CREDITRATING,
+			ACCOUNT.ACCOUNT_NO ACCOUNTNO,ACCOUNT.BALANCE BALANCE
+		FROM
+			ABC_MEMBER MEMBER, ABC_ACCOUNT ACCOUNT
+		WHERE
+			MEMBER.EMAIL = ACCOUNT.EMAIL AND MEMBER.EMAIL=#{email}
+	</select>
+	
+	<select id="getMyLoanInfoList" parameterType="java.lang.String"
+	resultType="com.hk.abcfund.model.dto.ABCMyLoanInfoDto">
+		SELECT
+			LOAN.LOAN_CODE LOANCODE, LOAN.PROGRESS PROGRESS, LOAN.INTEREST_RATE INTERESTRATE,
+			LOAN.REPAY_TYPE REPAYTYPE, LOAN.LOAN_TYPE LOANTYPE, LOAN.LOAN_MONEY LOANMONEY,
+			LOAN.LOAN_DATE LOANDATE, LOAN.REPAY REPAY, LOAN.EXPIRY_DATE EXPIRYDATE, JUDGE.RESULT RESULT
+		FROM
+			ABC_LOAN LOAN, ABC_JUDGE JUDGE
+		WHERE
+			LOAN.EMAIL = #{email} AND
+			LOAN.LOAN_CODE = JUDGE.LOAN_CODE
+	</select>
+	
+	<delete id="dropMember" parameterType="java.lang.String">
+	    DELETE	FROM	ABC_MEMBER
+	    		WHERE	EMAIL = #{email}
+	</delete>
+	
+	<select id="getMemberList" resultType="com.hk.abcfund.model.dto.ABCMemberDto">
+	    SELECT	EMAIL, PWD, NAME, BIRTH, GENDER,
+	    		CREDIT_RATING CREDITRATING, LOAN_COUNT LOANCOUNT, 
+	    		INVEST_COUNT INVESTCOUNT,GRADE, AUTH_CODE AUTHCODE,
+	    		SUPPORT_COUNT SUPPORTCOUNT
+	    FROM	ABC_MEMBER
+	    WHERE	EMAIL != 'dummy'
+	    		AND
+	    		GRADE != 2
+	    ORDER BY NAME
+	</select>
+</mapper>

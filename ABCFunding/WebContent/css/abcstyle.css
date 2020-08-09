@@ -1,0 +1,628 @@
+
+
+/* 메인 화면 섹션 CSS */
+
+.myInfo-section {
+   height: 670px;
+   width: 1349px;
+   padding-top: 100px;
+   text-align: center;
+}
+.invest-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 150px;
+	text-align: center;
+	background-image: url("../img/abc_main_invest_1.jpg");
+    background-size:cover;
+    background-origin: border-box;
+}
+
+.main-loan-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 60px;
+	text-align: center;
+	background-image: url("../img/abc_main_loan.jpg");
+    background-size:cover;
+    background-origin: border-box;
+}
+
+.loan-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 150px;
+	text-align: center;
+}
+
+.sponsor-section {
+	height: 670px;
+	width: 1349px;;
+	padding-top: 150px;
+	text-align: center;
+	background-image: url("../img/abc_main_this_is_earth_1.jpg");
+    background-size:cover;
+    background-origin: border-box;
+}
+
+.regiSuc-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 100px;
+	text-align: center;
+}
+
+
+/* 관리자 화면 CSS */
+.adminMain-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 100px;
+	text-align: center;
+}
+.adminMain-table {
+	margin: 70 auto 0 auto;
+}
+.adminMain-table tr td{
+	padding: 20px;
+}
+.adminJudgeList-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 100px;
+	text-align: center;
+}
+.adminJudgeList-table {
+	margin: 0 auto;
+}
+.adminJudgeList-table tr td {
+	padding: 10px;
+}
+.judge-tr {
+	cursor:hand;
+}
+
+.adminJudgeDetail-section {
+	height: 1200px;
+	width: 1349px;
+	padding-top: 100px;
+}
+
+.adminJudgeDetail-table {
+	width:100%;
+	max-width:100%;
+}
+
+.adminJudgeDetail-table thead th,
+.adminJudgeDetail-table thead td {
+	vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+    font-size:medium;
+    padding:8px;
+}
+
+#judgeDetail {
+	padding:8px;
+}
+
+.adminLoanManage-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 100px;
+	text-align: center;
+}
+
+
+
+/* 대출신청하기 화면 CSS */
+.loanSuc-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 100px;
+	text-align: center;
+}
+
+.loan-table {
+	margin: 0 auto;
+}
+
+.loan-table tr td {
+	padding: 5px;
+}
+
+
+
+/* 비밀번호 찾기 화면 CSS */
+.searchpwd-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 100px;
+	text-align: center;
+}
+
+.searchpwd-table {
+	margin: 0 auto;
+}
+
+.searchpwd-table tr td {
+	padding: 5px;
+}
+
+
+
+
+
+/* 비밀번호 변경 화면 CSS*/
+.changePwd-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 100px;
+	text-align: center;	
+}
+
+.changePwd-table {
+	margin: 0 auto;
+}
+
+.changePwd-table tr td{
+	padding: 5px;
+}
+
+#notCorrect {
+	color: red;
+}
+
+#correct {
+	color: blue;
+}
+
+
+
+
+/* 로그인 화면 CSS */
+.login-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 100px;
+	text-align: center;
+}
+
+.login-table {
+	margin: 0 auto;
+}
+
+.login-table tr td {
+	padding: 5px;
+}
+
+#login-button {
+	text-align: center;
+}
+
+#isFail {
+	color:red;
+}
+
+
+
+
+
+/* 회원가입 화면 CSS */
+.addmember-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 100px;
+	text-align: center;
+}
+
+.addmember-table {
+	margin: 0 auto;
+}
+
+.addmember-table tr td {
+	padding: 5px;
+}
+
+/* 투자하기 CSS */
+.invest-element{
+ margin: 15px 30px;
+ width: 320px;
+ border: 1px solid;
+ float: left;
+}
+.invest-click{
+ color: black;
+ position: relative;
+}
+.invest-img-hover{
+	position: absolute;
+	top: -50;
+	background-color: #a3f400;
+	opacity: 0;
+	width: 318px;
+ 	height: 120px;
+ 	padding-top: 50px;
+}
+.invest-img-hover span{
+	margin-top: 100px;
+	color: black;
+	font-size: 20px;
+}
+.ivest-img{
+ width: 318px;
+ height: 120px;
+}
+.invest-title{
+ padding: 10px;
+ font-size: 19px;
+ text-align: left;
+}
+.invest-info{
+ margin: 0 20px 20px 20px;
+ font-size: 16px;
+}
+
+.invest-info td {
+ width: 140px;
+}
+
+.invest-info td:nth-child(1){
+ text-align: left;
+}
+
+.invest-info td:nth-child(2){
+ text-align: right;
+ font-weight: bold;
+}
+
+.progress{
+ margin: 20px;
+}
+
+
+/* 투자 상세 */
+.panel-heading{
+	text-align: left;
+	font-size: 20px;
+	font-weight: bold;
+}
+.panel-body{
+	font-family: arial;
+	font-size: 16px;
+	text-align: justify;
+}
+#invest-detail-title{
+	margin-bottom: 20px; 
+}
+#invest-detail-loan-info h3{
+	text-align: left;
+	border-left: 5px solid #1a53ff;
+}
+#invest-detail-table{
+	text-align: center;
+	width: 1000px;
+	margin: 30px auto;
+}
+#invest-detail-table th{
+	text-align: center;
+}
+
+/* 신용정보 */
+#invest-detail-credit{
+	border: 3px solid #d9d9d9;
+	width: 350px;
+	height: 300px;
+	margin-left: 20px;
+	float: left;
+}
+/* 신용정보의 헤더 */
+#invest-detail-credit h4{
+	margin: 30px 60px;
+	font-size: 25px;
+	font-weight: bold;
+	letter-spacing: 5px;
+	border-bottom: 3px solid blue;
+	text-align: center;
+}
+
+/* 개인정보 */
+#invest-detail-personal{
+	border: 3px solid #d9d9d9;
+	width: 350px;
+	height: 300px;
+	margin-left: 20px;
+	float: left;
+}
+
+/* 개인정보의 헤더 */
+#invest-detail-personal h4{
+	margin: 30px 60px;
+	font-size: 25px;
+	font-weight: bold;
+	letter-spacing: 5px;
+	border-bottom: 3px solid blue;
+	text-align: center;
+}
+/* 개인정보의 테이블 */
+#invest-detail-personal table{
+ margin: auto;
+ width: 210px;
+}
+#invest-detail-personal td:nth-child(2){
+ 
+ text-align:right;
+}
+#invest-detail-personal td{
+ padding: 7px 0;
+}
+
+
+/* 직장정보 */
+#invest-detail-job{
+	border: 3px solid #d9d9d9;
+	width: 350px;
+	height: 300px;
+	margin-left: 20px;
+	float: left;
+}
+
+/* 직장정보의 헤더 */
+#invest-detail-job h4{
+	margin: 30px 60px;
+	font-size: 25px;
+	font-weight: bold;
+	letter-spacing: 5px;
+	border-bottom: 3px solid blue;
+	text-align: center;
+}
+/* 직장정보의 테이블 */
+#invest-detail-job table{
+ margin: auto;
+ width: 210px;
+}
+#invest-detail-job td:nth-child(2){
+ 
+ text-align:right;
+}
+#invest-detail-job td{
+ padding: 7px 0;
+}
+
+/* 소개하기 헤더 */
+#invest-detail-intro h3{
+	clear: left;
+	margin-top: 400px;
+}
+/* 소개하기 이미지 */
+#invest-detail-intro img{
+	width: 500px;
+	height: 300px;
+	margin: 20px;
+	float: left;
+}
+/* 소개글 */
+#invest-detail-intro p{
+	text-align: justify;
+	text-indent: 10px;
+	margin-top: 50px;
+}
+/* 투자버튼 */
+#invest-button{
+	margin-top:30px;
+}
+
+/* 투자하기의 가상계좌정보 */
+#invest-account-info{
+	width: 500px;
+	margin: auto;
+}
+#invest-account-info table{
+	margin: auto;
+	width: 400px;
+}
+#invest-account-info td{
+	padding: 6px;
+}
+#invest-account-info td:nth-child(2) {
+	text-align: right;
+}
+#invest-request{
+	margin: auto;
+	width: 500px;
+}
+#invest-request > div > * {
+	margin : 5px 0 0 30px;
+}
+
+/* 투자시뮬레이션(상환스케쥴) */
+#invest-simulation{
+	margin: 30px auto;
+	width: 500px;
+}
+/* 투자신청금 */
+#invest-money{
+	margin-top: 10px;
+	width: 200px;
+}
+#invest-attention{
+	border: 1px solid black;
+	margin: 50px auto;
+	width: 700px;
+}
+#invest-attention123{
+	margin: 20px;
+	
+}
+#invest-attention123 p{
+	text-align: left;
+}
+#invest-button2{ 
+	margin: 30px 0; 
+}
+
+/* 투자완료 박스 */
+#invest-wrap-border{
+	border: 1px solid black;
+	width: 500px;
+	margin: 50px auto;
+}
+#invest-suc-wrap{
+	margin: 40px;
+}
+#invest-suc-wrap span{
+	margin: 30px 0;
+	font-size: 18px;
+}
+#invest-suc-wrap a{
+	display: block;
+	margin: 20px 0;
+}
+
+/* Footer CSS */
+footer {
+	display: block;
+	color: white;
+	margin: 0 auto;
+	height: 117px;
+	padding-top: 10px;
+	text-align: left;
+	background: #000;
+}
+
+a:hover{
+	text-decoration: none;
+	color: black;
+}
+
+
+/* 원리금균등상환 계산기 CSS */
+.calcul-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 100px;
+	text-align: center;
+}
+
+/* 원리금균등상환 계산기 CSS */
+.calcul-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 100px;
+	text-align: center;
+}
+
+/* 내 정보 화면 CSS */
+.myInfo-table {
+	width:100%;
+	max-width:100%;
+}
+
+.myInfo-table thead th,
+.myInfo-table thead td {
+	vertical-align: bottom;
+    font-size:medium;
+    padding:8px;
+}
+
+.myLoanTable {
+	width:100%;
+	max-width:100%;
+	margin-bottom:0px;
+}
+
+.myLoanTable thead th {
+	vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+    font-size:medium;
+    padding:8px;
+    text-align:center;
+}
+
+.myLoanTable tbody tr {
+	cursor:hand;
+}
+
+.myLoanTable tbody td {
+	padding:8px;
+}
+
+#drop-table{
+	margin : auto;
+}
+
+#drop-table td{
+	text-align: center;
+}
+
+#drop-table td:first-child{
+	width: 250px;
+	padding-bottom: 20px;
+}
+
+#intro-head {
+	color:white;
+}
+#sponosr-head {
+	color:white;
+}
+#intro-section {
+	height: 670px;
+	width: 1349px;
+	padding-top: 110px;
+	text-align: center;
+}
+#intro-left-menu {
+	padding-left:20px;
+}
+
+/* 관리자-회원 상세화면 CSS */
+#personal-data{
+	border: 1px solid grey;
+	height: 70px;
+	padding: 20px;
+	margin-top: 30px;
+	text-align: center;
+}
+#personal-data span{
+	margin: 0 20px;
+}
+
+#invest-data{
+	border: 1px solid grey;
+	float: left;
+}
+
+.detail-data-table{
+	margin: 20px 0;
+	width: 100%;
+}
+.detail-data-table td{
+	font-size: 20px;
+	padding: 10px 20px;
+}
+.detail-data-table td:nth-child(2){
+	text-align: right;
+}
+
+#loan-data{
+	border: 1px solid grey;
+	float: right;
+}
+
+#invest-data,#loan-data{
+	margin: 50px 0;
+}
+
+#chart_invest{
+	width: 540px;
+	height: 400px;
+	padding: 30px;
+}
+
+/* 투자관리 */
+#invest-chart1{
+	float: left;
+}
+#invest-chart2{
+	float: right;
+}

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Earth">
+	<insert id="addEarth" parameterType="com.hk.abcfund.earth.model.dto.EarthDto">
+	    INSERT INTO EARTH
+	    (EARTHNO, NAME, PW, PHONE, TITLE, PURPOSE, CONDITION, 
+	    CONTENT, EARTHS, EARTHE, TARGETNO, TARGETSUM, RESULTNO, 
+	    RESULTSUM, RESULT, SPONSORNO, CODE)
+	    VALUES(SEQ_EARTHNO.NEXTVAL, #{name}, #{pw}, #{phone}, #{title}, #{purpose},#{condition},
+	    #{content},TO_DATE(#{earths},'YYYY-MM-DD'),TO_DATE(#{earthe},'YYYY-MM-DD'),
+	    TO_NUMBER(REPLACE(#{targetno},' ','')),TO_NUMBER(REPLACE(#{targetsum},' ','')),
+	    '','','미달성',1,1)
+	</insert>
+	
+	<insert id="addEarthFile" parameterType="com.hk.abcfund.earth.model.dto.EarthFile">
+	    INSERT INTO EARTHFILE
+	    (EARTHNO, APPLYNAME, APPLYPATH, APPLYSAVENAME)
+	    VALUES(#{earthno},#{applyname},#{applypath}, #{applysavename})
+	</insert>
+	 
+	<select id="getSponsorLists"
+	parameterType="com.hk.abcfund.earth.util.EyeEarthParam"
+	resultType="com.hk.abcfund.earth.model.dto.EarthDto">
+		SELECT EARTHNO,TITLE,to_char(EARTHS,'YYYY-MM-DD') AS EARTHS,to_char(EARTHE,'YYYY-MM-DD') AS EARTHE,
+		(NVL(to_char(TARGETNO,'999,999,999,999,999'),0)||'명') AS TARGETNO, (NVL(to_char(TARGETSUM,'999,999,999,999,999'),0)||'원') AS TARGETSUM,
+		CODE
+		FROM 
+		( SELECT ROW_NUMBER() OVER (ORDER BY EARTHNO) RNUM,
+		EARTHNO, TITLE,EARTHS,EARTHE,TARGETNO,TARGETSUM,CODE
+		FROM EARTH
+		)
+		WHERE RNUM between #{start} AND #{end} order by earthno 
+		</select>
+		
+	<select id="findEarthMap"
+	parameterType="java.lang.String"
+	resultType="java.util.HashMap">
+		SELECT ROWNUM,EARTHNO,NAME,TITLE,CODENAME 
+		FROM (SELECT EARTH.EARTHNO, EARTH.NAME, EARTH.TITLE, ECODES.NAME AS CODENAME 
+			FROM EARTH,ECODES WHERE EARTH.CODE=ECODES.CODE AND EARTH.NAME LIKE #{name}
+			ORDER BY ECODES.CODE, EARTH.EARTHNO)
+	</select>	
+
+	<select id="getEarthPw" parameterType="java.lang.Integer"
+			resultType="com.hk.abcfund.earth.model.dto.EarthPwDto">
+				SELECT EARTHNO,PW
+				FROM  EARTH
+				WHERE EARTHNO=#{earthno}
+	</select>
+	
+	
+	<select id="myearthpwconfirm"
+	parameterType="java.util.HashMap"
+	resultType="java.lang.Integer">
+		SELECT COUNT(EARTHNO) AS CNT
+		FROM  EARTH
+		WHERE EARTHNO=#{earthno} AND PW=#{pw}
+	</select>
+	
+		
+	<select id="getSponsorTotalCount"
+	resultType="java.lang.Integer">
+	SELECT NVL(count(*),0) AS cnt
+			  FROM   EARTH 
+	</select>
+	
+	<select id="getMaxEarth"
+	resultType="java.lang.Integer">
+	SELECT NVL(MAX(EARTHNO),1) AS EARTHNO
+			  FROM   EARTH 
+	</select>
+	
+<select id="getEarth" parameterType="java.lang.Integer"
+			resultType="com.hk.abcfund.earth.model.dto.EarthDto">
+				SELECT EARTHNO,NAME,PW,PHONE,TITLE,PURPOSE,CONDITION,
+				CONTENT, TO_CHAR(EARTHS,'YYYY-MM-DD') AS EARTHS,
+				 TO_CHAR(EARTHE,'YYYY-MM-DD') AS EARTHE, 
+				 (NVL(TO_CHAR(TARGETNO,'999,999,999'),0)) AS TARGETNO, 
+				 (NVL(TO_CHAR(TARGETSUM,'999,999,999'),0)) AS TARGETSUM,
+				  RESULTNO,RESULTSUM, RESULT, SPONSORNO,CODE
+				FROM  EARTH
+				WHERE EARTHNO=#{earthno}
+			</select>
+			
+<select id="getEarthFile" parameterType="java.lang.Integer"
+			resultType="com.hk.abcfund.earth.model.dto.EarthFile">
+				SELECT EARTHNO,APPLYNAME,APPLYPATH,APPLYSAVENAME
+				FROM  EARTHFILE
+				WHERE EARTHNO=#{earthno}
+			</select>
+				
+			
+<select id="getEcode" 
+   			 parameterType="java.lang.Integer"
+			resultType="com.hk.abcfund.earth.model.dto.ECodes">
+				SELECT ECODES.CODE, ECODES.NAME FROM ECODES, EARTH 
+				WHERE ECODES.CODE = EARTH.CODE AND EARTHNO=#{earthno}
+			</select>
+			
+<update id="updateEcode"
+     parameterType="com.hk.abcfund.earth.model.dto.EarthDto">
+	    UPDATE	EARTH
+	    SET		CODE = #{code}
+	    WHERE   EARTHNO = #{earthno}
+	    
+	</update>
+	
+
+<insert id="applybackup" parameterType="com.hk.abcfund.earth.model.dto.EarthDto">
+	    INSERT INTO APPLYBACKUP
+	    (EARTHNO, NAME, PW, PHONE, TITLE, PURPOSE, CONDITION, 
+	    CONTENT, EARTHS, EARTHE, TARGETNO, TARGETSUM)
+	    VALUES(#{earthno}, #{name}, #{pw}, #{phone}, #{title}, #{purpose},#{condition},
+	    #{content},to_date(#{earths},'YYYY-MM-DD'),to_date(#{earthe},'YYYY-MM-DD'),to_number(#{targetno}),to_number(#{targetsum}))
+	</insert>
+	
+<select id="getApplyBackup" parameterType="java.lang.Integer"
+			resultType="com.hk.abcfund.earth.model.dto.ApplyBackUp">
+				SELECT EARTHNO,NAME,PW,PHONE,TITLE,PURPOSE,CONDITION,
+				CONTENT, TO_CHAR(EARTHS,'YYYY-MM-DD') AS EARTHS,
+				 TO_CHAR(EARTHE,'YYYY-MM-DD') AS EARTHE, 
+				 (NVL(TO_CHAR(TARGETNO,'999,999,999'),0)) AS TARGETNO, 
+				 (NVL(TO_CHAR(TARGETSUM,'999,999,999'),0)) AS TARGETSUM
+				FROM  APPLYBACKUP
+				WHERE EARTHNO=#{earthno}
+			</select>
+			
+	
+<delete id="deletebackup" parameterType="java.lang.Integer">
+	    DELETE	APPLYBACKUP
+	    WHERE   EARTHNO = #{earthno}
+	</delete>
+	
+	
+	<select id="findSponsor"
+	parameterType="com.hk.abcfund.earth.model.dto.ECodes"
+	resultType="com.hk.abcfund.earth.model.dto.SponsorDto">
+		SELECT SPONSORNO, SPONSORID, CODE
+		FROM SPONSORS
+		WHERE SPONSORID LIKE #{name} AND CODE = #{code} 
+	
+	</select>
+		<select id="getSponsorApplyLists"
+	parameterType="com.hk.abcfund.earth.util.EyeEarthParam"
+	resultType="com.hk.abcfund.earth.model.dto.EarthDto">
+		SELECT EARTHNO,TITLE,to_char(EARTHS,'YYYY-MM-DD') AS EARTHS,to_char(EARTHE,'YYYY-MM-DD') AS EARTHE,
+		(NVL(to_char(TARGETNO,'999,999,999,999,999'),0)||'명') AS TARGETNO, (NVL(to_char(TARGETSUM,'999,999,999,999,999'),0)||'원') AS TARGETSUM,
+		CODE
+		FROM 
+		( SELECT ROW_NUMBER() OVER (ORDER BY EARTHNO) RNUM,
+		EARTHNO, TITLE,EARTHS,EARTHE,TARGETNO,TARGETSUM,CODE
+		FROM EARTH
+		)
+		WHERE RNUM between #{start} AND #{end} AND CODE = 2 order by earthno 
+		</select>
+	
+	<select id="getSponsorApplyTotalCount"
+	resultType="java.lang.Integer">
+	SELECT NVL(count(*),0) AS cnt
+			  FROM   EARTH 
+			  WHERE CODE = 2
+	</select>
+	
+	<update id="updateMyearth"
+     parameterType="com.hk.abcfund.earth.model.dto.EarthDto">
+     	UPDATE	EARTH
+	    SET	PHONE = #{phone}, TITLE = #{title},PURPOSE = #{purpose},CONDITION = #{condition},
+	    CONTENT = #{content},EARTHS = TO_DATE(#{earths},'YYYY-MM-DD'),
+	    EARTHE = TO_DATE(#{earthe},'YYYY-MM-DD'),TARGETNO = TO_NUMBER(REPLACE(#{targetno},' ','')),
+	    TARGETSUM = TO_NUMBER(REPLACE(#{targetsum},' ',''))	    
+	    WHERE EARTHNO = #{earthno}
+	</update>
+	
+	<delete id="myearthDelete" parameterType="java.lang.Integer">
+	    DELETE	EARTH
+	    WHERE   EARTHNO = #{earthno}
+	</delete>
+	
+	<delete id="myearthDeleteFile" parameterType="java.lang.Integer">
+	    DELETE	EARTHFILE
+	    WHERE   EARTHNO = #{earthno}
+	</delete>
+	
+<!-- ************************************************************	 -->
+	
+</mapper>

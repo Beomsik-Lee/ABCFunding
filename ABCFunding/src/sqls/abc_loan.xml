@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ABCLoan">
+	<insert id="addLoan" parameterType="com.hk.abcfund.model.dto.ABCLoanDto">
+	    INSERT INTO ABC_LOAN
+	    (LOAN_CODE,EMAIL,PROGRESS,CURRENT_MONEY,JOIN_COUNT,ROUND,EMPLOY_TYPE,
+	    SCALE,SERVE,SALARY,LOAN_TYPE,REPAY_TYPE,INTEREST_RATE,LOAN_MONEY,LOAN_DATE,
+	    REPAY,TITLE,FNAME,INTRO,EXPIRY_DATE,REQUEST_DATE)
+	    VALUES(SEQ_LOAN.NEXTVAL, #{email}, '신청완료', 0, 0, 0,#{employType},#{scale},#{serve}, #{salary},
+	    #{loanType},#{repayType},#{interestRate},#{loanMoney},#{loanDate},#{repay},#{title},#{fname},
+	    #{intro},#{expiryDate},#{requestDate})
+	</insert>
+	
+	<update id="addCreditRating" parameterType="com.hk.abcfund.model.dto.ABCLoanSubDto">
+		UPDATE ABC_MEMBER
+		SET CREDIT_RATING = #{creditRating}
+		WHERE EMAIL = #{email}
+	</update>
+	
+	<select id="getLoanCode" resultType="java.lang.Integer">
+		SELECT MAX(LOAN_CODE)
+		FROM ABC_LOAN
+	</select>
+	
+	<insert id="addJudge" parameterType="java.lang.Integer">
+		INSERT INTO ABC_JUDGE
+		(JUDGE_SEQ,LOAN_CODE,COMMENTARY,RESULT)
+		VALUES (SEQ_JUDGE.NEXTVAL,#{loanCode},'심사평을 입력해주세요.',0)
+	</insert>
+	
+	<select id="getLoanList" resultType="com.hk.abcfund.model.dto.ABCLoanDto">
+		SELECT	LOAN.LOAN_CODE LOANCODE,LOAN.EMAIL EMAIL,LOAN.PROGRESS PROGRESS,
+				LOAN.CURRENT_MONEY CURRENTMONEY,LOAN.JOIN_COUNT JOINTCOUNT,
+				LOAN.ROUND ROUND,LOAN.EMPLOY_TYPE EMPLOYTYPE,LOAN.SCALE SCALE,
+				LOAN.SERVE SERVE,LOAN.SALARY SALARY,LOAN.LOAN_TYPE LOANTYPE,
+				LOAN.REPAY_TYPE REPAYTYPE,LOAN.INTEREST_RATE INTERESTRATE,
+				LOAN.LOAN_MONEY LOANMONEY,LOAN.LOAN_DATE LOANDATE,
+				LOAN.REPAY REPAY,LOAN.TITLE TITLE,LOAN.FNAME FNAME,
+				LOAN.INTRO INTRO,LOAN.EXPIRY_DATE EXPIRYDATE,LOAN.REQUEST_DATE REQUESTDATE
+		FROM	ABC_LOAN LOAN, ABC_JUDGE JUDGE
+		WHERE	LOAN.LOAN_CODE = JUDGE.LOAN_CODE AND
+				JUDGE.RESULT = 1
+		ORDER BY LOAN.LOAN_CODE DESC
+	</select>
+	
+	<select id="getLoan"
+	    parameterType="java.lang.Integer"
+	    resultType="com.hk.abcfund.model.dto.ABCLoanDto">
+		SELECT	LOAN_CODE LOANCODE,EMAIL EMAIL,PROGRESS PROGRESS,CURRENT_MONEY CURRENTMONEY,
+				JOIN_COUNT JOINTCOUNT,ROUND ROUND,EMPLOY_TYPE EMPLOYTYPE,SCALE SCALE,
+				SERVE SERVE,SALARY SALARY,LOAN_TYPE LOANTYPE,REPAY_TYPE REPAYTYPE,
+				INTEREST_RATE INTERESTRATE,LOAN_MONEY LOANMONEY,LOAN_DATE LOANDATE,
+				REPAY REPAY,TITLE TITLE,FNAME FNAME,INTRO INTRO,EXPIRY_DATE EXPIRYDATE,
+				REQUEST_DATE REQUESTDATE
+	    FROM	ABC_LOAN
+	    WHERE	LOAN_CODE = #{loanCode}
+	</select>
+	
+	<update id="investAfter" parameterType="hashmap">
+		UPDATE	ABC_LOAN
+		SET		CURRENT_MONEY = CURRENT_MONEY + #{investMoney},
+				JOIN_COUNT = JOIN_COUNT + 1
+		WHERE	LOAN_CODE = #{loanCode}
+	</update>
+	
+	<update id="updateProgress" 
+	    parameterType="com.hk.abcfund.model.dto.ABCLoanDto">
+	    UPDATE	ABC_LOAN
+	    SET		PROGRESS = #{progress}
+	    WHERE	LOAN_CODE = #{loanCode}
+	</update>
+	
+	<select id="getLoanListAll"
+	    parameterType="java.lang.String"
+	    resultType="com.hk.abcfund.model.dto.ABCLoanDto">
+		SELECT	LOAN_CODE LOANCODE,EMAIL EMAIL,PROGRESS PROGRESS,CURRENT_MONEY CURRENTMONEY,
+				JOIN_COUNT JOINTCOUNT,ROUND ROUND,EMPLOY_TYPE EMPLOYTYPE,SCALE SCALE,
+				SERVE SERVE,SALARY SALARY,LOAN_TYPE LOANTYPE,REPAY_TYPE REPAYTYPE,
+				INTEREST_RATE INTERESTRATE,LOAN_MONEY LOANMONEY,LOAN_DATE LOANDATE,
+				REPAY REPAY,TITLE TITLE,FNAME FNAME,INTRO INTRO,EXPIRY_DATE EXPIRYDATE,
+				REQUEST_DATE REQUESTDATE
+		FROM	ABC_LOAN
+		WHERE	EMAIL = #{email}
+	</select>
+	
+	<delete id="deleteLoan" parameterType="java.lang.Integer">
+	    DELETE	FROM	ABC_LOAN
+	    		WHERE	LOAN_CODE = #{loanCode}
+	</delete>
+	
+	<update id="fundComplete" parameterType="com.hk.abcfund.model.dto.ABCLoanDto">
+		UPDATE	ABC_LOAN
+		SET		PROGRESS = #{progress}
+		WHERE	LOAN_CODE = #{loanCode}
+	</update>
+	
+	<update id="updateRound" parameterType="com.hk.abcfund.model.dto.ABCLoanDto">
+		UPDATE	ABC_LOAN
+		SET		ROUND = #{round}
+		WHERE	LOAN_CODE = #{loanCode}
+	</update>
+	
+	<update id="repayComplete" parameterType="com.hk.abcfund.model.dto.ABCLoanDto">
+		UPDATE	ABC_LOAN
+		SET		PROGRESS = #{progress}
+		WHERE	LOAN_CODE = #{loanCode}
+	</update>
+	
+	<update id="extendLoanDate" parameterType="com.hk.abcfund.model.dto.ABCLoanDto">
+	    UPDATE	ABC_LOAN
+	    SET		LOAN_DATE = #{loanDate}
+	    WHERE	LOAN_CODE = #{loanCode}
+	</update>
+	
+	<update id="nextRepayDate" parameterType="com.hk.abcfund.model.dto.ABCLoanDto">
+	    UPDATE	ABC_LOAN
+	    SET		REQUEST_DATE = #{requestDate}
+	    WHERE	LOAN_CODE = #{loanCode}
+	</update>
+	
+	<select id="getRemainPayment" 
+	    parameterType="java.lang.String"
+	    resultType="com.hk.abcfund.model.dto.ABCLoanDto">
+	    SELECT	LOAN_CODE
+	    FROM	ABC_LOAN
+	    WHERE	PROGRESS IN ('펀딩완료', '상환중')
+	    		AND
+	    		EMAIL = #{email}
+	</select>
+	
+	<update id="updateEmailToDump" parameterType="java.lang.String">
+		UPDATE	ABC_LOAN
+		SET		EMAIL = 'dump'
+		WHERE	EMAIL = #{email}
+	</update>
+	
+	<select id="getLoanListByInvest"
+		parameterType="java.lang.String"
+		resultType="com.hk.abcfund.model.dto.ABCLoanDto">
+		SELECT	LOAN.LOAN_CODE LOANCODE, LOAN.EMAIL EMAIL, LOAN.PROGRESS PROGRESS, 
+				LOAN.CURRENT_MONEY CURRENTMONEY, LOAN.JOIN_COUNT JOINTCOUNT, LOAN.ROUND ROUND,
+				LOAN.EMPLOY_TYPE EMPLOYTYPE, LOAN.SCALE SCALE, LOAN.SERVE SERVE,
+				LOAN.SALARY SALARY, LOAN.LOAN_TYPE LOANTYPE, LOAN.REPAY_TYPE REPAYTYPE,
+				LOAN.INTEREST_RATE INTERESTRATE, LOAN.LOAN_MONEY LOANMONEY, LOAN.LOAN_DATE LOANDATE,
+				LOAN.REPAY REPAY, LOAN.TITLE TITLE, LOAN.FNAME FNAME, LOAN.INTRO INTRO,
+				LOAN.EXPIRY_DATE EXPIRYDATE, LOAN.REQUEST_DATE REQUESTDATE
+	    FROM	ABC_LOAN LOAN, ABC_INVEST INVEST
+		WHERE	LOAN.LOAN_CODE = INVEST.LOAN_CODE
+				AND
+				INVEST.EMAIL = #{email}
+		ORDER BY INVEST.INVEST_SEQ DESC
+	</select>
+	
+	<select id="getPayingCount"
+		parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT	COUNT(LOAN_CODE)
+		FROM	ABC_LOAN
+		WHERE	PROGRESS = '상환중'
+				AND
+				LOAN_CODE IN (
+					SELECT	LOAN_CODE
+					FROM	ABC_INVEST
+					WHERE	EMAIL = #{email}
+				)
+	</select>
+</mapper>

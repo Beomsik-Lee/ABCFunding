@@ -1,0 +1,57 @@
+.necessariness {
+	color: red;
+	font-size: 14px;
+}
+
+.choice {
+	color: blue;
+	font-size: 14px;
+}
+
+.memo {
+	font-size: 12px;
+	color: #819FF7;
+}
+
+.filenote {
+	text-align: left;
+	font-size: 12px;
+}
+
+.smenu li.smenu4 a {
+	text-align: center;
+	opacity: 0.3;
+	filter: alpha(opacity = 20);
+	color: white;
+	text-decoration: none;
+	background: #2B6CA3;
+}
+
+#main {
+	height: 600px;
+}
+
+.only-number {
+	text-align: right
+}
+
+.admin .btn2 {
+	position: relative;
+	left: 250px;
+	bottom: 50px;
+}
+
+.admin .goback a:link {
+	color: black;
+}
+
+.note {
+	font-size: 12px;
+	color: #819FF7;
+	line-height: 150%;
+}
+
+.imgsize {
+	width:500px;
+	height: auto;	
+}

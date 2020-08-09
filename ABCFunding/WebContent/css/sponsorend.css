@@ -1,0 +1,9 @@
+.smenu3 li.smenu31 a {
+	text-align: center;
+	opacity: 0.3;
+	padding-right: 10px;
+	filter: alpha(opacity = 20);
+	color: white;
+	text-decoration: none;
+	background: #2B6CA3;
+}

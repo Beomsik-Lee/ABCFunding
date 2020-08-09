@@ -1,0 +1,17 @@
+.smenu li.smenu4 a {
+	text-align: center;
+	opacity: 0.3;
+	filter: alpha(opacity = 20);
+	color: white;
+	text-decoration: none;
+	background: #2B6CA3;
+}
+.note {
+	font-size: 14px;
+	color: #819FF7;
+	line-height: 150%;
+}
+
+.btn a:link {
+	color: black;
+}

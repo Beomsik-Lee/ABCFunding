@@ -1,0 +1,28 @@
+.ssmenu li.sponmenu2 a {
+	text-align: center;
+	opacity: 0.3;
+	padding-right: 10px;
+	filter: alpha(opacity = 20);
+	color: white;
+	text-decoration: none;
+	background: #2B6CA3;
+}
+
+.maintitle {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.only-number {
+	text-align: right
+}
+
+.earthstart .btn2 {
+	position: relative;
+	left: 180px;
+	bottom: 10px;
+}
+
+.earthstart .goback a:link {
+	color: black;
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ABCInvest"> 
+	<insert id="addInvest"
+	    parameterType="com.hk.abcfund.model.dto.ABCInvestDto">
+		INSERT INTO	ABC_INVEST(
+			INVEST_SEQ, EMAIL, LOAN_CODE, INVEST_MONEY
+		)
+		VALUES(
+			SEQ_INVEST.NEXTVAL, #{email}, #{loanCode}, #{investMoney}
+		)
+	</insert>
+	
+	<select id="selectByEnL" 
+	    parameterType="hashmap"
+	    resultType="com.hk.abcfund.model.dto.ABCInvestDto">
+		SELECT	INVEST_SEQ INVESTSEQ, EMAIL, LOAN_CODE LOANCODE
+		FROM	ABC_INVEST
+		WHERE	EMAIL = #{email} AND
+				LOAN_CODE = #{loanCode}
+	</select>
+	
+	<select id="getInvestListByLoan"
+	    parameterType="java.lang.Integer"
+	    resultType="com.hk.abcfund.model.dto.ABCInvestDto">
+		SELECT	INVEST_SEQ INVESTSEQ, EMAIL, LOAN_CODE LOANCODE, INVEST_MONEY INVESTMONEY
+		FROM	ABC_INVEST
+		WHERE	LOAN_CODE = #{loanCode}
+	</select>
+	
+	<delete id="deleteByLoan" parameterType="java.lang.Integer">
+		DELETE	FROM	ABC_INVEST
+				WHERE	LOAN_CODE = #{loanCode}
+	</delete>
+	
+	<select id="getInvestMoneyList"
+		parameterType="java.lang.String"
+		resultType="com.hk.abcfund.model.dto.ABCInvestDto">
+		SELECT	INVEST_SEQ INVESTSEQ, INVEST_MONEY INVESTMONEY
+		FROM 	ABC_INVEST
+		WHERE	EMAIL = #{email}
+		ORDER BY INVEST_SEQ DESC
+	</select>
+	
+	<select id="getInvestList"
+	    parameterType="java.lang.String"
+	    resultType="com.hk.abcfund.model.dto.ABCInvestDto">
+		SELECT	INVEST_SEQ INVESTSEQ, EMAIL, LOAN_CODE LOANCODE, INVEST_MONEY INVESTMONEY
+		FROM	ABC_INVEST
+		WHERE	EMAIL = #{email}
+		ORDER BY INVEST_SEQ
+	</select>
+	
+	<select id="getInvestListAll"
+	    resultType="com.hk.abcfund.model.dto.ABCInvestDto">
+		SELECT	INVEST_SEQ INVESTSEQ, EMAIL, LOAN_CODE LOANCODE, INVEST_MONEY INVESTMONEY
+		FROM	ABC_INVEST
+		ORDER BY INVEST_SEQ
+	</select>
+	
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ABCInvestTransaction"> 
+	<select id="getRecentTransaction"
+	    parameterType="java.lang.Integer"
+	    resultType="com.hk.abcfund.model.dto.ABCInvestTransactionDto">
+		SELECT	INVEST_TRANSACTION_SEQ INVESTTRANSACTIONSEQ, INVEST_SEQ INVESTSEQ,
+				INTEND_PROFIT INTENDPROFIT, STACK_COLLECT STACKCOLLECT, PROGRESS,
+				COLLECT_RATE COLLECTRATE, ROUND
+		FROM	ABC_INVEST_TRANSACTION
+		WHERE	INVEST_SEQ = #{investSeq}
+				AND
+				INVEST_TRANSACTION_SEQ = (
+					SELECT	MAX(INVEST_TRANSACTION_SEQ)
+					FROM	ABC_INVEST_TRANSACTION
+					WHERE	INVEST_SEQ = #{investSeq}
+				)
+	</select>
+	
+	<insert id="addTransaction"
+	    parameterType="com.hk.abcfund.model.dto.ABCInvestTransactionDto">
+	    INSERT INTO ABC_INVEST_TRANSACTION(
+			INVEST_TRANSACTION_SEQ, INVEST_SEQ, INTEND_PROFIT, STACK_COLLECT, 
+			PROGRESS, COLLECT_RATE, ROUND
+	    )
+	    VALUES(
+	    	SEQ_INVEST_TRANSACTION.NEXTVAL, #{investSeq}, #{intendProfit},
+	    	#{stackCollect}, #{progress}, #{collectRate}, #{round}
+	    )
+	</insert>
+	
+	<select id="getTransaction"
+		parameterType="java.lang.String"
+		resultType="com.hk.abcfund.model.dto.ABCInvestTransactionDto">
+		SELECT	INVEST_TRANSACTION_SEQ INVESTTRANSACTIONSEQ, INVEST_SEQ INVESTSEQ,
+				INTEND_PROFIT INTENDPROFIT, STACK_COLLECT STACKCOLLECT, PROGRESS,
+				COLLECT_RATE COLLECTRATE, ROUND
+		FROM	ABC_INVEST_TRANSACTION
+		WHERE	INVEST_SEQ IN (
+					SELECT	INVEST_SEQ
+					FROM 	ABC_INVEST
+					WHERE	EMAIL = #{email}
+				)
+		ORDER BY	INVEST_SEQ DESC,
+					ROUND ASC
+	</select>
+	
+	<select id="getTransactionReserve"
+	    parameterType="java.lang.String"
+		resultType="com.hk.abcfund.model.dto.ABCInvestTransactionDto">
+	    SELECT	INVEST_TRANSACTION_SEQ INVESTTRANSACTIONSEQ, INVEST_SEQ INVESTSEQ,
+				INTEND_PROFIT INTENDPROFIT, STACK_COLLECT STACKCOLLECT, PROGRESS,
+				COLLECT_RATE COLLECTRATE, ROUND
+		FROM	ABC_INVEST_TRANSACTION
+		WHERE	INVEST_SEQ IN (
+					SELECT	INVEST_SEQ
+					FROM 	ABC_INVEST
+					WHERE	EMAIL = #{email}
+				)
+		ORDER BY	INVEST_SEQ ASC,
+					ROUND ASC
+	</select>
+	
+	<select id="getTransactionAll"
+		resultType="com.hk.abcfund.model.dto.ABCInvestTransactionDto">
+	    SELECT	INVEST_TRANSACTION_SEQ INVESTTRANSACTIONSEQ, INVEST_SEQ INVESTSEQ,
+				INTEND_PROFIT INTENDPROFIT, STACK_COLLECT STACKCOLLECT, PROGRESS,
+				COLLECT_RATE COLLECTRATE, ROUND
+		FROM	ABC_INVEST_TRANSACTION
+		ORDER BY	INVEST_SEQ ASC,
+					ROUND ASC
+	</select>
+</mapper>

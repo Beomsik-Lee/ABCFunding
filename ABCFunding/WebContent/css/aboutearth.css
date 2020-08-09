@@ -1,0 +1,70 @@
+.smenu li.smenu1 a {
+	text-align: center;
+	opacity: 0.3;
+	padding-right: 10px;
+	filter: alpha(opacity = 20);
+	color: white;
+	text-decoration: none;
+	background: #2B6CA3;
+}
+/*슬라이드 사이즈*/
+.flexslider {
+	position: relative;
+	margin: 10px;
+	width: 810px;
+	text-align: center;
+}
+
+.flex-viewport .slides li {
+	width: 810px;
+}
+/*페이저 버튼*/
+.flex-control-paging {
+	display: inline-block;
+}
+
+.flex-control-paging:after {
+	display: block;
+	content: '';
+	clear: both;
+}
+
+.flex-control-paging li {
+	float: left;
+	display: inline-block;
+}
+
+.flex-control-paging a {
+	display: inline-block;
+	margin: 0 5px;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: #42A1F6;
+	font-size: 0;
+	line-height: 0;
+}
+
+.flex-control-paging a.flex-active {
+	background-color: #335574;
+}
+/*이전,다음 버튼*/
+.flex-direction-nav li {
+	position: absolute;
+	top: 250px;
+}
+
+.flex-direction-nav li a {
+	text-decoration: none;
+	font-size: 40px;
+	font-weight: bold;
+	color: #000;
+}
+
+.flex-direction-nav li.flex-nav-prev {
+	left: 30px;
+}
+
+.flex-direction-nav li.flex-nav-next {
+	right: -50px;
+}

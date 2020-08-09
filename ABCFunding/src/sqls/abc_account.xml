@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ABCAccount"> 
+	<insert id="addAccount"
+	    parameterType="com.hk.abcfund.model.dto.ABCAccountDto">
+	    INSERT INTO ABC_ACCOUNT(
+			ACCOUNT_NO, EMAIL, BALANCE, ACCOUNT_HOLDER
+		)
+		VALUES(
+			#{accountNo}, #{email}, 0, #{accountHolder}
+		)
+	</insert>
+	<update id="changeBalance"
+	    parameterType="com.hk.abcfund.model.dto.ABCAccountDto">
+	    UPDATE	ABC_ACCOUNT
+	    SET		BALANCE = #{balance}
+	    WHERE	ACCOUNT_NO = #{accountNo}
+	</update>
+	
+	<select id="getAccount"
+	    parameterType="java.lang.String"
+	    resultType="com.hk.abcfund.model.dto.ABCAccountDto">
+	    SELECT	ACCOUNT_NO ACCOUNTNO, EMAIL, BALANCE, ACCOUNT_HOLDER ACCOUNTHOLDER
+	    FROM	ABC_ACCOUNT
+	    WHERE	EMAIL = #{email}
+	</select>
+	
+	<update id="withdraw" parameterType="hashmap">
+	    UPDATE	ABC_ACCOUNT
+	    SET		BALANCE = BALANCE - #{investMoney}
+	    WHERE	EMAIL = #{email}
+	</update>
+	
+	<update id="deposit" parameterType="hashmap">
+	    UPDATE	ABC_ACCOUNT
+	    SET		BALANCE = BALANCE + #{investMoney}
+	    WHERE	LOAN_CODE = #{loanCode}
+	</update>
+	
+	<insert id="addForLoan" parameterType="hashmap">
+		INSERT INTO	ABC_ACCOUNT(
+			ACCOUNT_NO, EMAIL, BALANCE, ACCOUNT_HOLDER, LOAN_CODE
+		)
+		VALUES(
+			#{accountNo}, 'admin', 0, #{title}, #{loanCode}
+		)		
+	</insert>
+	
+	<update id="updateForPayback"
+	    parameterType="com.hk.abcfund.model.dto.ABCInvestDto">
+	    UPDATE	ABC_ACCOUNT
+	    SET		BALANCE = BALANCE + #{investMoney}
+	    WHERE	EMAIL = #{email}
+	</update>
+	
+	<delete id="deleteByLoan"
+	    parameterType="java.lang.Integer">
+		DELETE 	FROM	ABC_ACCOUNT
+				WHERE	LOAN_CODE = #{loanCode}
+	</delete>
+	
+	<update id="depositForRequest" parameterType="java.lang.Integer">
+		UPDATE	ABC_ACCOUNT
+		SET		BALANCE = BALANCE + 
+				(SELECT BALANCE FROM ABC_ACCOUNT WHERE LOAN_CODE = #{loanCode})
+		WHERE	EMAIL = 
+				(SELECT EMAIL FROM ABC_LOAN WHERE LOAN_CODE = #{loanCode})
+	</update>
+	
+	<update id="withdrawByLoan" parameterType="java.lang.Integer">
+		UPDATE	ABC_ACCOUNT
+		SET		BALANCE = 0
+		WHERE	LOAN_CODE = #{loanCode}
+	</update>
+	
+	<update id="depositForRepay" parameterType="hashmap">
+		UPDATE	ABC_ACCOUNT
+		SET		BALANCE = BALANCE + #{money}
+		WHERE	EMAIL = #{email}
+	</update>
+	
+	<update id="depositForAdmin" parameterType="java.lang.Integer">
+		UPDATE	ABC_ACCOUNT
+		SET		BALANCE = BALANCE + #{money}
+		WHERE	ACCOUNT_HOLDER = '관리자'
+	</update>
+	
+	<update id="withdrawForInvest" parameterType="hashmap">
+		UPDATE	ABC_ACCOUNT
+		SET		BALANCE = BALANCE - #{money}
+		WHERE	LOAN_CODE = #{loanCode}
+	</update>
+	
+	<delete id="deleteAccount" parameterType="java.lang.String">
+	    DELETE	FROM 	ABC_ACCOUNT
+	    		WHERE	EMAIL = #{email}
+	</delete>
+	
+	<select id="getBalance"
+	    parameterType="java.lang.String"
+	    resultType="java.lang.Integer">
+	    SELECT	BALANCE
+	    FROM	ABC_ACCOUNT
+	    WHERE	EMAIL = #{email}
+	</select>
+	
+	<delete id="dropByEmail" parameterType="java.lang.String">
+	    DELETE	FROM	ABC_ACCOUNT
+	    		WHERE	EMAIL = #{email}
+	</delete>
+</mapper>

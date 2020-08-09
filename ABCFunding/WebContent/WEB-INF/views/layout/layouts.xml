@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition name="main.tiles"
+        template="/WEB-INF/views/layout/layouts-tiles.jsp">
+        <put-attribute name="header"
+            value="/WEB-INF/views/layout/header.jsp" />
+        <put-attribute name="content"
+            value="/WEB-INF/views/layout/main.jsp" />
+        <put-attribute name="footer"
+            value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
+
+    <!-- Membership Registration -->
+    <definition name="regi.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/member/regi.jsp" />
+    </definition>
+
+    <!-- Membership Registration Success -->
+    <definition name="regiSuc.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/member/regiSuc.jsp" />
+    </definition>
+
+    <!-- Sign in -->
+    <definition name="login.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/member/login.jsp" />
+    </definition>
+
+    <!-- Find password -->
+    <definition name="searchpwd.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/member/searchpwd.jsp" />
+    </definition>
+
+    <!-- Change password after authentication -->
+    <definition name="pwdAfAuth.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/member/pwdAfAuth.jsp" />
+    </definition>
+
+    <!-- Investment list page -->
+    <definition name="invest.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/invest/invest.jsp" />
+    </definition>
+
+    <!-- Apply for loan -->
+    <definition name="loan.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/loan/loan.jsp" />
+    </definition>
+
+    <!-- Loan Application Success -->
+    <definition name="loanSuc.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/loan/loanSuc.jsp" />
+    </definition>
+
+    <!-- First page of admin -->
+    <definition name="admin.tiles" extends="main.tiles">
+        <put-attribute name="header" value="/WEB-INF/views/admin/header.jsp" />
+        <put-attribute name="content" value="/WEB-INF/views/admin/main.jsp" />
+    </definition>
+
+    <!-- Examine list page on admin -->
+    <definition name="judgelist.tiles" extends="main.tiles">
+        <put-attribute name="header"
+            value="/WEB-INF/views/admin/header.jsp" />
+        <put-attribute name="content"
+            value="/WEB-INF/views/admin/judgelist.jsp" />
+    </definition>
+
+    <!-- Examine detail page on admin -->
+    <definition name="judgedetail.tiles" extends="main.tiles">
+        <put-attribute name="header"
+            value="/WEB-INF/views/admin/header.jsp" />
+        <put-attribute name="content"
+            value="/WEB-INF/views/admin/judgedetail.jsp" />
+    </definition>
+
+    <!-- detail investment -->
+    <definition name="investDetail.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/invest/investDetail.jsp" />
+    </definition>
+
+    <!-- Apply for investment -->
+    <definition name="doInvest.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/invest/doInvest.jsp" />
+    </definition>
+
+    <!-- Success for investment -->
+    <definition name="investSuc.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/invest/investSuc.jsp" />
+    </definition>
+
+    <!-- My information -->
+    <definition name="myInfo.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/member/myInfo.jsp" />
+    </definition>
+
+    <!-- My information - Loan details -->
+    <definition name="myInfoloan.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/member/myInfoloan.jsp" />
+    </definition>
+
+    <!-- My information - Change password -->
+    <definition name="changePwd.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/member/changePwd.jsp" />
+    </definition>
+
+    <!-- My information - Membership Withdrawal -->
+    <definition name="dropMember.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/member/dropMember.jsp" />
+    </definition>
+
+    <!-- My information - Investment detail -->
+    <definition name="myInfoInvest.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/member/myInfoInvest.jsp" />
+    </definition>
+
+    <!-- Administrator - Manage Membership -->
+    <definition name="memberManage.tiles" extends="main.tiles">
+        <put-attribute name="header"
+            value="/WEB-INF/views/admin/header.jsp" />
+        <put-attribute name="content"
+            value="/WEB-INF/views/admin/memberManage.jsp" />
+    </definition>
+
+    <!-- Administrator - Member detail -->
+    <definition name="memberDetail.tiles" extends="main.tiles">
+        <put-attribute name="header"
+            value="/WEB-INF/views/admin/header.jsp" />
+        <put-attribute name="content"
+            value="/WEB-INF/views/admin/memberDetail.jsp" />
+    </definition>
+
+    <!-- Administrator - Manage Investment -->
+    <definition name="investManage.tiles" extends="main.tiles">
+        <put-attribute name="header"
+            value="/WEB-INF/views/admin/header.jsp" />
+        <put-attribute name="content"
+            value="/WEB-INF/views/admin/investManage.jsp" />
+    </definition>
+
+    <!-- Introduction -->
+    <definition name="intro.tiles" extends="main.tiles">
+        <put-attribute name="content"
+            value="/WEB-INF/views/intro/intro.jsp" />
+    </definition>
+
+    <!-- Administrator - Manage Loan -->
+    <definition name="loanManage.tiles" extends="main.tiles">
+        <put-attribute name="header"
+            value="/WEB-INF/views/admin/header.jsp" />
+        <put-attribute name="content"
+            value="/WEB-INF/views/admin/loanManage.jsp" />
+    </definition>
+       
+</tiles-definitions>

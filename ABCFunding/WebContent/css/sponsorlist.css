@@ -1,0 +1,111 @@
+.ssmenu li.sponmenu1 a {
+	text-align: center;
+	opacity: 0.3;
+	padding-right: 10px;
+	filter: alpha(opacity = 20);
+	color: white;
+	text-decoration: none;
+	background: #2B6CA3;
+}
+
+.smenu li.smenu2 a {
+	text-align: center;
+	opacity: 0.3;
+	padding-right: 10px;
+	filter: alpha(opacity = 20);
+	color: white;
+	text-decoration: none;
+	background: #2B6CA3;
+}
+
+.earthing_table {
+	border-top: 2px solid #8C8C8C;
+	border-bottom: 2px solid #8C8C8C;
+	font-size: 0.9em;
+	text-align: center;
+	margin: 15px 0 10px 0;
+	color: #191919;
+	width: 100%;
+}
+
+.earthing_table th {
+	border-bottom: 2px solid #8C8C8C;
+	background: #EAEAEA;
+	height: 30px;
+	border-right: 2px solid #8C8C8C;
+	line-height: 30px;
+	text-align: center;
+	letter-spacing: -1px;
+}
+
+.earthing_table td {
+	border-top: 2px solid #8C8C8C;
+	border-right: 2px solid #8C8C8C;
+	line-height: 25px;
+	text-align: center;
+	vertical-align: middle;
+	color: #666;
+}
+
+.earthing_table .no_border {
+	border-right: none;
+}
+
+.earthing_table .td_no_border {
+	border-right: none;
+	color: #FFFFFF;
+}
+
+.earthing_table .earthing_title {
+	width: 35%;
+	padding: 8px;
+	text-align: justify;
+	word-break: break-all;
+}
+
+.earthing_table .resultnumber {
+	color: #FFFFFF;
+}
+
+.earthing_table .resultnumber:hover {
+	color: #FF0000;
+	background: #FFFFE4;
+	font-size: 1.5em;
+}
+
+.earthing_table .td_no_border:hover {
+	color: #FF0000;
+	background: #FFFFE4;
+	font-size: 1.5em;
+}
+
+.earthing_table .earthing_title a:link {
+	color: #FF007F;
+	text-decoration: none;
+}
+
+.earthing_table .earthing_title a:hover {
+	color: #DB0000;
+	font-weight: bold;
+}
+
+.earthing_table .earthing_title a:active {
+	color: #DB0000;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.earthing_table .earthing_title a:visited {
+	color: #6799FF;
+	text-decoration: none;
+}
+
+.memo {
+	line-height: 180%;
+	color: #5882FA;
+	font-size: 14px;
+}
+
+#sponsormenu {
+	top:65px;
+}
