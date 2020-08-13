@@ -1,6 +1,5 @@
 package com.hk.abcfund.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hk.abcfund.model.dto.ABCLoanDto;
 import com.hk.abcfund.model.dto.ABCMemberDto;
-import com.hk.abcfund.model.dto.ABCMyLoanInfoDto;
 import com.hk.abcfund.model.service.ABCAccountService;
 import com.hk.abcfund.model.service.ABCAdminSerivce;
 import com.hk.abcfund.model.service.ABCInvestService;
@@ -424,135 +422,131 @@ public class ABCMemberController {
         return "myInfoloan.tiles";
     }
     
-    /** 내 정보에서 비밀번호 변경페이지로 이동하는 메서드 */
+    /** Go to change password page */
     @RequestMapping(value="changePwd.do", method=RequestMethod.GET)
     public String changePwd(Model model){
-        // 기본제목에 해당 기능명을 붙인다.
-        model.addAttribute("title", "비밀번호 변경 :: " + MAIN_TITLE);
+        // Set title with change password
+        model.addAttribute("title", "Change Password :: " + MAIN_TITLE);
         
         return "changePwd.tiles";
     }
     
     /**
-     * 내 정보 페이지를 통하여 비밀번호를 변경하는 메서드
-     * @param mdto 검증된 변경 비밀번호와 이메일이 담겨있는 회원DTO
-     * @return 비밀번호 변경 후 마이페이지로 이동
+     * Change password
+     * @param mdto It has authenticated password and email
+     * @return After change password, go to my info page
      */
     @RequestMapping(value="pwdAf.do", method=RequestMethod.POST)
     public String pwdAf(ABCMemberDto mdto){
-        // 비밀번호 변경 요청
+        // call change password method
         service.changePwd(mdto);
         
         return "redirect:/myInfo.do";
     }
     
     /**
-     * 내 정보에서 가상계좌에 입금하는 메서드
-     * @param email 회원 이메일
-     * @param money 입금할 금액
-     * @return 입금 후의 페이지로 이동할 타일즈명
+     * Deposit to account from my info page
+     * @param email member email
+     * @param money To deposit
+     * @return tiles name of my info page
      */
     @RequestMapping(value="doDeposit.do", method=RequestMethod.POST)
     public String doDeposit(String email, int money){
-        logger.info("이메일: " + email);
-        logger.info("입금액: " + money);
+        logger.info("Email: " + email);
+        logger.info("Deposit: " + money);
         
-        // 값을 전달할 맵 생성 및 값 집어넣기
+        // create map
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("email", email);
         map.put("money", money);
         
-        // 입금 요청
+        // call deposit method
         accountService.depositAtMyInfo(map);
         
         return "redirect:/myInfo.do";
     }
     
     /**
-     * 회원탈퇴 페이지로 이동하는 메서드
-     * @param request 세션을 얻어올 객체
-     * @param model 타이틀을 변경하는 모델 객체
-     * @return 회원탈퇴 페이지의 타일즈명
+     * Go to Membership withdrawal page
+     * @param request To get session
+     * @param model To set title
+     * @return tiles name of withdrawal page
      */
     @RequestMapping(value="dropMember.do", method=RequestMethod.GET)
     public String dropMember(Model model, HttpServletRequest request){
-        // 기본제목에 해당 기능명을 붙인다.
-        model.addAttribute("title", "회원탈퇴 :: " + MAIN_TITLE);
+        // Set title with withdrawal
+        model.addAttribute("title", "Membership Withdrawal :: " + MAIN_TITLE);
         
-        // 세션 얻어오기
+        // Get member DTO from session
         ABCMemberDto login = (ABCMemberDto)request.getSession().getAttribute("login");
         
-        // 해당 회원의 상환중인 대출이 있는지 확인
+        // Check remain payment
         List<ABCLoanDto> list = loanService.getRemainPayment(login.getEmail());
         
-        // 리스트를 모델에 등록
+        // add model list
         model.addAttribute("remainList", list);
         
         return "dropMember.tiles";
     }
     
     /**
-     * 회원탈퇴하는 메서드
-     * @param request 세션을 얻어올 객체
-     * @return 메인화면으로 리다이렉트
+     * Process of membership withdrawal
+     * @param request To get session
+     * @return Redirect to logout page
      */
     @RequestMapping(value="dropMemberAf.do", method=RequestMethod.POST)
     public String dropMemberAf(HttpServletRequest request){
-        // 세션 얻어오기
+        // Get member DTO from session
         ABCMemberDto login = (ABCMemberDto)request.getSession().getAttribute("login");
         
-        // 회원의 이메일 가져오기
+        // Get email
         String email = login.getEmail();
         
-        /* 회원 탈퇴처리 */        
-        // 해당 회원의 모든 대출리스트 가져오기
+        // Get all loan list
         List<ABCLoanDto> loanList = loanService.getLoanListAll(email);
         
-        /*
-         * 상환중인 대출이 없는 경우를 가정.
-         * 상환중인 대출 여부는 앞단에서 이미 검증된 상태.
-         */
+        // Check progression of the loan
         for(ABCLoanDto loan : loanList){
-            int loanCode = loan.getLoanCode();    // 대출코드 가져오기
-            if(!loan.getProgress().equals("상환완료")){ // 미승인이거나 펀딩진행중인 대출삭제
+            int loanCode = loan.getLoanCode();    // Get loan code
+            if(!loan.getProgress().equals("상환완료")){ // Cancel loan of not-approval or funding
                 loanService.loanCancel(loanCode);
             }
             
-            // 심사 데이터 삭제
+            // Delete examination loan
             adminService.deleteJudgeByLoan(loanCode);
         }
         
-        // 대출 삭제 후 회원탈퇴 요청
+        // call withdrawal method
         service.dropMember(email);
         
         return "redirect:/logout.do";
     }
     
     /**
-     * 투자 내역 페이지로 이동하는 메소드
-     * @param model 타이틀을 변경할 객체
-     * @param request 세션을 가져올 객체
-     * @return 나의 투자내역 페이지의 타일즈명
+     * Go to investment detail page
+     * @param model To set title
+     * @param request To get session
+     * @return tiles name of investment detail page
      */
     @Transactional
     @RequestMapping(value="myInfoInvest.do", method=RequestMethod.GET)
     public String myInfoInvest(Model model, HttpServletRequest request){
-        // 기본제목에 해당 기능명을 붙인다.
-        model.addAttribute("title", "나의 투자내역 :: " + MAIN_TITLE);
+        // Set title of investment detail
+        model.addAttribute("title", "Investment Detail :: " + MAIN_TITLE);
         
-        // 세션 데이터 가져오기
+        // Get member DTO from session
         ABCMemberDto login = (ABCMemberDto)request.getSession().getAttribute("login");
         
-        // 이메일 가져오기
+        // Get email
         String email = login.getEmail();
         
-        // 회원이 투자한 대출리스트를 모델에 등록
+        // Get list of loan invested by the member
         model.addAttribute("loanList",loanService.getLoanListByInvest(email));
         
-        // 투자금 리스트를 모델에 등록
+        // Add list of investment to model
         model.addAttribute("investList", investService.getInvestMoneyList(email));
                 
-        // 회원의 투자내역 리스트를 모델에 등록
+        // Add list of investment detail to model
         model.addAttribute("investTranList", investService.getInvestTransaction(email));
         
         return "myInfoInvest.tiles";

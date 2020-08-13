@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.hk.abcfund.controller;
 
 import java.io.File;
@@ -23,53 +20,52 @@ import com.hk.abcfund.model.service.ABCLoanService;
 import com.hk.abcfund.util.ABCUtility;
 
 /**
- * ¥Î√‚Ω≈√ª ƒ¡∆Æ∑—∑Ø
+ * Loan application controller
  * @author 9age
  *
  */
 @Controller
 public class ABCLoanController {
-	/** ¥Î√‚ º≠∫ÒΩ∫ */
+	/** loan service */
 	@Autowired
 	ABCLoanService loanService;
 	
-	/** ±‚∫ª ¡¶∏Ò */
+	/** default title */
 	public static String MAIN_TITLE = "ABC Funding";
 	
 	/**
-	 * ¥Î√‚Ω≈√ª ∆‰¿Ã¡ˆ ¿Ãµø ∏ﬁº≠µÂ
-	 * ¡¶∏Ò º≥¡§∏∏ «œ∞Ì πŸ∑Œ ¥Î√‚Ω≈√ª ∆‰¿Ã¡ˆ∑Œ ¿Ãµø
-	 * @param model
-	 * @return ¥Î√‚Ω≈√ª ∆‰¿Ã¡ˆ¿« ≈∏¿œ¡Ó∏Ì
+	 * Go to loan application page
+	 * @param model To set title
+	 * @return tiles name of loan application page
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "loan.do", method = {RequestMethod.GET,RequestMethod.POST})
 	public String loan(Model model,HttpServletRequest request ,ABCMemberDto dto) throws Exception {
-		// ¡¶∏Ò º≥¡§
-		model.addAttribute("title", "¥Î√‚Ω≈√ª :: "+MAIN_TITLE);
+		// Set title with loan application
+		model.addAttribute("title", "Loan Application :: "+MAIN_TITLE);
 		
 		return "loan.tiles";
 	}
 	
 	/**
-	 * ¥Î√‚Ω≈√ª º≠∫ÒΩ∫ »£√‚ »ƒ »≠∏È¿Ãµø«œ¥¬ ∏ﬁº≠µÂ
-	 * @param model
-	 * @return ¥Î√‚Ω≈√ª ∆‰¿Ã¡ˆ¿« ≈∏¿œ¡Ó∏Ì
+	 * Go to loan success page after apply
+	 * @param model To set title
+	 * @return tiles name of loan success page
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "loanAf.do", method = {RequestMethod.GET,RequestMethod.POST})
 	@Transactional
 	public String loanAf(Model model,HttpServletRequest request ,ABCLoanDto ldto) throws Exception {
-		// ¡¶∏Ò º≥¡§
-		model.addAttribute("title", "¥Î√‚Ω≈√ª √≥∏Æ¡ﬂ :: "+MAIN_TITLE);
+		// Set title of loan application
+		model.addAttribute("title", "Applying Loan :: "+MAIN_TITLE);
 		
-		// ¥Î√‚ Ω≈√ªΩ√ ¿ÃπÃ¡ˆ ∆ƒ¿œ æ˜∑ŒµÂ
+		// Upload the image file
 		MultipartFile uploadfile = ldto.getUploadfile();
 		if (uploadfile != null) {
-			// ∆ƒ¿œ∞Ê∑Œ
+			// file path
 			String path = request.getServletContext().getRealPath("/uploadFile");
 			
-			/* ¿˙¿Â«“ ¿ÃπÃ¡ˆ∏Ì */
+			/* Set name of image file */
 			Random random = new Random(System.currentTimeMillis());
 			String fname = 
 					Long.toString(random.nextLong()) + uploadfile.getOriginalFilename();
@@ -83,22 +79,22 @@ public class ABCLoanController {
 			}
 		}
 		
-		// ¥Î√‚ Ω≈√ª µÓ∑œ
-		// ¥Ÿ¿Ω ¥ﬁ ªÛ»Ø¿œ ¿‚±‚
+		// Apply loan and calculate the repay date
 		ldto.setRequestDate(ABCUtility.calcRepayDate(ldto.getRepay()));
 		loanService.addLoan(ldto);
 		
-		return "loanSuc.tiles"; // ¥Î√‚ Ω≈√ª º∫∞¯ »≠∏È¿∏∑Œ ¿Ãµø
+		return "loanSuc.tiles";
 	}
 	
 	/**
-	 * ¥Î√‚√Îº“«œ¥¬ ∏ﬁº≠µÂ
-	 * @param loanCode ¥Î√‚ƒ⁄µÂ
-	 * @return ≥ª¡§∫∏ ∆‰¿Ã¡ˆ∑Œ ∏Æ¥Ÿ¿Ã∑∫∆Æ
+	 * ÎåÄÏ∂úÏ∑®ÏÜåÌïòÎäî Î©îÏÑúÎìú
+	 * Cancel the loan
+	 * @param loanCode code of loan
+	 * @return Redirect to my info page
 	 */
 	@RequestMapping(value="loanCancel.do", method=RequestMethod.GET)
 	public String loanCancel(int loanCode) {
-		// ¥Î√‚√Îº“ º≠∫ÒΩ∫
+		// Cancel the loan
 		loanService.loanCancel(loanCode);
 		
 		return "redirect:/myInfo.do";
