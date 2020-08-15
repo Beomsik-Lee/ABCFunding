@@ -87,7 +87,6 @@ public class ABCLoanController {
 	}
 	
 	/**
-	 * 대출취소하는 메서드
 	 * Cancel the loan
 	 * @param loanCode code of loan
 	 * @return Redirect to my info page

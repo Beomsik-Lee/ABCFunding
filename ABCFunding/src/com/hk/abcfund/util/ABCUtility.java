@@ -1,32 +1,29 @@
 package com.hk.abcfund.util;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-import com.hk.abcfund.model.dto.ABCLoanDto;
-
 /**
- * ABC Æİµù¿¡ »ç¿ëÇÏ´Â À¯Æ¿ Å¬·¡½º
- * »ó¼ÓÇÏÁö ¾Ê°í Å¬·¡½º(static) ¸Ş¼­µå¸¸À» »ç¿ë
+ * Utility class for ABC Funding
+ * Use only static member and method
  * @author 9age
  *
  */
 public final class ABCUtility {
 	/**
-	 * ÁöÁ¤µÈ ÀÚ¸´¼ö¸¸Å­ ³­¼ö¸¦ »ı¼ºÇÏ´Â ¸Ş¼­µå
-	 * @param count »ı¼ºÇÒ ³­¼öÀÇ ÀÚ¸´¼ö
-	 * @return »ı¼ºµÈ ³­¼ö
+	 * Generates random number by a specified number of digits
+	 * @param count A specified number of digits
+	 * @return Generated random number
 	 */
 	public static String randomNumber(int count) {
-		// ³­¼ö »ı¼º±â
+		// Declare and initiate Random object
 		Random random = 
 			new Random((long)(Math.random()*System.currentTimeMillis()));
 		
-		// ³­¼ö ºÙÀÌ±â
+		// Generates random number
 		StringBuilder randNum = new StringBuilder();
 		for(int idx = 0; idx < count; idx++) {
 			randNum.append(random.nextInt(10));
@@ -36,12 +33,12 @@ public final class ABCUtility {
 	}
 	
 	/**
-	 * »ı³â¿ùÀÏº°·Î ÆÄ½ÌÇÏ´Â ¸Ş¼­µå
-	 * @param birth ÆÄ½ÌÇÒ »ı³â¿ùÀÏ(8ÀÚ¸®)
-	 * @return ÆÄ½ÌÇÑ »ı³â,»ı¿ù,»ıÀÏ
+	 * Separate birth date string to array of year, month and date
+	 * @param birth To parsing(8 digit)
+	 * @return parsed array
 	 */
 	public static String[] parseBirth(String birth){
-		// ÆÄ½ÌÇÑ ¿¬,¿ù,ÀÏÀ» ´ãÀ» ¹è¿­
+		// íŒŒì‹±í•œ ì—°,ì›”,ì¼ì„ ë‹´ì„ ë°°ì—´
 		String[] parsed = new String[3];
 		parsed[0] = birth.substring(0, 4);
 		parsed[1] = birth.substring(4, 6);
@@ -51,18 +48,18 @@ public final class ABCUtility {
 	}
 	
 	/**
-	 * »ı³â¿ùÀÏ¿¡¼­ ³ªÀÌ¸¦ ±¸ÇÏ´Â ¸Ş¼­µå
-	 * @param birth ÆÄ½ÌÇÒ »ı³â¿ùÀÏ
-	 * @return ³ªÀÌ
+	 * Calculate age from birth date
+	 * @param birth To calculate birth date
+	 * @return calculated age
 	 */
 	public static int getAge(String birth){
-		// »ı³â¿ùÀÏ ÆÄ½Ì
+		// parsing birth date
 		String[] parsed = parseBirth(birth);
 		
-		// »ı³â
+		// get year
 		int birthYear = Integer.parseInt(parsed[0]);
 		
-		// ÇöÀç ¿¬µµ
+		// current year
 		Calendar cal = Calendar.getInstance();
 		int currentYear = cal.get(Calendar.YEAR);
 		
@@ -70,29 +67,29 @@ public final class ABCUtility {
 	}
 	
 	/**
-	 * °¢°¢¿¡ ¿¬,¿ù,ÀÏÀ» ºÙ¿©ÁÖ´Â ¸Ş¼­µå
-	 * @param birth ºÙÀÏ »ı³â¿ùÀÏ
-	 * @return ºÙÀÎ »ı³â¿ùÀÏ
+	 * ê°ê°ì— ì—°,ì›”,ì¼ì„ ë¶™ì—¬ì£¼ëŠ” ë©”ì„œë“œ
+	 * @param birth ë¶™ì¼ ìƒë…„ì›”ì¼
+	 * @return ë¶™ì¸ ìƒë…„ì›”ì¼
 	 */
 	public static String getFullBirth(String birth){
-		// »ı³â¿ùÀÏ ÆÄ½Ì
+		// ìƒë…„ì›”ì¼ íŒŒì‹±
 		String[] parsed = parseBirth(birth);
 		
-		// ¿¬,¿ù,ÀÏ ºÙÀÌ±â
+		// ì—°,ì›”,ì¼ ë¶™ì´ê¸°
 		StringBuilder append = new StringBuilder();
 		append.append(parsed[0]);
-		append.append("³â ");
+		append.append("ë…„ ");
 		append.append(parsed[1]);
-		append.append("¿ù ");
+		append.append("ì›” ");
 		append.append(parsed[2]);
-		append.append("ÀÏ");
+		append.append("ì¼");
 		
 		return append.toString();
 	}
 	
 	/**
-	 * °¡»ó°èÁÂ¹øÈ£¸¦ »ı¼ºÇÏ´Â ¸Ş¼­µå
-	 * @return »ı¼ºµÈ °¡»ó°èÁÂ¹øÈ£
+	 * ê°€ìƒê³„ì¢Œë²ˆí˜¸ë¥¼ ìƒì„±í•˜ëŠ” ë©”ì„œë“œ
+	 * @return ìƒì„±ëœ ê°€ìƒê³„ì¢Œë²ˆí˜¸
 	 */
 	public static String createVANumber() {
 		StringBuilder accountNo = new StringBuilder();
@@ -106,18 +103,18 @@ public final class ABCUtility {
 	}
 	
 	/**
-	 * Æİµù±â°£ÀÌ Áö³µ´ÂÁö È®ÀÎÇÏ´Â ¸Ş¼­µå
-	 * @param requestDate ´ëÃâ½ÅÃ»ÀÏ(yyyy-mm-dd)
-	 * @param expiryDate ÆİµùÀÏ¼ö
-	 * @return Æİµù±â°£ÀÌ Áö³µÀ¸¸é true
+	 * í€ë”©ê¸°ê°„ì´ ì§€ë‚¬ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë©”ì„œë“œ
+	 * @param requestDate ëŒ€ì¶œì‹ ì²­ì¼(yyyy-mm-dd)
+	 * @param expiryDate í€ë”©ì¼ìˆ˜
+	 * @return í€ë”©ê¸°ê°„ì´ ì§€ë‚¬ìœ¼ë©´ true
 	 */
 	public static boolean isExpired(String requestDate, int expiryDate){
 		boolean isExp = false;
 		
-		// ÇöÀç ³¯Â¥ ±¸ÇÏ±â
+		// í˜„ì¬ ë‚ ì§œ êµ¬í•˜ê¸°
 		Date currentDate = new Date();
 		
-		// ´ëÃâ½ÅÃ»ÀÏ ±¸ÇÏ±â
+		// ëŒ€ì¶œì‹ ì²­ì¼ êµ¬í•˜ê¸°
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date request = null;
 		try {
@@ -126,35 +123,35 @@ public final class ABCUtility {
 			e.printStackTrace();
 		}
 		
-		// µÎ ³¯Â¥ÀÇ Â÷ÀÌ ±¸ÇÏ±â
+		// ë‘ ë‚ ì§œì˜ ì°¨ì´ êµ¬í•˜ê¸°
 		long diff = currentDate.getTime() - request.getTime();
 		diff /= 24 * 60 * 60 * 1000;
 		
-		// Â÷ÀÏÀÌ ÆİµùÀÏ¼ö¸¦ ³Ñ¾úÀ¸¸é Æİµù±â°£ÀÌ Áö³­ °Í
+		// ì°¨ì¼ì´ í€ë”©ì¼ìˆ˜ë¥¼ ë„˜ì—ˆìœ¼ë©´ í€ë”©ê¸°ê°„ì´ ì§€ë‚œ ê²ƒ
 		if(diff > expiryDate) isExp = true;
 		
 		return isExp;
 	}
 	
 	/**
-	 * ´ÙÀ½ ´Ş »óÈ¯ÀÏÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼­µå
-	 * @param repay Èñ¸Á»óÈ¯ÀÏ
-	 * @return ´ÙÀ½ ´Ş »óÈ¯³¯Â¥
+	 * ë‹¤ìŒ ë‹¬ ìƒí™˜ì¼ì„ ë°˜í™˜í•˜ëŠ” ë©”ì„œë“œ
+	 * @param repay í¬ë§ìƒí™˜ì¼
+	 * @return ë‹¤ìŒ ë‹¬ ìƒí™˜ë‚ ì§œ
 	 */
 	public static String calcRepayDate(int repay) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());		// ÇöÀç ³¯Â¥¸¦ ±¸ÇÑ´Ù.
-		cal.add(Calendar.MONTH, 1);		// ÇöÀç ³¯Â¥¿¡ ´ÙÀ½ ´Ş·Î ¸ÂÃá´Ù.
-		cal.set(Calendar.DATE, repay);	// ÀÏÀÚ¸¦ Èñ¸ÁÀÏ·Î ¹Ù²Û´Ù.
+		cal.setTime(new Date());		// í˜„ì¬ ë‚ ì§œë¥¼ êµ¬í•œë‹¤.
+		cal.add(Calendar.MONTH, 1);		// í˜„ì¬ ë‚ ì§œì— ë‹¤ìŒ ë‹¬ë¡œ ë§ì¶˜ë‹¤.
+		cal.set(Calendar.DATE, repay);	// ì¼ìë¥¼ í¬ë§ì¼ë¡œ ë°”ê¾¼ë‹¤.
 		
 		return formatter.format(cal.getTime());
 	}
 	
 	/**
-	 * ÁÖ¾îÁø ³¯Â¥°¡ ¿À´ÃÀÎÁö È®ÀÎÇÏ´Â ¸Ş¼­µå
-	 * @param date yyyy-MM-dd ÇüÅÂÀÇ ¹®ÀÚ¿­
-	 * @return ¿À´ÃÀÌ¸é true ¹İÈ¯
+	 * ì£¼ì–´ì§„ ë‚ ì§œê°€ ì˜¤ëŠ˜ì¸ì§€ í™•ì¸í•˜ëŠ” ë©”ì„œë“œ
+	 * @param date yyyy-MM-dd í˜•íƒœì˜ ë¬¸ìì—´
+	 * @return ì˜¤ëŠ˜ì´ë©´ true ë°˜í™˜
 	 */
 	public static boolean isSameDate(String date){
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -164,22 +161,22 @@ public final class ABCUtility {
 	}
 	
 	/**
-	 * ¿ø¸®±İ±Õµî»óÈ¯¹æ½ÄÀ» ÀÌ¿ëÇÏ¿© ³³ÀÔ/»óÈ¯±İÀ» ±¸ÇÏ´Â ¸Ş¼Òµå
-	 * @param money ÅõÀÚ/´ëÃâ±İ
-	 * @param loanDate ´ëÃâ±â°£
-	 * @param loanrate ÀÌÀÚÀ²
-	 * @return »óÈ¯±İ
+	 * ì›ë¦¬ê¸ˆê· ë“±ìƒí™˜ë°©ì‹ì„ ì´ìš©í•˜ì—¬ ë‚©ì…/ìƒí™˜ê¸ˆì„ êµ¬í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param money íˆ¬ì/ëŒ€ì¶œê¸ˆ
+	 * @param loanDate ëŒ€ì¶œê¸°ê°„
+	 * @param loanrate ì´ììœ¨
+	 * @return ìƒí™˜ê¸ˆ
 	 */
 	public static int getRepayMoney(int money, int loanDate ,double loanrate){
 		return (int)Math.round(getEqualPrincipalPayment(money, loanDate, loanrate));
 	}
 	
 	/**
-	 * ¿ø¸®±İ±Õµî»óÈ¯¹æ½ÄÀ» ºÎµ¿¼Ò¼ö ±×´ë·Î ¹İÈ¯ÇÏ´Â ¸Ş¼­µå
-	 * @param money ÅõÀÚ/´ëÃâ±İ
-	 * @param loanDate ´ëÃâ±â°£
-	 * @param loanrate ÀÌÀÚÀ²
-	 * @return ½Ç¼ö·Î Ç¥ÇöµÈ »óÈ¯±İ
+	 * ì›ë¦¬ê¸ˆê· ë“±ìƒí™˜ë°©ì‹ì„ ë¶€ë™ì†Œìˆ˜ ê·¸ëŒ€ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì„œë“œ
+	 * @param money íˆ¬ì/ëŒ€ì¶œê¸ˆ
+	 * @param loanDate ëŒ€ì¶œê¸°ê°„
+	 * @param loanrate ì´ììœ¨
+	 * @return ì‹¤ìˆ˜ë¡œ í‘œí˜„ëœ ìƒí™˜ê¸ˆ
 	 */
 	public static double getEqualPrincipalPayment(int money, int loanDate ,double loanrate){
 		return ((money * (loanrate / 12)) * 
@@ -188,10 +185,10 @@ public final class ABCUtility {
 	}
 	
 	/**
-	 * ÀÌÀÚ¸¦ °è»êÇÏ¿© ºÎµ¿¼Ò¼ö ±×´ë·Î ¹İÈ¯ÇÏ´Â ¸Ş¼­µå
-	 * @param balance ÀÜ±İ ¶Ç´Â ¿ø±İ
-	 * @param interstRate ÀÌÀÚÀ². ¼Ò¼ö µÑÂ°ÀÚ¸®±îÁö Ç¥Çö
-	 * @return ÀÌÀÚ
+	 * ì´ìë¥¼ ê³„ì‚°í•˜ì—¬ ë¶€ë™ì†Œìˆ˜ ê·¸ëŒ€ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì„œë“œ
+	 * @param balance ì”ê¸ˆ ë˜ëŠ” ì›ê¸ˆ
+	 * @param interstRate ì´ììœ¨. ì†Œìˆ˜ ë‘˜ì§¸ìë¦¬ê¹Œì§€ í‘œí˜„
+	 * @return ì´ì
 	 */
 	public static double getInterest(int balance, float interestRate){
 		return balance * interestRate / 12;

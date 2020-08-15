@@ -24,42 +24,42 @@ import com.hk.abcfund.model.service.ABCLoanService;
 import com.hk.abcfund.util.ABCUtility;
 
 /**
- * ÅõÀÚ¿Í °ü·ÃµÈ ÄÁÆ®·Ñ·¯
+ * Investment Controller
  * @author 9age
  *
  */
 @Controller
 public class ABCInvestController {
-	/** ±âº» Á¦¸ñ */
+	/** Default title */
 	public static String MAIN_TITLE = "ABC Funding";
 	
-	/** ´ëÃâ°ü·Ã ¼­ºñ½º */
+	/** Loan service */
 	@Autowired
 	private ABCLoanService loanService;
 	
-	/** ÅõÀÚ°ü·Ã ¼­ºñ½º */
+	/** Investment service */
 	@Autowired
 	private ABCInvestService investService;
 	
-	/** °èÁÂ°ü·Ã ¼­ºñ½º */
+	/** Account service */
 	@Autowired
 	private ABCAccountService accountService;
 	
 	/**
-	 * ÅõÀÚÇÏ±â ÆäÀÌÁö·Î ÀÌµ¿ÇÏ´Â ¸Ş¼­µå
-	 * @param model Á¦¸ñÀ» ¼³Á¤ÇÒ °´Ã¼
-	 * @return ÅõÀÚÇÏ±â ÆäÀÌÁöÀÇ Å¸ÀÏÁî¸í
+	 * Go to list of investment page
+	 * @param model To set title
+	 * @return tiles name of investment list
 	 */
 	@RequestMapping(value="invest.do", method=RequestMethod.GET)
 	public String invest(Model model) {
-		model.addAttribute("title", "ÅõÀÚÇÏ±â :: "+MAIN_TITLE);
+		model.addAttribute("title", "Investment :: "+MAIN_TITLE);
 		
-		// ½É»ç¿¡¼­ ½ÂÀÎµÈ ´ëÃâ¸®½ºÆ® °¡Á®¿À±â
+		// Get list of approval loan
 		List<ABCLoanDto> list = loanService.getLoanList();
 		
-		// Æİµù±â°£ÀÌ Áö³­ ´ëÃâ»óÇ° »èÁ¦
+		// Cancel expired loans
 		int[] delArray = new int[list.size()];
-		Arrays.fill(delArray, -1);	// ¸ğµç ¹è¿­¿ä¼Ò¸¦ -1·Î ÃÊ±âÈ­
+		Arrays.fill(delArray, -1);	// Initiate all to -1
 		for(int idx = 0; idx < list.size(); idx++){
 			ABCLoanDto dto = list.get(idx);
 			if(ABCUtility.isExpired(dto.getRequestDate(), dto.getExpiryDate())) {
@@ -68,7 +68,7 @@ public class ABCInvestController {
 			}
 		}
 		
-		// ¸®½ºÆ® »èÁ¦
+		// Delete list of loan
 		Iterator<ABCLoanDto> it = list.iterator();
 		for(int idx = 0; it.hasNext(); idx++) {
 			it.next();
@@ -83,35 +83,34 @@ public class ABCInvestController {
 	}
 	
 	/**
-	 * ´ëÃâ »óÇ°À» ´­·¶À» ¶§ ÇØ´ç »ó¼¼ÆäÀÌÁö·Î ÀÌµ¿ÇÏ´Â ¸Ş¼­µå
-	 * @param model Á¦¸ñ ¼³Á¤
-	 * @param dto ´ëÃâÄÚµå µ¥ÀÌÅÍ°¡ ÀÖ´Â ´ëÃâ DTO
-	 * @param request ¼¼¼ÇÁ¤º¸¸¦ °¡Á®¿Ã °´Ã¼
-	 * @return ÅõÀÚ »ó¼¼ÆäÀÌÁöÀÇ Å¸ÀÏÁî¸í 
+	 * Go to investment detail page
+	 * @param model To set title
+	 * @param dto A DTO having loan code
+	 * @param request To get session
+	 * @return tiles name of investment detail page 
 	 */
 	@RequestMapping(value="investDetail.do", method=RequestMethod.GET)
 	public String investDetail(Model model, HttpServletRequest request ,ABCLoanDto dto) {
-		model.addAttribute("title", "ÅõÀÚ »ó¼¼Á¤º¸ :: "+MAIN_TITLE);
+		model.addAttribute("title", "Investment Detail :: "+MAIN_TITLE);
 		
-		/* °¢°¢ÀÇ µ¥ÀÌÅÍ¸¦ ´ãÀ» ¸®½ºÆ® ¼±¾ğ */
 		List<Object> list = new ArrayList<Object>();
 		
-		// »ó¼¼ ÅõÀÚ µ¥ÀÌÅÍ ¿äÃ»
+		// Get data of detail investment
 		investService.getInvestDetail(list, dto.getLoanCode());
 		
-		// ´ã¾ÆµĞ °´Ã¼ ²¨³»±â
+		// Get objects from list
 		ABCLoanDto loan = (ABCLoanDto)list.get(0);
 		ABCMemberDto personal = (ABCMemberDto)list.get(1);
 		ABCJudgeResultDto judge = (ABCJudgeResultDto)list.get(2);
 				
-		// ³ªÀÌ ±¸ÇÏ±â
+		// Calculate age
 		int age = ABCUtility.getAge(personal.getBirth());
 		
-		// ÅõÀÚ ¿©ºÎ¸¦ È®ÀÎ
+		// Check if invested
 		ABCMemberDto login = (ABCMemberDto)request.getSession().getAttribute("login");
 		boolean isInvested = investService.isInvested(login.getEmail(), loan.getLoanCode());
 		
-		// ¸ğµ¨¿¡ µî·Ï
+		// Add to model
 		model.addAttribute("personal", personal);
 		model.addAttribute("loan", loan);
 		model.addAttribute("judge", judge);
@@ -122,42 +121,42 @@ public class ABCInvestController {
 	}
 	
 	/**
-	 * ÅõÀÚ½ÅÃ» È­¸éÀ¸·Î ÀÌµ¿ÇÏ´Â ¸Ş¼­µå
-	 * @param model Á¦¸ñ ¼³Á¤
-	 * @param request ¼¼¼ÇÀ» ºÒ·¯¿Ã °´Ã¼
-	 * @param loanCode ´ëÃâÄÚµå
-	 * @return ÅõÀÚ½ÅÃ» ÆäÀÌÁöÀÇ Å¸ÀÏÁî¸í
+	 * íˆ¬ìì‹ ì²­ í™”ë©´ìœ¼ë¡œ ì´ë™í•˜ëŠ” ë©”ì„œë“œ
+	 * @param model ì œëª© ì„¤ì •
+	 * @param request ì„¸ì…˜ì„ ë¶ˆëŸ¬ì˜¬ ê°ì²´
+	 * @param loanCode ëŒ€ì¶œì½”ë“œ
+	 * @return íˆ¬ìì‹ ì²­ í˜ì´ì§€ì˜ íƒ€ì¼ì¦ˆëª…
 	 */
 	@RequestMapping(value="doInvest.do", method=RequestMethod.GET)
 	public String doInvest(Model model, HttpServletRequest request, int loanCode) {
-		model.addAttribute("title", "ÅõÀÚ½ÅÃ» :: "+MAIN_TITLE);
+		model.addAttribute("title", "íˆ¬ìì‹ ì²­ :: "+MAIN_TITLE);
 		
-		// ÀÌ¸ŞÀÏ·Î °èÁÂµ¥ÀÌÅÍ °¡Á®¿À±â
+		// ì´ë©”ì¼ë¡œ ê³„ì¢Œë°ì´í„° ê°€ì ¸ì˜¤ê¸°
 		ABCMemberDto member = (ABCMemberDto)request.getSession().getAttribute("login");
 		ABCAccountDto account = accountService.getAccount(member.getEmail());
 		
-		/* ÅõÀÚ°¡´É±İ¾× °è»ê */
+		/* íˆ¬ìê°€ëŠ¥ê¸ˆì•¡ ê³„ì‚° */
 		ABCLoanDto loan = loanService.getLoan(loanCode);
 		int balance = account.getBalance();
 		int investable = 0;
 		
-		// ¿¹Ä¡±İÀÌ ÀÖÀ» °æ¿ì
+		// ì˜ˆì¹˜ê¸ˆì´ ìˆì„ ê²½ìš°
 		if(balance > 0) {
-			// ÃÖ´ë ÅõÀÚ±İ¾×
+			// ìµœëŒ€ íˆ¬ìê¸ˆì•¡
 			int max = (int)(loan.getLoanMoney() * 0.2);
 			
-			// ³²Àº ÅõÀÚ°¡´É ±İ¾×
+			// ë‚¨ì€ íˆ¬ìê°€ëŠ¥ ê¸ˆì•¡
 			int diff = loan.getLoanMoney() - loan.getCurrentMoney();
 			
-			// ³²Àº ÅõÀÚ°¡´É ±İ¾× È®ÀÎ
+			// ë‚¨ì€ íˆ¬ìê°€ëŠ¥ ê¸ˆì•¡ í™•ì¸
 			investable = (diff < max) ? diff : max;
 			
-			// ÃÖ´ë ÅõÀÚ±İ¾× È®ÀÎ
+			// ìµœëŒ€ íˆ¬ìê¸ˆì•¡ í™•ì¸
 			if(balance < investable)
 				investable = balance;
 		}
 		
-		// ¸ğµ¨¿¡ ´ã±â
+		// ëª¨ë¸ì— ë‹´ê¸°
 		model.addAttribute("account", account);
 		model.addAttribute("loan", loan);
 		model.addAttribute("investable", investable);
@@ -166,32 +165,32 @@ public class ABCInvestController {
 	}
 	
 	/**
-	 * ÅõÀÚ½ÅÃ»¿Ï·á È­¸éÀ¸·Î ÀÌµ¿ÇÏ´Â ¸Ş¼­µå
-	 * @param model Á¦¸ñ ¼³Á¤
-	 * @param request ¼¼¼ÇÀ» ºÒ·¯¿Ã °´Ã¼
-	 * @param loanCode ´ëÃâÄÚµå
-	 * @param investMoney ´ëÃâ½ÅÃ»±İ
-	 * @return ÅõÀÚ¿Ï·á ÆäÀÌÁöÀÇ Å¸ÀÏÁî¸í
+	 * Go to investment page
+	 * @param model To set title
+	 * @param request To get session
+	 * @param loanCode loan code
+	 * @param investMoney amount of investment
+	 * @return tiles name of investment success page
 	 */
 	@Transactional
 	@RequestMapping(value="investSuc.do", method=RequestMethod.POST)
 	public String investSuc(Model model, HttpServletRequest request, 
 			int loanCode, String title, int investMoney) {
-		model.addAttribute("title", "ÅõÀÚ¿Ï·á :: "+MAIN_TITLE);
+		model.addAttribute("title", "Investment Success :: "+MAIN_TITLE);
 		
-		// ¼¼¼Ç¿¡¼­ È¸¿ø µ¥ÀÌÅÍ °¡Á®¿À±â
+		// Get member DTO from session
 		ABCMemberDto member = (ABCMemberDto)request.getSession().getAttribute("login");
 		
-		// ÅõÀÚ±İÀº ¸¸¿ø ´ÜÀ§·Î ÀÔ·Â¹Ş¾ÒÀ¸¹Ç·Î 1¸¸À» °öÇØÁØ´Ù.
+		// Amount of investment was in units of 10K WON so multiply 10000
 		investMoney *= 10000;
 		
-		// ÅõÀÚ ¿äÃ»
+		// Request investment
 		investService.investRequest(member.getEmail(), loanCode, investMoney);
 		
-		// Æİµù¿Ï·á È®ÀÎ
+		// Check funding complete
 		investService.checkComplete(loanCode);
 		
-		// ¸ğµ¨¿¡ ´ã±â
+		// Add to model
 		model.addAttribute("title", title);
 		model.addAttribute("investMoney", investMoney);
 		
