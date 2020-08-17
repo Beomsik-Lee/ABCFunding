@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,38 +30,38 @@ import com.hk.abcfund.model.dto.ABCLoanDto;
 import com.hk.abcfund.model.dto.ABCLoanTransactionDto;
 
 /**
- * °ü¸®ÀÚ È­¸éÀ» Á¦¾îÇÏ±â À§ÇÑ ¼­ºñ½º ±¸Çö Å¬·¡½º
+ * ê´€ë¦¬ì í™”ë©´ì„ ì œì–´í•˜ê¸° ìœ„í•œ ì„œë¹„ìŠ¤ êµ¬í˜„ í´ë˜ìŠ¤
  * @author 9age
  *
  */
 @Service
 public class ABCAdminSerivceImpl implements ABCAdminSerivce {
-	/** °ü¸®ÀÚ DAO */
+	/** ê´€ë¦¬ì DAO */
 	@Autowired
 	private ABCAdminDao adao;
 	
-	/** ´ëÃâ DAO */
+	/** ëŒ€ì¶œ DAO */
 	@Autowired
 	private ABCLoanDao loanDao;
 	
-	/** ÅõÀÚ DAO */
+	/** íˆ¬ì DAO */
 	@Autowired
 	private ABCInvestDao investDao;
 	
-	/** ÅõÀç³»¿ª DAO */
+	/** íˆ¬ì¬ë‚´ì—­ DAO */
 	@Autowired
 	private ABCInvestTransactionDao investTranDao;
 	
-	/** ´ëÃâ³»¿ª DAO */
+	/** ëŒ€ì¶œë‚´ì—­ DAO */
 	@Autowired
 	private ABCLoanTransactionDao loanTranDao;
 	
-	/** slf4j ·Î±ë */
+	/** slf4j ë¡œê¹… */
 	private static final Logger logger = LoggerFactory
 			.getLogger(ABCLoanServiceImpl.class);
 	
 	/**
-	 * ½É»ç´ë±â ¸®½ºÆ®¸¦ È£ÃâÇÏ´Â ¸Ş¼­µå
+	 * ì‹¬ì‚¬ëŒ€ê¸° ë¦¬ìŠ¤íŠ¸ë¥¼ í˜¸ì¶œí•˜ëŠ” ë©”ì„œë“œ
 	 */
 	@Override
 	public List<ABCJudgeDto> getJudgeList() {
@@ -72,8 +69,8 @@ public class ABCAdminSerivceImpl implements ABCAdminSerivce {
 	}
 
 	/**
-	 * ½É»ç´ë±â »ó¼¼³»¿ëÀ» È£ÃâÇÏ´Â ¸Ş¼­µå
-	 * @param loanCode ´ëÃâÄÚµå
+	 * ì‹¬ì‚¬ëŒ€ê¸° ìƒì„¸ë‚´ìš©ì„ í˜¸ì¶œí•˜ëŠ” ë©”ì„œë“œ
+	 * @param loanCode ëŒ€ì¶œì½”ë“œ
 	 */
 	@Override
 	public ABCJudgeDto getJudgeDetail(int loanCode) {
@@ -81,24 +78,24 @@ public class ABCAdminSerivceImpl implements ABCAdminSerivce {
 	}
 
 	/**
-	 * ½É»ç°á°ú¸¦ Ã³¸®ÇÏ´Â ¸Ş¼­µå È£Ãâ
-	 * @param ABCJudgeResultDto ½É»ç°á°ú Á¤º¸¸¦ ´ãÀº DTO °´Ã¼
+	 * ì‹¬ì‚¬ê²°ê³¼ë¥¼ ì²˜ë¦¬í•˜ëŠ” ë©”ì„œë“œ í˜¸ì¶œ
+	 * @param ABCJudgeResultDto ì‹¬ì‚¬ê²°ê³¼ ì •ë³´ë¥¼ ë‹´ì€ DTO ê°ì²´
 	 */
 	@Override
 	@Transactional
 	public void addJudgeResult(ABCJudgeResultDto jrdto) {
-		// ½É»ç°á°ú¸¦ µî·Ï
+		// ì‹¬ì‚¬ê²°ê³¼ë¥¼ ë“±ë¡
 		adao.addJudgeResult(jrdto);
 		
-		// ½É»ç°á°ú°¡ ½ÂÀÎÀÌ¸é ´ëÃâÀÇ ÁøÇà»óÈ²À» 'ÆİµùÁøÇàÁß'À¸·Î ³ªÅ¸³½´Ù.
+		// ì‹¬ì‚¬ê²°ê³¼ê°€ ìŠ¹ì¸ì´ë©´ ëŒ€ì¶œì˜ ì§„í–‰ìƒí™©ì„ 'í€ë”©ì§„í–‰ì¤‘'ìœ¼ë¡œ ë‚˜íƒ€ë‚¸ë‹¤.
 		if(jrdto.getResult() == 1) {
-			ABCLoanDto loan = new ABCLoanDto(jrdto.getLoanCode(), "ÆİµùÁøÇàÁß");
+			ABCLoanDto loan = new ABCLoanDto(jrdto.getLoanCode(), "í€ë”©ì§„í–‰ì¤‘");
 			loanDao.updateProgress(loan);
 		}
 	}
 	
 	/**
-	 * ÇØ´ç ´ëÃâÄÚµå¸¦ °¡Áø ½É»ç·¹ÄÚµå »èÁ¦ 
+	 * í•´ë‹¹ ëŒ€ì¶œì½”ë“œë¥¼ ê°€ì§„ ì‹¬ì‚¬ë ˆì½”ë“œ ì‚­ì œ 
 	 */	
 	@Override
 	public void deleteJudgeByLoan(int loanCode) {
@@ -106,17 +103,17 @@ public class ABCAdminSerivceImpl implements ABCAdminSerivce {
 	}
 	
 	/**
-	 * ÅõÀÚ±×·¡ÇÁ¿¡ °ü·ÃµÈ µ¥ÀÌÅÍ¸¦ »ı¼ºÇÏ´Â ¸Ş¼­µå
-	 * @param email È¸¿øÀÇ ÀÌ¸ŞÀÏ
-	 * @return JSONÀ¸·Î »ı¼ºµÈ µ¥ÀÌÅÍ
+	 * íˆ¬ìê·¸ë˜í”„ì— ê´€ë ¨ëœ ë°ì´í„°ë¥¼ ìƒì„±í•˜ëŠ” ë©”ì„œë“œ
+	 * @param email íšŒì›ì˜ ì´ë©”ì¼
+	 * @return JSONìœ¼ë¡œ ìƒì„±ëœ ë°ì´í„°
 	 */
 	@Override
 	public List<ABCInvestChartDto> getInvestChartData(String email) {
-		// ¸®½ºÆ® °¡Á®¿À±â
+		// ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
 		List<ABCInvestDto> investList = investDao.getInvestList(email);
 		List<ABCInvestTransactionDto> investTranList = investTranDao.getTransactionReserve(email);
 		
-		// ¸®½ºÆ® »ı¼º
+		// ë¦¬ìŠ¤íŠ¸ ìƒì„±
 		List<ABCInvestChartDto> chartList = new ArrayList<ABCInvestChartDto>();
 		
 		for(int i = 0; i < investList.size(); i++){
@@ -131,10 +128,10 @@ public class ABCAdminSerivceImpl implements ABCAdminSerivce {
 				if(investSeq == investTran.getInvestSeq()){
 					if(max == -999) max = 0;
 					
-					// ´©Àû ÀÌÀÚ °è»ê
+					// ëˆ„ì  ì´ì ê³„ì‚°
 					stackInterest += investTran.getIntendProfit();
 					
-					// ÃÖ´ë ´©Àû ¿ø±İÀ» °¡Áø ³»¿ª Ã£±â
+					// ìµœëŒ€ ëˆ„ì  ì›ê¸ˆì„ ê°€ì§„ ë‚´ì—­ ì°¾ê¸°
 					if(investTran.getRound() > investTranList.get(max).getRound())
 						max = j;
 				}
@@ -142,7 +139,7 @@ public class ABCAdminSerivceImpl implements ABCAdminSerivce {
 			if(max != -999)
 				stackOrigin = investTranList.get(max).getStackCollect();
 			
-			// ¸®½ºÆ®¿¡ µî·Ï
+			// ë¦¬ìŠ¤íŠ¸ì— ë“±ë¡
 			chartList.add(new ABCInvestChartDto(investSeq, investMoney, stackOrigin, stackInterest));
 		}
 		
@@ -150,108 +147,108 @@ public class ABCAdminSerivceImpl implements ABCAdminSerivce {
 	}
 	
 	/**
-	 * ´ëÃâ Â÷Æ® µ¥ÀÌÅÍ¸¦ ÃßÃâÇÏ´Â ¸Ş¼­µå
-	 * @param email È¸¿øÀÇ ÀÌ¸ŞÀÏ
+	 * ëŒ€ì¶œ ì°¨íŠ¸ ë°ì´í„°ë¥¼ ì¶”ì¶œí•˜ëŠ” ë©”ì„œë“œ
+	 * @param email íšŒì›ì˜ ì´ë©”ì¼
 	 */
 	@Override
 	public List<ABCLoanChartDto> getLoanChartData(String email) {
-		// ¸®½ºÆ® »ı¼º
+		// ë¦¬ìŠ¤íŠ¸ ìƒì„±
 		List<ABCLoanChartDto> chartList = new ArrayList<ABCLoanChartDto>();
 		
-		// ´ëÃâ³»¿ª ¸®½ºÆ® °¡Á®¿À±â
+		// ëŒ€ì¶œë‚´ì—­ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
 		List<ABCLoanTransactionDto> loanTranList = loanTranDao.getTransactionBySorted(email);
 		
 		if(loanTranList.isEmpty()) return chartList;
 		
-		// ÃÖ´ë ´©Àû ¿ø±İ ¹× ´©Àû ÀÌÀÚ±İ ±¸ÇÏ±â
-		int stackRepayRate = 0;	// ´©Àû ÀÌÀÚ±İ
-		int stackRepayOrigin = 0; // ´©Àû ¿ø±İ
-		int loanCode = loanTranList.get(0).getLoanCode();	// ´ëÃâ ÄÚµå
+		// ìµœëŒ€ ëˆ„ì  ì›ê¸ˆ ë° ëˆ„ì  ì´ìê¸ˆ êµ¬í•˜ê¸°
+		int stackRepayRate = 0;	// ëˆ„ì  ì´ìê¸ˆ
+		int stackRepayOrigin = 0; // ëˆ„ì  ì›ê¸ˆ
+		int loanCode = loanTranList.get(0).getLoanCode();	// ëŒ€ì¶œ ì½”ë“œ
 		for(int idx = 0; idx < loanTranList.size(); idx++){
-			// ³»¿ª °¡Á®¿À±â
+			// ë‚´ì—­ ê°€ì ¸ì˜¤ê¸°
 			ABCLoanTransactionDto loanTran = loanTranList.get(idx);
 			
-			// ´Ù¸¥ ³»¿ªÀ¸·Î ³Ñ¾î°£ °æ¿ì
+			// ë‹¤ë¥¸ ë‚´ì—­ìœ¼ë¡œ ë„˜ì–´ê°„ ê²½ìš°
 			if(loanCode != loanTran.getLoanCode()){
-				// Â÷Æ® µ¥ÀÌÅÍ ¸®½ºÆ®¿¡ Ãß°¡ÇÏ°í °¢ º¯¼ö ÃÊ±âÈ­
+				// ì°¨íŠ¸ ë°ì´í„° ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€í•˜ê³  ê° ë³€ìˆ˜ ì´ˆê¸°í™”
 				chartList.add(new ABCLoanChartDto(loanCode, stackRepayOrigin, stackRepayRate));
 				loanCode = loanTran.getLoanCode();
 				stackRepayRate = 0;
 				stackRepayOrigin = 0;
-			} else if(idx+1 == loanTranList.size()){ // ¸¶Áö¸· ³»¿ªÀÎ °æ¿ì
-				// ´©Àû ÀÌÀÚ ±¸ÇÏ±â
+			} else if(idx+1 == loanTranList.size()){ // ë§ˆì§€ë§‰ ë‚´ì—­ì¸ ê²½ìš°
+				// ëˆ„ì  ì´ì êµ¬í•˜ê¸°
 				stackRepayRate += loanTran.getStackRepayRate();
 				
-				// ´©Àû ¿ø±İ ´ã±â
+				// ëˆ„ì  ì›ê¸ˆ ë‹´ê¸°
 				stackRepayOrigin = loanTran.getStackRepayOrigin();
 				chartList.add(new ABCLoanChartDto(loanCode, stackRepayOrigin, stackRepayRate));
 				
 				break;
 			}
 			
-			// ´©Àû ÀÌÀÚ ±¸ÇÏ±â
+			// ëˆ„ì  ì´ì êµ¬í•˜ê¸°
 			stackRepayRate += loanTran.getStackRepayRate();
 			
-			// ´©Àû ¿ø±İ ´ã±â
+			// ëˆ„ì  ì›ê¸ˆ ë‹´ê¸°
 			stackRepayOrigin = loanTran.getStackRepayOrigin();
 		}
-		logger.info("´ëÃâ Â÷Æ® µ¥ÀÌÅÍ: " + chartList);
+		logger.info("ëŒ€ì¶œ ì°¨íŠ¸ ë°ì´í„°: " + chartList);
 		
 		return chartList;
 	}
 	
 	/** 
-	 * ÅõÀÚ°ü¸®ÀÇ µ¥ÀÌÅÍ¸¦ ÃßÃâÇÏ´Â ¸Ş¼­µå
-	 * @return ÅõÀÚ°ü¸® µ¥ÀÌÅÍ ¸®½ºÆ®
+	 * íˆ¬ìê´€ë¦¬ì˜ ë°ì´í„°ë¥¼ ì¶”ì¶œí•˜ëŠ” ë©”ì„œë“œ
+	 * @return íˆ¬ìê´€ë¦¬ ë°ì´í„° ë¦¬ìŠ¤íŠ¸
 	  */
 	@Override
 	public List<ABCInvestManageDto> getInvestManageData() {
-		// ¸®½ºÆ® »ı¼º
+		// ë¦¬ìŠ¤íŠ¸ ìƒì„±
 		List<ABCInvestManageDto> chartList = new ArrayList<ABCInvestManageDto>();
 		
-		// ¸ğµç ÅõÀÚ¸®½ºÆ® ¹× ÅõÀÚ³»¿ª °¡Á®¿À±â
+		// ëª¨ë“  íˆ¬ìë¦¬ìŠ¤íŠ¸ ë° íˆ¬ìë‚´ì—­ ê°€ì ¸ì˜¤ê¸°
 		List<ABCInvestDto> investList = investDao.getInvestListAll();
 		List<ABCInvestTransactionDto> investTranList = investTranDao.getTransactionAll();
 				
-		// µ¥ÀÌÅÍ ÃßÃâ
+		// ë°ì´í„° ì¶”ì¶œ
 		for(int i = 0; i < investList.size(); i++){
 			ABCInvestDto invest = investList.get(i);
-			int investMoney = invest.getInvestMoney(); // ÅõÀÚ±İ
-			int stackProfit = 0;  // ´©Àû ¼öÀÍ±İ
+			int investMoney = invest.getInvestMoney(); // íˆ¬ìê¸ˆ
+			int stackProfit = 0;  // ëˆ„ì  ìˆ˜ìµê¸ˆ
 			String progress = "";
 			for(int j = 0; j < investTranList.size(); j++){
 				ABCInvestTransactionDto investTran = investTranList.get(j);
 				if(invest.getInvestSeq() == investTran.getInvestSeq()){
-					// ´©Àû ¼öÀÍ±İ ±¸ÇÏ±â
+					// ëˆ„ì  ìˆ˜ìµê¸ˆ êµ¬í•˜ê¸°
 					stackProfit += investTran.getIntendProfit();
 					
-					// ÁøÇà»óÅÂ ±¸ÇÏ±â
+					// ì§„í–‰ìƒíƒœ êµ¬í•˜ê¸°
 					progress = investTran.getProgress();
 				}
 			}
 			chartList.add(new ABCInvestManageDto(
 				invest.getInvestSeq(), investMoney, stackProfit, progress));
 		}
-		logger.info("»ı¼ºµÈ ¸®½ºÆ®: "+chartList);
+		logger.info("ìƒì„±ëœ ë¦¬ìŠ¤íŠ¸: "+chartList);
 		
 		return chartList;
 	}
 	
 	/**
-	 * ´ëÃâ°ü¸® Á¤º¸ ¾ò±â 
+	 * ëŒ€ì¶œê´€ë¦¬ ì •ë³´ ì–»ê¸° 
 	 */	
 	@Override
 	@Transactional
 	public ABCAdminLoanManageDto getLoanManage() {
 		
-		logger.info("getLoanManage() È£Ãâ ¼º°ø!" + new Date());
+		logger.info("getLoanManage() í˜¸ì¶œ ì„±ê³µ!" + new Date());
 		ABCAdminLoanManageDto dto =  new ABCAdminLoanManageDto();
 		
-		dto.setStackLoanNum((adao.getAdminLoanInfo1()).getStackLoanNum()); //´ëÃâ½ÇÇà°Ç¼ö
-		dto.setStackLoanMoney((adao.getAdminLoanInfo1()).getStackLoanMoney()); //´©Àû´ëÃâ±İ
-		dto.setStackLoanRepayMoney((adao.getAdminLoanInfo2()).getStackLoanRepayMoney()); //´©Àû´ëÃâ»óÈ¯±İ
-		dto.setLoanEndNum((adao.getAdminLoanInfo3()).getLoanEndNum()); //»óÈ¯¿Ï·á °Ç¼ö
-		dto.setLoanMiddleNum((adao.getAdminLoanInfo4()).getLoanMiddleNum()); //»óÈ¯ÁßÀÎ°Ç¼ö
+		dto.setStackLoanNum((adao.getAdminLoanInfo1()).getStackLoanNum()); //ëŒ€ì¶œì‹¤í–‰ê±´ìˆ˜
+		dto.setStackLoanMoney((adao.getAdminLoanInfo1()).getStackLoanMoney()); //ëˆ„ì ëŒ€ì¶œê¸ˆ
+		dto.setStackLoanRepayMoney((adao.getAdminLoanInfo2()).getStackLoanRepayMoney()); //ëˆ„ì ëŒ€ì¶œìƒí™˜ê¸ˆ
+		dto.setLoanEndNum((adao.getAdminLoanInfo3()).getLoanEndNum()); //ìƒí™˜ì™„ë£Œ ê±´ìˆ˜
+		dto.setLoanMiddleNum((adao.getAdminLoanInfo4()).getLoanMiddleNum()); //ìƒí™˜ì¤‘ì¸ê±´ìˆ˜
 		
 		return dto;
 	}

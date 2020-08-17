@@ -5,7 +5,7 @@ import java.util.Map;
 import com.hk.abcfund.model.dto.ABCAccountDto;
 
 /**
- * 계좌 관련 서비스 인터페이스
+ * Account service interface
  * @author 9age
  */
 public interface ABCAccountService {

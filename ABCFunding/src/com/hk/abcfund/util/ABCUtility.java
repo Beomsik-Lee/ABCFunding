@@ -67,29 +67,29 @@ public final class ABCUtility {
 	}
 	
 	/**
-	 * 각각에 연,월,일을 붙여주는 메서드
-	 * @param birth 붙일 생년월일
-	 * @return 붙인 생년월일
+	 * Append year, month and date to birth date
+	 * @param birth To append
+	 * @return Appended birth date
 	 */
 	public static String getFullBirth(String birth){
-		// 생년월일 파싱
+		// parsing birth date
 		String[] parsed = parseBirth(birth);
 		
-		// 연,월,일 붙이기
+		// Append string
 		StringBuilder append = new StringBuilder();
 		append.append(parsed[0]);
-		append.append("년 ");
+		append.append("Year ");
 		append.append(parsed[1]);
-		append.append("월 ");
+		append.append("Month ");
 		append.append(parsed[2]);
-		append.append("일");
+		append.append("Date");
 		
 		return append.toString();
 	}
 	
 	/**
-	 * 가상계좌번호를 생성하는 메서드
-	 * @return 생성된 가상계좌번호
+	 * Create virtual account number
+	 * @return Generated account number
 	 */
 	public static String createVANumber() {
 		StringBuilder accountNo = new StringBuilder();
@@ -103,18 +103,18 @@ public final class ABCUtility {
 	}
 	
 	/**
-	 * 펀딩기간이 지났는지 확인하는 메서드
-	 * @param requestDate 대출신청일(yyyy-mm-dd)
-	 * @param expiryDate 펀딩일수
-	 * @return 펀딩기간이 지났으면 true
+	 * Check if fund is over
+	 * @param requestDate date of loan request(yyyy-mm-dd)
+	 * @param expiryDate funding days
+	 * @return Return true if funding has expired
 	 */
 	public static boolean isExpired(String requestDate, int expiryDate){
 		boolean isExp = false;
 		
-		// 현재 날짜 구하기
+		// Get current date
 		Date currentDate = new Date();
 		
-		// 대출신청일 구하기
+		// Get date of loan request
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date request = null;
 		try {
@@ -123,35 +123,35 @@ public final class ABCUtility {
 			e.printStackTrace();
 		}
 		
-		// 두 날짜의 차이 구하기
+		// Calculate the difference between two dates 
 		long diff = currentDate.getTime() - request.getTime();
 		diff /= 24 * 60 * 60 * 1000;
 		
-		// 차일이 펀딩일수를 넘었으면 펀딩기간이 지난 것
+		// If the difference bigger than expired date, then funding is over.
 		if(diff > expiryDate) isExp = true;
 		
 		return isExp;
 	}
 	
 	/**
-	 * 다음 달 상환일을 반환하는 메서드
-	 * @param repay 희망상환일
-	 * @return 다음 달 상환날짜
+	 * Get repayments date of next month
+	 * @param repay repayments date
+	 * @return Next month's repayments date
 	 */
 	public static String calcRepayDate(int repay) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());		// 현재 날짜를 구한다.
-		cal.add(Calendar.MONTH, 1);		// 현재 날짜에 다음 달로 맞춘다.
-		cal.set(Calendar.DATE, repay);	// 일자를 희망일로 바꾼다.
+		cal.setTime(new Date());		// Get current date
+		cal.add(Calendar.MONTH, 1);		// Set next month
+		cal.set(Calendar.DATE, repay);	// Set date to repayments date
 		
 		return formatter.format(cal.getTime());
 	}
 	
 	/**
-	 * 주어진 날짜가 오늘인지 확인하는 메서드
-	 * @param date yyyy-MM-dd 형태의 문자열
-	 * @return 오늘이면 true 반환
+	 * Check if given date is current date 
+	 * @param date the date string formatted by yyyy-MM-dd
+	 * @return Return true if current date
 	 */
 	public static boolean isSameDate(String date){
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -161,22 +161,22 @@ public final class ABCUtility {
 	}
 	
 	/**
-	 * 원리금균등상환방식을 이용하여 납입/상환금을 구하는 메소드
-	 * @param money 투자/대출금
-	 * @param loanDate 대출기간
-	 * @param loanrate 이자율
-	 * @return 상환금
+	 * Get repayments by level payments on capital and interest
+	 * @param money investment or loan
+	 * @param loanDate loan date
+	 * @param loanrate loan interest
+	 * @return repayments
 	 */
 	public static int getRepayMoney(int money, int loanDate ,double loanrate){
 		return (int)Math.round(getEqualPrincipalPayment(money, loanDate, loanrate));
 	}
 	
 	/**
-	 * 원리금균등상환방식을 부동소수 그대로 반환하는 메서드
-	 * @param money 투자/대출금
-	 * @param loanDate 대출기간
-	 * @param loanrate 이자율
-	 * @return 실수로 표현된 상환금
+	 * Return repayments as double type
+	 * @param money investment or loan
+	 * @param loanDate loan date
+	 * @param loanrate loan interest
+	 * @return repayments as double type
 	 */
 	public static double getEqualPrincipalPayment(int money, int loanDate ,double loanrate){
 		return ((money * (loanrate / 12)) * 
@@ -185,10 +185,10 @@ public final class ABCUtility {
 	}
 	
 	/**
-	 * 이자를 계산하여 부동소수 그대로 반환하는 메서드
-	 * @param balance 잔금 또는 원금
-	 * @param interstRate 이자율. 소수 둘째자리까지 표현
-	 * @return 이자
+	 * Calculate interest
+	 * @param balance balance
+	 * @param interestRate interest rate
+	 * @return Return interest
 	 */
 	public static double getInterest(int balance, float interestRate){
 		return balance * interestRate / 12;
