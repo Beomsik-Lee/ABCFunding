@@ -6,7 +6,7 @@ import com.hk.abcfund.model.dto.ABCInvestDto;
 import com.hk.abcfund.model.dto.ABCInvestTransactionDto;
 
 /**
- * 투자 관련 서비스
+ * Service interface for investment
  * @author 9age
  *
  */

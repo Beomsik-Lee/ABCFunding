@@ -1,6 +1,5 @@
 package com.hk.abcfund.model.service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,152 +22,147 @@ import com.hk.abcfund.model.dto.ABCMemberDto;
 import com.hk.abcfund.util.ABCUtility;
 
 /**
- * ÅõÀÚ °ü·Ã ¼­ºñ½º ±¸Çö Å¬·¡½º
+ * Controller for investment
  * @author 9age
  *
  */
 @Service
 public class ABCInvestServiceImpl implements ABCInvestService {
-	/** È¸¿ø DAO */
+	/** Member DAO */
 	@Autowired
 	private ABCMemberDao memberDao;
 	
-	/** ´ëÃâ DAO */
+	/** Loan DAO */
 	@Autowired
 	private ABCLoanDao loanDao;
 	
-	/** ½É»ç DAO */
+	/** Examine DAO */
 	@Autowired
 	private ABCAdminDao adminDao;
 	
-	/** °èÁ¤ DAO */
+	/** Account DAO */
 	@Autowired
 	private ABCAccountDao accountDao;
 	
-	/** ÅõÀÚ DAO */
+	/** Investment DAO */
 	@Autowired
 	private ABCInvestDao investDao;
 	
-	/** ÅõÀÚ³»¿ª DAO */
+	/** Investment detail DAO */
 	@Autowired
 	private ABCInvestTransactionDao investTranDao;
 	
 	/**
-	 * ÀÔ·Â ¹ŞÀº °¢°¢ÀÇ DTO¿¡ DAOÀÇ °á°ú¸¦ ³Ö½À´Ï´Ù.
-	 * @param member È¸¿ø DTO
-	 * @param loan ´ëÃâ DTO
-	 * @param judge ½É»ç DTO
+	 * Set result of DAO to DTO 
+	 * @param member A DTO of member
+	 * @param loan A DTO of loan
+	 * @param judge A DTO of examine
 	 */
 	@Override
 	@Transactional
 	public void getInvestDetail(List<Object> list, int loanCode) {
-		// 1. ´ëÃâÄÚµå¸¦ ÀÌ¿ëÇÏ¿© ´ëÃâµ¥ÀÌÅÍ¸¦ °¡Á®¿Â´Ù.
+		// 1. Get loan data by loan code
 		ABCLoanDto loan = loanDao.getLoan(loanCode);
 		
-		// 2. °¡Á®¿Â ´ëÃâµ¥ÀÌÅÍ¿¡¼­ ÇØ´ç ÀÌ¸ŞÀÏÀ» °¡Áø È¸¿øÀÇ µ¥ÀÌÅÍ¸¦ °¡Á®¿Â´Ù.
+		// 2. Get member data by email
 		ABCMemberDto member = memberDao.getMember(loan.getEmail());
 		
-		// 3. ´ëÃâÄÚµå¸¦ ÀÌ¿ëÇÏ¿© ½É»çµ¥ÀÌÅÍ¸¦ °¡Á®¿Â´Ù.
+		// 3. Get examine data by loan code
 		ABCJudgeResultDto judge = adminDao.getJudge(loanCode);
 		
-		// °¡Á®¿Â °´Ã¼µéÀ» ¸®½ºÆ®¿¡ ´ã¾ÆµĞ´Ù.
+		// Add to list
 		list.add(loan);
 		list.add(member);
 		list.add(judge);
 	}
 	
 	/**
-	 * ÅõÀÚ°¡ ÀÌ·ç¾îÁö´Â ¸Ş¼­µå
-	 * @param email ÅõÀÚÀÚ¸¦ ½Äº°ÇÒ ÀÌ¸ŞÀÏ
-	 * @param loanCode ´ëÃâ»óÇ°À» ½Äº°ÇÒ ´ëÃâÄÚµå
-	 * @param investMoney ÅõÀÚ±İ
+	 * Processing request for investment
+	 * @param email email of investor
+	 * @param loanCode loan code
+	 * @param investMoney investments
 	 */
 	@Override
 	@Transactional
 	public void investRequest(String email, int loanCode, int investMoney) {
-		// ¸Å°³º¯¼ö¸¦ ÇØ½¬¸Ê¿¡ ÀúÀå
+		// Add parameter to hash map
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("email", email);
 		map.put("loanCode", loanCode);
 		map.put("investMoney", investMoney);
 		
-		// 1. ³» µ·ÀÌ °èÁÂ¿¡¼­ Â÷°¨
-		try{
-			accountDao.withdraw(map);
-		} catch(Exception e){
-			// ÇÁ·ĞÆ® ¿£µå¿¡¼­ Ã¼Å©µÈ ºÎºĞÀÌ¶ó ÇÊ¿ä¾ø´Ù.
-		}
+		// 1. Withdraw at account
+		accountDao.withdraw(map);
 		
-		// 2. ´ëÃâ»óÇ°ÀÇ °èÁÂ·Î ÀÔ±İ
+		// 2. Deposit to loans
 		accountDao.deposit(map);
 		
-		// 3. ÅõÀÚÀÚÀÇ È¸¿ø µ¥ÀÌÅÍ¿¡¼­ ÅõÀÚ°Ç¼ö Áõ°¡
+		// 3. Increase number of investment
 		memberDao.incInvest(email);
 		
-		// 4. ´ëÃâ»óÇ° Á¤º¸ º¯°æ
+		// 4. Change information of loan
 		loanDao.investAfter(map);
 		
-		// 5. ÅõÀÚ ·¹ÄÚµå Ãß°¡
+		// 5. Add a record of investment
 		investDao.addInvest(new ABCInvestDto(email, loanCode, investMoney));
 		
 	}
 	
 	/**
-	 * ÆİµùÀÌ ¿Ï·áµÇ¾ú´ÂÁö È®ÀÎÇÏ´Â ¸Ş¼­µå
-	 * @param loanCode Æİµù¿Ï·á¸¦ È®ÀÎÇÒ ´ëÃâÀÇ ´ëÃâÄÚµå
-	 * @return ¿Ï·á¿©ºÎ
+	 * Check if fund is complete
+	 * @param loanCode loan code
 	 */
 	@Override
 	@Transactional
 	public void checkComplete(int loanCode) {
-		// ÇØ´ç ´ëÃâÄÚµåÀÇ ´ëÃâ µ¥ÀÌÅÍ °¡Á®¿À±â
+		// Get a loan by loan code
 		ABCLoanDto loan = loanDao.getLoan(loanCode);
 		
-		// ÇöÀç±İ¾×ÀÌ ¸ñÇ¥±İ¾×°ú ÀÏÄ¡ÇÏ´Â °æ¿ì
+		// If current money matches goal
 		if(loan.getCurrentMoney() == loan.getLoanMoney()) {
-			// requestDate¸¦ Ã¹ »óÈ¯³¯Â¥·Î ¹Ù²Û´Ù.
+			// Set request date to first repayments date
 			String repayDate = ABCUtility.calcRepayDate(loan.getRepay());
-			loan.setProgress("Æİµù¿Ï·á");
+			loan.setProgress("í€ë”©ì™„ë£Œ");
 			loan.setRequestDate(repayDate);
 			loanDao.fundComplete(loan);
 			
-			// ´ëÃâ½ÅÃ»ÀÚ¿¡°Ô ½ÅÃ»±İ Àü´Ş
+			// Deposit to loan by loan code
 			accountDao.depositForRequest(loanCode);
 			
-			// ÇØ´ç ´ëÃâÀÇ °¡»ó°èÁÂ¿¡¼­ ÀÜ¾× ÃÊ±âÈ­
+			// Withdraw at account by loan code
 			accountDao.withdrawByLoan(loanCode);
 		}
 	}
 	
 	/**
-	 * ÇØ´ç È¸¿øÀÌ ÇØ´ç »óÇ°¿¡ ÅõÀÚÇß´ÂÁö ¿©ºÎ¸¦ È®ÀÎÇÏ´Â ¸Ş¼­µå
-	 * @param email ½Äº°ÇÒ È¸¿øÀÇ ÀÌ¸ŞÀÏ
-	 * @param loanCode ½Äº°ÇÒ »óÇ°ÀÇ ´ëÃâÄÚµå
-	 * @return ÅõÀÚÇßÀ¸¸é true, ¾Æ´Ï¸é false
+	 * í•´ë‹¹ íšŒì›ì´ í•´ë‹¹ ìƒí’ˆì— íˆ¬ìí–ˆëŠ”ì§€ ì—¬ë¶€ë¥¼ í™•ì¸í•˜ëŠ” ë©”ì„œë“œ
+	 * @param email ì‹ë³„í•  íšŒì›ì˜ ì´ë©”ì¼
+	 * @param loanCode ì‹ë³„í•  ìƒí’ˆì˜ ëŒ€ì¶œì½”ë“œ
+	 * @return íˆ¬ìí–ˆìœ¼ë©´ true, ì•„ë‹ˆë©´ false
 	 */
 	@Override
 	public boolean isInvested(String email, int loanCode) {
-		boolean isInvested = false;	// ÅõÇ¥¿©ºÎ¸¦ ÀúÀåÇÏ´Â ³í¸®Çü º¯¼ö
+		boolean isInvested = false;	// íˆ¬í‘œì—¬ë¶€ë¥¼ ì €ì¥í•˜ëŠ” ë…¼ë¦¬í˜• ë³€ìˆ˜
 		
-		// ÀÌ¸ŞÀÏ°ú ´ëÃâÄÚµå¸¦ ÀúÀåÇÒ ÇØ½¬¸Ê »ı¼º
+		// ì´ë©”ì¼ê³¼ ëŒ€ì¶œì½”ë“œë¥¼ ì €ì¥í•  í•´ì‰¬ë§µ ìƒì„±
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// ÀÌ¸ŞÀÏ°ú ´ëÃâÄÚµå¸¦ ÇØ½¬¸Ê¿¡ ´ã´Â´Ù.
+		// ì´ë©”ì¼ê³¼ ëŒ€ì¶œì½”ë“œë¥¼ í•´ì‰¬ë§µì— ë‹´ëŠ”ë‹¤.
 		map.put("email", email);
 		map.put("loanCode", loanCode);
 		
-		// ÇØ½¬¸ÊÀ» ÀÌ¿ëÇÏ¿© ÇØ´ç ´ëÃâ¿¡ ÇØ´ç ÅõÀÚÀÚ°¡ ÀÖ´ÂÁö È®ÀÎÇØ¼­ °¡Á®¿Â´Ù.
+		// í•´ì‰¬ë§µì„ ì´ìš©í•˜ì—¬ í•´ë‹¹ ëŒ€ì¶œì— í•´ë‹¹ íˆ¬ììê°€ ìˆëŠ”ì§€ í™•ì¸í•´ì„œ ê°€ì ¸ì˜¨ë‹¤.
 		ABCInvestDto invest = investDao.selectByEnL(map);
 		
-		// ¸¸¾à Äõ¸®°á°ú°¡ Á¸ÀçÇÏ¿© °´Ã¼°¡ ³ÎÀÌ ¾Æ´Ñ °æ¿ì¶ó¸é ÀÌ¹Ì ÅõÀÚÇß´Ù´Â °ÍÀÌ´Ù.
+		// ë§Œì•½ ì¿¼ë¦¬ê²°ê³¼ê°€ ì¡´ì¬í•˜ì—¬ ê°ì²´ê°€ ë„ì´ ì•„ë‹Œ ê²½ìš°ë¼ë©´ ì´ë¯¸ íˆ¬ìí–ˆë‹¤ëŠ” ê²ƒì´ë‹¤.
 		if(invest != null) isInvested = true;
 		
 		return isInvested;
 	}
 	
 	/**
-	 * È¸¿øÀÇ ÅõÀÚ³»¿ª ¸®½ºÆ® °¡Á®¿À±â
-	 * @param email È¸¿øÀÇ ÀÌ¸ŞÀÏ
+	 * íšŒì›ì˜ íˆ¬ìë‚´ì—­ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+	 * @param email íšŒì›ì˜ ì´ë©”ì¼
 	 */
 	@Override
 	public List<ABCInvestTransactionDto> getInvestTransaction(String email) {
@@ -176,9 +170,9 @@ public class ABCInvestServiceImpl implements ABCInvestService {
 	}
 	
 	/**
-	 * È¸¿øÀÇ ÅõÀÚ±İ ¸®½ºÆ® °¡Á®¿À±â
-	 * @param email È¸¿øÀÇ ÀÌ¸ŞÀÏ
-	 * @return ³»¸²Â÷¼øÀ¸·Î Á¤·ÄµÈ ÅõÀÚ ¸®½ºÆ®
+	 * íšŒì›ì˜ íˆ¬ìê¸ˆ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+	 * @param email íšŒì›ì˜ ì´ë©”ì¼
+	 * @return ë‚´ë¦¼ì°¨ìˆœìœ¼ë¡œ ì •ë ¬ëœ íˆ¬ì ë¦¬ìŠ¤íŠ¸
 	 */
 	@Override
 	public List<ABCInvestDto> getInvestMoneyList(String email) {
@@ -186,16 +180,16 @@ public class ABCInvestServiceImpl implements ABCInvestService {
 	}
 	
 	/**
-	 * È¸¿øÀÇ ÅõÀÚ ¸®½ºÆ® °¡Á®¿À±â 
-	 * @param email È¸¿øÀÇ ÀÌ¸ŞÀÏ
+	 * íšŒì›ì˜ íˆ¬ì ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸° 
+	 * @param email íšŒì›ì˜ ì´ë©”ì¼
 	 */
 	@Override
 	public List<ABCInvestDto> getInvestList(String email) {
 		return investDao.getInvestList(email);
 	}
 	
-	/** È¸¿øÀÇ ÅõÀÚ³»¿ª ¸®½ºÆ® °¡Á®¿À±â
-	 *	@param email È¸¿øÀÇ ÀÌ¸ŞÀÏ 
+	/** íšŒì›ì˜ íˆ¬ìë‚´ì—­ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+	 *	@param email íšŒì›ì˜ ì´ë©”ì¼ 
 	 */
 	@Override
 	public List<ABCInvestTransactionDto> getTransactionReserve(String email) {
