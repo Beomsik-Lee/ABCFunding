@@ -135,34 +135,35 @@ public class ABCInvestServiceImpl implements ABCInvestService {
 	}
 	
 	/**
-	 * 해당 회원이 해당 상품에 투자했는지 여부를 확인하는 메서드
-	 * @param email 식별할 회원의 이메일
-	 * @param loanCode 식별할 상품의 대출코드
-	 * @return 투자했으면 true, 아니면 false
+	 * Check member's investments
+	 * @param email A email
+	 * @param loanCode loan code
+	 * @return Return true if invested
 	 */
 	@Override
 	public boolean isInvested(String email, int loanCode) {
-		boolean isInvested = false;	// 투표여부를 저장하는 논리형 변수
+		// A variable that check if invested
+		boolean isInvested = false;
 		
-		// 이메일과 대출코드를 저장할 해쉬맵 생성
+		// A hash map to store email and loan code
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// 이메일과 대출코드를 해쉬맵에 담는다.
+		// put the email and loan code to map
 		map.put("email", email);
 		map.put("loanCode", loanCode);
 		
-		// 해쉬맵을 이용하여 해당 대출에 해당 투자자가 있는지 확인해서 가져온다.
+		// Check if already invested that loan
 		ABCInvestDto invest = investDao.selectByEnL(map);
 		
-		// 만약 쿼리결과가 존재하여 객체가 널이 아닌 경우라면 이미 투자했다는 것이다.
+		// If a DTO of investment is not null, then the investor has already invested the loan
 		if(invest != null) isInvested = true;
 		
 		return isInvested;
 	}
 	
 	/**
-	 * 회원의 투자내역 리스트 가져오기
-	 * @param email 회원의 이메일
+	 * Get list of investment detail
+	 * @param email A members's email
 	 */
 	@Override
 	public List<ABCInvestTransactionDto> getInvestTransaction(String email) {
@@ -170,9 +171,9 @@ public class ABCInvestServiceImpl implements ABCInvestService {
 	}
 	
 	/**
-	 * 회원의 투자금 리스트 가져오기
-	 * @param email 회원의 이메일
-	 * @return 내림차순으로 정렬된 투자 리스트
+	 * Get list of amount of investments
+	 * @param email A member's email
+	 * @return Return list of investment sorted by descend
 	 */
 	@Override
 	public List<ABCInvestDto> getInvestMoneyList(String email) {
@@ -180,16 +181,16 @@ public class ABCInvestServiceImpl implements ABCInvestService {
 	}
 	
 	/**
-	 * 회원의 투자 리스트 가져오기 
-	 * @param email 회원의 이메일
+	 * Get list of investments
+	 * @param email A member's email
 	 */
 	@Override
 	public List<ABCInvestDto> getInvestList(String email) {
 		return investDao.getInvestList(email);
 	}
 	
-	/** 회원의 투자내역 리스트 가져오기
-	 *	@param email 회원의 이메일 
+	/** Get list of investment detail
+	 *	@param email A member's email
 	 */
 	@Override
 	public List<ABCInvestTransactionDto> getTransactionReserve(String email) {
