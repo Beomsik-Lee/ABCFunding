@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.hk.abcfund.model.service;
 
 import java.util.List;
@@ -9,7 +6,7 @@ import com.hk.abcfund.model.dto.ABCLoanDto;
 import com.hk.abcfund.model.dto.ABCLoanTransactionDto;
 
 /**
- * 대출신청에 대한 서비스 인터페이스
+ * Service interface for loan
  * @author 9age
  *
  */

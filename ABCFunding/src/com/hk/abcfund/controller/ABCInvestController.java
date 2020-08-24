@@ -122,41 +122,42 @@ public class ABCInvestController {
 	
 	/**
 	 * 투자신청 화면으로 이동하는 메서드
-	 * @param model 제목 설정
-	 * @param request 세션을 불러올 객체
-	 * @param loanCode 대출코드
-	 * @return 투자신청 페이지의 타일즈명
+	 * Go to investing page
+	 * @param model To set title
+	 * @param request To get session
+	 * @param loanCode A loan code
+	 * @return tiles name of doing invest page
 	 */
 	@RequestMapping(value="doInvest.do", method=RequestMethod.GET)
 	public String doInvest(Model model, HttpServletRequest request, int loanCode) {
-		model.addAttribute("title", "투자신청 :: "+MAIN_TITLE);
+		model.addAttribute("title", "Investment Application :: "+MAIN_TITLE);
 		
-		// 이메일로 계좌데이터 가져오기
+		// Get account data by email
 		ABCMemberDto member = (ABCMemberDto)request.getSession().getAttribute("login");
 		ABCAccountDto account = accountService.getAccount(member.getEmail());
 		
-		/* 투자가능금액 계산 */
+		/* Calculate if invest available */
 		ABCLoanDto loan = loanService.getLoan(loanCode);
 		int balance = account.getBalance();
 		int investable = 0;
 		
-		// 예치금이 있을 경우
+		// If account has balance
 		if(balance > 0) {
-			// 최대 투자금액
+			// Get max investments
 			int max = (int)(loan.getLoanMoney() * 0.2);
 			
-			// 남은 투자가능 금액
+			// Get difference between loan and current balance
 			int diff = loan.getLoanMoney() - loan.getCurrentMoney();
 			
-			// 남은 투자가능 금액 확인
+			// Check investable
 			investable = (diff < max) ? diff : max;
 			
-			// 최대 투자금액 확인
+			// Check max investments
 			if(balance < investable)
 				investable = balance;
 		}
 		
-		// 모델에 담기
+		// Add to model
 		model.addAttribute("account", account);
 		model.addAttribute("loan", loan);
 		model.addAttribute("investable", investable);

@@ -25,202 +25,217 @@ import com.hk.abcfund.model.dto.ABCLoanTransactionDto;
 import com.hk.abcfund.util.ABCUtility;
 
 /**
- * ´ëÃâ ½ÅÃ»¿¡ ´ëÇÑ ¼­ºñ½º Å¬·¡½º
+ * Service controller for loan
  * @author 9age
  *
  */
 @Service
 public class ABCLoanServiceImpl implements ABCLoanService {
-	/** slf4j ·Î±ë */
+	/** slf4j Logger */
 	private static final Logger logger = LoggerFactory
 			.getLogger(ABCLoanServiceImpl.class);
 
-	/** ´ëÃâ½ÅÃ» DAO */
+	/** DAO of loan */
 	@Autowired
 	private ABCLoanDao ldao;
 	
-	/** È¸¿ø DAO */
+	/** DAO of member */
 	@Autowired
 	private ABCMemberDao memberDao;
 	
-	/** ÅõÀÚ DAO */
+	/** DAO of investment */
 	@Autowired
 	private ABCInvestDao investDao;
 	
-	/** ½É»ç DAO */
+	/** DAO of administrator */
 	@Autowired
 	private ABCAdminDao adminDao;
 	
-	/** °èÁÂ DAO */
+	/** DAO of account */
 	@Autowired
 	private ABCAccountDao accountDao;
 	
-	/** ´ëÃâ³»¿ª DAO */
+	/** DAO of loan detail */
 	@Autowired
 	private ABCLoanTransactionDao loanTranDao;
 	
-	/** ÅõÀÚ³»¿ª DAO */
+	/** DAO of investment detail */
 	@Autowired
 	private ABCInvestTransactionDao investTranDao;
 	
 	/**
-	 * ´ëÃâ ½ÅÃ» µî·Ï ¸Ş¼­µå
-	 * @param ldto ´ëÃâ ½ÅÃ» Á¤º¸¸¦ ´ãÀº °´Ã¼
+	 * Accept application of loan
+	 * @param ldto A DTO of loan data
 	 */
 	@Override
 	@Transactional
 	public void addLoan(ABCLoanDto ldto) {
-		// ´ëÃâ ½ÅÃ» Á¤º¸ µî·Ï
+		// Add loan by DAO
 		ldao.addLoan(ldto);
 		
-		// ½ÅÃ»ÀÚÀÇ ´ëÃâ°Ç¼ö Áõ°¡
+		// Increase count of loan by email
 		memberDao.incLoan(ldto.getEmail());
 		
-		// ´ëÃâ ½ÅÃ» Á¤º¸ µî·Ï ÈÄ ´ëÃâÄÚµå¸¦ ¹Ş¾Æ¿Í ½É»ç Å×ÀÌºí¿¡ ½É»ç´ë±â°ÇÀ¸·Î µî·Ï
+		// Get loan code and add to examination
 		int lcode = ldao.getLoanCode();
 		ldao.addJudge(lcode);
 		
 	}
 
+	/**
+	 * Get list of loans
+	 * @return A list of loan DTO
+	 */
 	@Override
 	public List<ABCLoanDto> getLoanList() {
 		return ldao.getLoanList();
 	}
-
+	
+	/**
+	 * Get a loan by loan code
+	 * @return A DTO of loan
+	 */
 	@Override
 	public ABCLoanDto getLoan(int loanCode) {
 		return ldao.getLoan(loanCode);
 	}
 
+	/**
+	 * Get all list of loans by email
+	 * @return A list of loan DTO 
+	 */
 	@Override
 	public List<ABCLoanDto> getLoanListAll(String email) {
 		return ldao.getLoanListAll(email);
 	}
 	
 	/**
-	 * ´ëÃâÃë¼ÒÇÏ´Â ¸Ş¼­µå.
-	 * ¹Ì½ÂÀÎ ´ëÃâÀº °ü·Ã µ¥ÀÌÅÍ¿Í ÇÔ²² ¹Ù·Î »èÁ¦ÇÏ°í
-	 * ÆİµùÁøÇàÁßÀÎ ´ëÃâÀº ÅõÀÚ±İÀ» È¯±ŞÇÏ°í »èÁ¦ÇÑ´Ù.
-	 * @param loanCode Ãë¼ÒÇÒ ´ëÃâÀÇ ´ëÃâÄÚµå
+	 * Cancel the loan.
+	 * Non-approval loan will delete immediately
+	 * and loan funding repay the investments and deleted
+	 * @param loanCode A loan code
 	 */
 	@Override
 	@Transactional
 	public void loanCancel(int loanCode) {
-		// 1. ÅõÀÚ±İ È¯±Ş
-		// ÇØ´ç ´ëÃâÄÚµå¸¦ °¡Áø ÅõÀÚ¸®½ºÆ® °¡Á®¿À±â
+		// 1. Repay the investments
+		// Get list of investment by loan code
 		List<ABCInvestDto> list = investDao.getInvestListByLoan(loanCode);
 		
-		/* 
-		 * ÅõÀÚÀÚ°¡ ÀÖ´Â °æ¿ì¿¡¸¸ ¼öÇà
-		 * ÅõÀÚ¸®½ºÆ®·Î °èÁÂÀÜ¾× º¯°æ ¹× ÅõÀÚ µ¥ÀÌÅÍ »èÁ¦
-		 */
+		// If the loan has investor, then repay and delete the loan
 		if(!list.isEmpty()) {
 			accountDao.updateForPayback(list);
 			investDao.deleteByLoan(loanCode);
 		}
 		
-		// 2. ÇØ´ç ´ëÃâÀÇ °¡»ó°èÁÂ »èÁ¦
+		// 2. Delete the account by loan code
 		accountDao.deleteByLoan(loanCode);
 		
-		// 3. ÇØ´ç ´ëÃâÀÇ ½É»çµ¥ÀÌÅÍ »èÁ¦
+		// 3. Delete the examination by loan code
 		adminDao.deleteJudgeByLoan(loanCode);
 		
-		// 4. ÇØ´ç ´ëÃâµ¥ÀÌÅÍ »èÁ¦
+		// 4. Delete the loan by loan code
 		ldao.deleteLoan(loanCode);
 	}
 	
 	/**
-	 * ´ëÃâ½ÅÃ»ÀÚ°¡ »óÈ¯Çß´ÂÁö ¸ÅºĞ È®ÀÎÇÏ¿© »óÈ¯ÀÛ¾÷À» ¼öÇàÇÏ´Â ¸Ş¼­µå
+	 * Check the repayments for every minutes and processing the repayments.
+	 * This method uses for batch too.
 	 */
 	@Override
 	@Transactional
 	@Scheduled(cron="0 0/1 * 1,5,10,15,20,25 * ?")
 	//@Scheduled(cron="0/10 * * * * ?")
 	public void checkRepay() {
-		// 1. ´ëÃâ ¸®½ºÆ® °¡Á®¿À±â
+		// 1. Get list of loan
 		List<ABCLoanDto> loanList = ldao.getLoanList();
-		logger.info("´ëÃâ¸®½ºÆ®:\n"+loanList.toString());
+		logger.info("List of loan:\n"+loanList.toString());
 		
-		// 2. »óÈ¯ÀÏ È®ÀÎ
+		// 2. Check date of repayments
 		for(ABCLoanDto loan : loanList){
-			// »óÈ¯ÀÏÀÌ°í ¾ÆÁ÷ »óÈ¯¿Ï·á°¡ µÇÁö ¾ÊÀº ´ëÃâÀÎ °æ¿ì »óÈ¯ÀÛ¾÷ ¼öÇà
+			
+			// If date of repayments is today and still repaying, then do the process of repayments
 			if(ABCUtility.isSameDate(loan.getRequestDate()) &&
-					!loan.getProgress().equals("»óÈ¯¿Ï·á")){
-				logger.info("ÁøÇàÁßÀÎ ´ëÃâ: " + loan);
+					!loan.getProgress().equals("ìƒí™˜ì™„ë£Œ")){
+				logger.info("Loan progressing: " + loan);
 				
-				// ÇÊ¿äÇÑ °ªÀ» ´ãÀ» ¸Ê »ı¼º
+				// Create hash map
 				Map<String, Object>map = new HashMap<String, Object>();
 				
-				// »óÈ¯±İ ±¸ÇÏ±â
+				// Get repayments
 				int monthlyPay = ABCUtility.getRepayMoney(
-					loan.getLoanMoney(), loan.getLoanDate(),loan.getInterestRate()/100.0);
-				logger.info("»óÈ¯±İ: " + monthlyPay);
+					loan.getLoanMoney(),
+					loan.getLoanDate(),
+					loan.getInterestRate() / 100.0
+				);
+				logger.info("Repayments: " + monthlyPay);
 				
-				// ´ëÃâ½ÅÃ»ÀÚÀÇ ÀÜ¾×È®ÀÎ
+				// Check balance of loan applicant
 				int balanceOfLoan = accountDao.getBalance(loan.getEmail());
-				logger.info("´ëÃâ½ÅÃ»ÀÚÀÇ ÀÜ¾×: " + balanceOfLoan);
+				logger.info("Balance of loan applicant : " + balanceOfLoan);
 				
-				// ÀÜ¾×ÀÌ ºÎÁ·ÇÑ °æ¿ì
+				// If balance is lack, then skip this loan
 				if(balanceOfLoan <= 0){
-					logger.info("ÀÜ¾×ºÎÁ·À¸·Î »óÈ¯ ½ºÅµ");
+					logger.info("Skip for lack of balance");
 					continue;
 				}
 				
-				// ´ëÃâ½ÅÃ»ÀÚÀÇ »óÈ¯±İÀ» ´ëÃâ»óÇ°ÀÇ °èÁÂ·Î ÀÌÃ¼
+				// Withdraw repayments of loan applicant to a loan  
 				map.put("email", loan.getEmail());
 				map.put("investMoney", monthlyPay);
 				accountDao.withdraw(map);
-				logger.info("´ëÃâ½ÅÃ»ÀÚÀÇ »óÈ¯±İ Ãâ±İ¿Ï·á");
+				logger.info("Withdraw of repayments of loan applicant has complete");
 				
-				// ´ëÃâ »óÇ°¿¡ ÀÔ±İ
+				// Deposit to the loan
 				map.put("loanCode", loan.getLoanCode());
 				map.put("investMoney", monthlyPay);
 				accountDao.deposit(map);
-				logger.info("´ëÃâ»óÇ°ÀÇ °èÁÂ·Î ÀÔ±İ ¿Ï·á");
+				logger.info("Deposit to the loan has complete");
 				
-				// ´ëÃâ»óÇ°ÀÇ °èÁÂ¿¡¼­ ÅõÀÚÀÚ ¹× °ü¸®ÀÚ¿¡°Ô »óÈ¯
-				// ÇØ´ç ´ëÃâÀÇ ÅõÀÚÀÚ ¸®½ºÆ® ¾ò¾î¿À±â
+				// ëŒ€ì¶œìƒí’ˆì˜ ê³„ì¢Œì—ì„œ íˆ¬ìì ë° ê´€ë¦¬ìì—ê²Œ ìƒí™˜
+				// í•´ë‹¹ ëŒ€ì¶œì˜ íˆ¬ìì ë¦¬ìŠ¤íŠ¸ ì–»ì–´ì˜¤ê¸°
+				// 
 				List<ABCInvestDto> investList = 
 						investDao.getInvestListByLoan(loan.getLoanCode());
 				
-				// ÅõÀÚÀÚ¿¡°Ô »óÈ¯
+				// íˆ¬ììì—ê²Œ ìƒí™˜
 				int totalRepay = monthlyPay;
 				for(ABCInvestDto invest : investList){
-					// ÇØ´ç ÅõÀÚÀÚ¿¡°Ô »óÈ¯ÇØ¾ß ÇÒ ±İ¾×
+					// í•´ë‹¹ íˆ¬ììì—ê²Œ ìƒí™˜í•´ì•¼ í•  ê¸ˆì•¡
 					int repayMoney = ABCUtility.getRepayMoney(
 							invest.getInvestMoney(), loan.getLoanDate(),0.06);
-					logger.info("ÅõÀÚÀÚ »óÈ¯±İ: " + repayMoney);
+					logger.info("íˆ¬ìì ìƒí™˜ê¸ˆ: " + repayMoney);
 					
-					// ´ëÃâ°èÁÂÀÇ ¿¹Ä¡±İ Â÷°¨
-					if(totalRepay <= 0) break;	// »óÈ¯±İ¾×ÀÌ ºÎÁ·ÇÑ °æ¿ì 
+					// ëŒ€ì¶œê³„ì¢Œì˜ ì˜ˆì¹˜ê¸ˆ ì°¨ê°
+					if(totalRepay <= 0) break;	// ìƒí™˜ê¸ˆì•¡ì´ ë¶€ì¡±í•œ ê²½ìš° 
 					map.put("loanCode", loan.getLoanCode());
 					map.put("money", repayMoney);
 					accountDao.withdrawForInvest(map);
 					totalRepay -= repayMoney;
-					logger.info("³²Àº ¿¹Ä¡±İ: " + totalRepay);
+					logger.info("ë‚¨ì€ ì˜ˆì¹˜ê¸ˆ: " + totalRepay);
 					
-					// ÅõÀÚÀÚÀÇ °èÁÂ¿¡ ÀÔ±İ
+					// íˆ¬ììì˜ ê³„ì¢Œì— ì…ê¸ˆ
 					map.put("email", invest.getEmail());
 					map.put("money", repayMoney);
 					accountDao.depositForRepay(map);
 				}
-				logger.info("ÅõÀÚÀÚÀÇ ÀÔ±İ¿Ï·á");
+				logger.info("íˆ¬ììì˜ ì…ê¸ˆì™„ë£Œ");
 				
-				// °ü¸®ÀÚ¿¡°Ô »óÈ¯
+				// ê´€ë¦¬ìì—ê²Œ ìƒí™˜
 				accountDao.depositForAdmin(totalRepay);
-				logger.info("°ü¸®ÀÚ ÀÔ±İ ¿Ï·á:" + totalRepay);
+				logger.info("ê´€ë¦¬ì ì…ê¸ˆ ì™„ë£Œ:" + totalRepay);
 				
-				// ÇØ´ç ´ëÃâÀÇ È¸Â÷ ¼ö Áõ°¡
+				// í•´ë‹¹ ëŒ€ì¶œì˜ íšŒì°¨ ìˆ˜ ì¦ê°€
 				loan.setRound(loan.getRound()+1);
 				ldao.updateRound(loan);
-				logger.info("´ëÃâÀÇ È¸Â÷ ¼ö Áõ°¡¿Ï·á");
+				logger.info("ëŒ€ì¶œì˜ íšŒì°¨ ìˆ˜ ì¦ê°€ì™„ë£Œ");
 				
 				
-				/* ´ëÃâ½ÅÃ»ÀÚÀÇ ´ëÃâ³»¿ª Ãß°¡ÇÏ±â */
-				// ÃÖ±Ù ´ëÃâ³»¿ª °¡Á®¿À±â
+				/* ëŒ€ì¶œì‹ ì²­ìì˜ ëŒ€ì¶œë‚´ì—­ ì¶”ê°€í•˜ê¸° */
+				// ìµœê·¼ ëŒ€ì¶œë‚´ì—­ ê°€ì ¸ì˜¤ê¸°
 				ABCLoanTransactionDto preLoanTran = 
 					loanTranDao.getRecentTransaction(loan.getLoanCode());
-				logger.info("ÃÖ±Ù ´ëÃâ³»¿ª: " + preLoanTran);
+				logger.info("ìµœê·¼ ëŒ€ì¶œë‚´ì—­: " + preLoanTran);
 				
 				int stackRepayRate = 0;
 				int stackRepayOrigin = 0;
@@ -228,23 +243,23 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 				float interestRate = loan.getInterestRate() / 100F;
 				int balance = 0;
 				
-				// ´©Àû»óÈ¯¿ø±İ ¹× ´©Àû»óÈ¯ÀÌÀÚ±İ ±¸ÇÏ±â
-				// Ã¹ »óÈ¯³»¿ªÀÎ °æ¿ì(nullÀÎ °æ¿ì)
+				// ëˆ„ì ìƒí™˜ì›ê¸ˆ ë° ëˆ„ì ìƒí™˜ì´ìê¸ˆ êµ¬í•˜ê¸°
+				// ì²« ìƒí™˜ë‚´ì—­ì¸ ê²½ìš°(nullì¸ ê²½ìš°)
 				if(preLoanTran == null) {
-					logger.info("Ã¹ »óÈ¯³»¿ªÀÔ´Ï´Ù.");
+					logger.info("ì²« ìƒí™˜ë‚´ì—­ì…ë‹ˆë‹¤.");
 					
-					// ÁøÇà»óÈ²À» »óÈ¯ÁßÀ¸·Î º¯°æ
-					loan.setProgress("»óÈ¯Áß");
+					// ì§„í–‰ìƒí™©ì„ ìƒí™˜ì¤‘ìœ¼ë¡œ ë³€ê²½
+					loan.setProgress("ìƒí™˜ì¤‘");
 					ldao.updateProgress(loan);
-					logger.info("ÁøÇà»óÈ²À» »óÈ¯ÁßÀ¸·Î º¯°æ¿Ï·á");
+					logger.info("ì§„í–‰ìƒí™©ì„ ìƒí™˜ì¤‘ìœ¼ë¡œ ë³€ê²½ì™„ë£Œ");
 					
-					// ´©Àû±İ °è»ê
+					// ëˆ„ì ê¸ˆ ê³„ì‚°
 					stackRepayRate = (int)(ABCUtility.getInterest(loan.getLoanMoney(), interestRate));
 					stackRepayOrigin = monthlyPay - stackRepayRate;
-					logger.info("»óÈ¯ÀÌÀÚ±İ: " + stackRepayRate);
-					logger.info("»óÈ¯¿ø±İ: " + stackRepayOrigin);
-				} else{ // ÀÌÀü ³»¿ªÀ» Âü°íÇÏ¿© ´©Àû
-					// ÀÜ±İ±¸ÇÏ±â
+					logger.info("ìƒí™˜ì´ìê¸ˆ: " + stackRepayRate);
+					logger.info("ìƒí™˜ì›ê¸ˆ: " + stackRepayOrigin);
+				} else{ // ì´ì „ ë‚´ì—­ì„ ì°¸ê³ í•˜ì—¬ ëˆ„ì 
+					// ì”ê¸ˆêµ¬í•˜ê¸°
 					balance = loan.getLoanMoney() - preLoanTran.getStackRepayOrigin();
 					stackRepayRate = (int)Math.round(ABCUtility.getInterest(balance, interestRate));
 					stackRepayOrigin = (int)Math.round(
@@ -252,43 +267,43 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 																loan.getLoanDate(), 
 																interestRate)
 									- ABCUtility.getInterest(balance, interestRate));
-					logger.info("»óÈ¯ÀÌÀÚ±İ: " + stackRepayRate);
-					logger.info("»óÈ¯¿ø±İ: " + stackRepayOrigin);
+					logger.info("ìƒí™˜ì´ìê¸ˆ: " + stackRepayRate);
+					logger.info("ìƒí™˜ì›ê¸ˆ: " + stackRepayOrigin);
 					
-					// ´©Àû±İ °è»ê
+					// ëˆ„ì ê¸ˆ ê³„ì‚°
 					stackRepayRate += preLoanTran.getStackRepayRate();
 					stackRepayOrigin += preLoanTran.getStackRepayOrigin();
 					
-					logger.info("´©Àû»óÈ¯ÀÌÀÚ±İ: " + stackRepayRate);
-					logger.info("´©Àû»óÈ¯¿ø±İ: " + stackRepayOrigin);
-					logger.info("´ëÃâ³»¿ª »ı¼º Áß ÀÜ±İ: " + balance);
+					logger.info("ëˆ„ì ìƒí™˜ì´ìê¸ˆ: " + stackRepayRate);
+					logger.info("ëˆ„ì ìƒí™˜ì›ê¸ˆ: " + stackRepayOrigin);
+					logger.info("ëŒ€ì¶œë‚´ì—­ ìƒì„± ì¤‘ ì”ê¸ˆ: " + balance);
 				}
 				
-				// È¸¼öÀ² ±¸ÇÏ±â
+				// íšŒìˆ˜ìœ¨ êµ¬í•˜ê¸°
 				collectRate = (int)((double)stackRepayOrigin / loan.getLoanMoney() * 100);
-				logger.info("È¸¼öÀ²: " + collectRate);
+				logger.info("íšŒìˆ˜ìœ¨: " + collectRate);
 				
-				// »óÈ¯¿Ï·áÀÎÁö È®ÀÎ
-				// ¿Ï·áÀÌ¸é ÁøÇà»óÈ²À» »óÈ¯¿Ï·á·Î º¯°æ ¹× ÇØ´ç »óÇ°ÀÇ °èÁÂ »èÁ¦
+				// ìƒí™˜ì™„ë£Œì¸ì§€ í™•ì¸
+				// ì™„ë£Œì´ë©´ ì§„í–‰ìƒí™©ì„ ìƒí™˜ì™„ë£Œë¡œ ë³€ê²½ ë° í•´ë‹¹ ìƒí’ˆì˜ ê³„ì¢Œ ì‚­ì œ
 				if(stackRepayOrigin >= loan.getLoanMoney()){
-					loan.setProgress("»óÈ¯¿Ï·á");
+					loan.setProgress("ìƒí™˜ì™„ë£Œ");
 					ldao.updateProgress(loan);
 					accountDao.deleteByLoan(loan.getLoanCode());
-					logger.info("##»óÈ¯¿Ï·áÀÛ¾÷ ¿Ï·á##");
-				} else{ // ¿Ï·á°¡ ¾Æ´Ï¸é ´ÙÀ½ ´Ş »óÈ¯ÀÏ Àâ±â. ´ëÃâ±â°£À» ÃÊ°úÇÑ °æ¿ì ¿¬Àå
+					logger.info("##ìƒí™˜ì™„ë£Œì‘ì—… ì™„ë£Œ##");
+				} else{ // ì™„ë£Œê°€ ì•„ë‹ˆë©´ ë‹¤ìŒ ë‹¬ ìƒí™˜ì¼ ì¡ê¸°. ëŒ€ì¶œê¸°ê°„ì„ ì´ˆê³¼í•œ ê²½ìš° ì—°ì¥
 					String requestDate = ABCUtility.calcRepayDate(loan.getRepay());
 					loan.setRequestDate(requestDate);
-					if(loan.getRound() >= loan.getLoanDate()){ // È¸Â÷ ¼ö°¡ ´ëÃâ±â°£º¸´Ù Å« °æ¿ì 
-						// ´ëÃâ±â°£ ¿¬Àå
+					if(loan.getRound() >= loan.getLoanDate()){ // íšŒì°¨ ìˆ˜ê°€ ëŒ€ì¶œê¸°ê°„ë³´ë‹¤ í° ê²½ìš° 
+						// ëŒ€ì¶œê¸°ê°„ ì—°ì¥
 						loan.setLoanDate(loan.getLoanDate()+1);
 						ldao.extendLoanDate(loan);
-						logger.info("´ëÃâ±â°£ ¿¬Àå ¿Ï·á");
+						logger.info("ëŒ€ì¶œê¸°ê°„ ì—°ì¥ ì™„ë£Œ");
 					}
 					ldao.nextRepayDate(loan);
-					logger.info("´ÙÀ½ ´Ş »óÈ¯ÀÏ Àâ±â ¿Ï·á:"+requestDate);
+					logger.info("ë‹¤ìŒ ë‹¬ ìƒí™˜ì¼ ì¡ê¸° ì™„ë£Œ:"+requestDate);
 				}
 								
-				// ´ëÃâ³»¿ª °´Ã¼ »ı¼º
+				// ëŒ€ì¶œë‚´ì—­ ê°ì²´ ìƒì„±
 				ABCLoanTransactionDto loanTran = 
 					new ABCLoanTransactionDto(
 						0,					// loanSeq
@@ -300,34 +315,34 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 						loan.getRound()		// round
 					);
 				
-				// ´ëÃâ³»¿ª Ãß°¡
+				// ëŒ€ì¶œë‚´ì—­ ì¶”ê°€
 				loanTranDao.addTransaction(loanTran);
-				logger.info("´ëÃâ³»¿ª Ãß°¡µÊ:" + loanTranDao.getRecentTransaction(loan.getLoanCode()));
+				logger.info("ëŒ€ì¶œë‚´ì—­ ì¶”ê°€ë¨:" + loanTranDao.getRecentTransaction(loan.getLoanCode()));
 				
 				
-				/* ´ëÃâÅõÀÚÀÚµéÀÇ ÅõÀÚ³»¿ª Ãß°¡	 */
+				/* ëŒ€ì¶œíˆ¬ììë“¤ì˜ íˆ¬ìë‚´ì—­ ì¶”ê°€	 */
 				for(ABCInvestDto invest : investList){
-					// ÃÖ±Ù ÅõÀÚ³»¿ª °¡Á®¿À±â
+					// ìµœê·¼ íˆ¬ìë‚´ì—­ ê°€ì ¸ì˜¤ê¸°
 					ABCInvestTransactionDto preInvestTran = 
 						investTranDao.getRecentTransaction(invest.getInvestSeq());
-					logger.info("ÃÖ±Ù ÅõÀÚ³»¿ª: " + preInvestTran);
+					logger.info("ìµœê·¼ íˆ¬ìë‚´ì—­: " + preInvestTran);
 					
-					// ±İ¾× °è»êÇÒ º¯¼ö ÃÊ±âÈ­
+					// ê¸ˆì•¡ ê³„ì‚°í•  ë³€ìˆ˜ ì´ˆê¸°í™”
 					interestRate = 0.06F;
-					int intendProfit = 0; // ¿¹Á¤¼öÀÍ±İ=>ÀÌÀÚ
-					int stackCollect = 0; // ´©Àû È¸¼ö±İ
+					int intendProfit = 0; // ì˜ˆì •ìˆ˜ìµê¸ˆ=>ì´ì
+					int stackCollect = 0; // ëˆ„ì  íšŒìˆ˜ê¸ˆ
 					int origMoney = ABCUtility.getRepayMoney(
 							invest.getInvestMoney(), loan.getLoanDate(), interestRate);
-					logger.info("ÅõÀÚ±İ¿¡ µû¸¥ »óÈ¯±İ: " + origMoney);
+					logger.info("íˆ¬ìê¸ˆì— ë”°ë¥¸ ìƒí™˜ê¸ˆ: " + origMoney);
 					
-					// Ã¹ »óÈ¯ÀÎ °æ¿ì(nullÀÎ °æ¿ì)
+					// ì²« ìƒí™˜ì¸ ê²½ìš°(nullì¸ ê²½ìš°)
 					if(preInvestTran == null){
-						logger.info("Ã¹ »óÈ¯³»¿ªÀÔ´Ï´Ù.");
+						logger.info("ì²« ìƒí™˜ë‚´ì—­ì…ë‹ˆë‹¤.");
 						
 						intendProfit = (int)ABCUtility.getInterest(invest.getInvestMoney(), interestRate);
 						stackCollect = origMoney - intendProfit;
-						logger.info("¿¹Á¤¼öÀÍ±İ: " + intendProfit);
-						logger.info("È¸¼ö±İ: " + stackCollect);
+						logger.info("ì˜ˆì •ìˆ˜ìµê¸ˆ: " + intendProfit);
+						logger.info("íšŒìˆ˜ê¸ˆ: " + stackCollect);
 					} else{
 						balance = invest.getInvestMoney() - preInvestTran.getStackCollect();
 						intendProfit = (int)Math.round(ABCUtility.getInterest(balance, interestRate));
@@ -337,15 +352,15 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 																	interestRate)
 								- ABCUtility.getInterest(balance, interestRate)
 								);
-						logger.info("¿¹Á¤¼öÀÍ±İ: " + intendProfit);
-						logger.info("È¸¼ö±İ: " + stackCollect);
+						logger.info("ì˜ˆì •ìˆ˜ìµê¸ˆ: " + intendProfit);
+						logger.info("íšŒìˆ˜ê¸ˆ: " + stackCollect);
 						
-						// È¸¼ö±İ ´©Àû
+						// íšŒìˆ˜ê¸ˆ ëˆ„ì 
 						stackCollect += preInvestTran.getStackCollect();
-						logger.info("´©ÀûÈ¸¼ö±İ: " + stackCollect);
+						logger.info("ëˆ„ì íšŒìˆ˜ê¸ˆ: " + stackCollect);
 					}
 					
-					// ÅõÀÚ³»¿ª »ı¼º ¹× µî·Ï
+					// íˆ¬ìë‚´ì—­ ìƒì„± ë° ë“±ë¡
 					ABCInvestTransactionDto investTran = 
 						new ABCInvestTransactionDto(
 							0,						// investTransactionSeq
@@ -357,11 +372,11 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 							loan.getRound()			// round
 						);
 					investTranDao.addTransaction(investTran);
-					logger.info("ÅõÀÚ³»¿ª Ãß°¡µÊ: " + investTranDao.getRecentTransaction(invest.getInvestSeq()));
+					logger.info("íˆ¬ìë‚´ì—­ ì¶”ê°€ë¨: " + investTranDao.getRecentTransaction(invest.getInvestSeq()));
 				}
 				logger.info("#####################################################################################################");
-			} // if¹®
-		} // for¹®
+			} // ifë¬¸
+		} // forë¬¸
 	}
 
 	@Override
