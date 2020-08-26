@@ -192,50 +192,49 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 				accountDao.deposit(map);
 				logger.info("Deposit to the loan has complete");
 				
-				// 대출상품의 계좌에서 투자자 및 관리자에게 상환
-				// 해당 대출의 투자자 리스트 얻어오기
-				// 
+				// Repay from account of loans to investor and administrator
+				// Get list of investment
 				List<ABCInvestDto> investList = 
 						investDao.getInvestListByLoan(loan.getLoanCode());
 				
-				// 투자자에게 상환
+				// Repay to investor
 				int totalRepay = monthlyPay;
 				for(ABCInvestDto invest : investList){
-					// 해당 투자자에게 상환해야 할 금액
+					// Amount of repayments for investor
 					int repayMoney = ABCUtility.getRepayMoney(
-							invest.getInvestMoney(), loan.getLoanDate(),0.06);
-					logger.info("투자자 상환금: " + repayMoney);
+							invest.getInvestMoney(), loan.getLoanDate(), 0.06);
+					logger.info("Repayments: " + repayMoney);
 					
-					// 대출계좌의 예치금 차감
-					if(totalRepay <= 0) break;	// 상환금액이 부족한 경우 
+					// Withdraw for investor
+					if(totalRepay <= 0) break;	// If repayments lack, then skip this loan
 					map.put("loanCode", loan.getLoanCode());
 					map.put("money", repayMoney);
 					accountDao.withdrawForInvest(map);
 					totalRepay -= repayMoney;
-					logger.info("남은 예치금: " + totalRepay);
+					logger.info("To repayments: " + totalRepay);
 					
-					// 투자자의 계좌에 입금
+					// Deposit the repayments to investor
 					map.put("email", invest.getEmail());
 					map.put("money", repayMoney);
 					accountDao.depositForRepay(map);
 				}
-				logger.info("투자자의 입금완료");
+				logger.info("Deposit to investor has completed");
 				
-				// 관리자에게 상환
+				// Repay to administrator
 				accountDao.depositForAdmin(totalRepay);
-				logger.info("관리자 입금 완료:" + totalRepay);
+				logger.info("Deposit to administrator has completed:" + totalRepay);
 				
-				// 해당 대출의 회차 수 증가
-				loan.setRound(loan.getRound()+1);
+				// Increase the rounds of the loan 
+				loan.setRound(loan.getRound() + 1);
 				ldao.updateRound(loan);
-				logger.info("대출의 회차 수 증가완료");
+				logger.info("Increase the rounds of the loan has completed");
 				
 				
-				/* 대출신청자의 대출내역 추가하기 */
-				// 최근 대출내역 가져오기
+				/* Add the loan detail */
+				// Get recent detail of loan
 				ABCLoanTransactionDto preLoanTran = 
 					loanTranDao.getRecentTransaction(loan.getLoanCode());
-				logger.info("최근 대출내역: " + preLoanTran);
+				logger.info("Recent detail of loan: " + preLoanTran);
 				
 				int stackRepayRate = 0;
 				int stackRepayOrigin = 0;
@@ -243,23 +242,23 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 				float interestRate = loan.getInterestRate() / 100F;
 				int balance = 0;
 				
-				// 누적상환원금 및 누적상환이자금 구하기
-				// 첫 상환내역인 경우(null인 경우)
+				// Get stack repayments and stack interest
+				// If first repay(detail is null)
 				if(preLoanTran == null) {
-					logger.info("첫 상환내역입니다.");
+					logger.info("It's first repayments");
 					
-					// 진행상황을 상환중으로 변경
+					// Change progression to repaying
 					loan.setProgress("상환중");
 					ldao.updateProgress(loan);
-					logger.info("진행상황을 상환중으로 변경완료");
+					logger.info("Changed the progression to repaying");
 					
-					// 누적금 계산
+					// Calculate the stack repayments
 					stackRepayRate = (int)(ABCUtility.getInterest(loan.getLoanMoney(), interestRate));
 					stackRepayOrigin = monthlyPay - stackRepayRate;
-					logger.info("상환이자금: " + stackRepayRate);
-					logger.info("상환원금: " + stackRepayOrigin);
-				} else{ // 이전 내역을 참고하여 누적
-					// 잔금구하기
+					logger.info("Stack interest: " + stackRepayRate);
+					logger.info("Stack repayments: " + stackRepayOrigin);
+				} else{ // Stack repayments from loan detail
+					// Calculate the balance
 					balance = loan.getLoanMoney() - preLoanTran.getStackRepayOrigin();
 					stackRepayRate = (int)Math.round(ABCUtility.getInterest(balance, interestRate));
 					stackRepayOrigin = (int)Math.round(
@@ -267,43 +266,45 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 																loan.getLoanDate(), 
 																interestRate)
 									- ABCUtility.getInterest(balance, interestRate));
-					logger.info("상환이자금: " + stackRepayRate);
-					logger.info("상환원금: " + stackRepayOrigin);
+					logger.info("Stack interest: " + stackRepayRate);
+					logger.info("Stack repayments: " + stackRepayOrigin);
 					
-					// 누적금 계산
+					// Calculate the repayments
 					stackRepayRate += preLoanTran.getStackRepayRate();
 					stackRepayOrigin += preLoanTran.getStackRepayOrigin();
 					
-					logger.info("누적상환이자금: " + stackRepayRate);
-					logger.info("누적상환원금: " + stackRepayOrigin);
-					logger.info("대출내역 생성 중 잔금: " + balance);
+					logger.info("Stack interest: " + stackRepayRate);
+					logger.info("Stack repayments: " + stackRepayOrigin);
+					logger.info("A balance while write the detail: " + balance);
 				}
 				
-				// 회수율 구하기
+				// Get collect rate
 				collectRate = (int)((double)stackRepayOrigin / loan.getLoanMoney() * 100);
-				logger.info("회수율: " + collectRate);
+				logger.info("Collect rate: " + collectRate);
 				
-				// 상환완료인지 확인
-				// 완료이면 진행상황을 상환완료로 변경 및 해당 상품의 계좌 삭제
+				// Check if complete the repayments
+				// If complete, change the progression to complete and delete the account
 				if(stackRepayOrigin >= loan.getLoanMoney()){
 					loan.setProgress("상환완료");
 					ldao.updateProgress(loan);
 					accountDao.deleteByLoan(loan.getLoanCode());
-					logger.info("##상환완료작업 완료##");
-				} else{ // 완료가 아니면 다음 달 상환일 잡기. 대출기간을 초과한 경우 연장
+					logger.info("##Complete the repayment##");
+				} else{
+					// If not complete, get next repayment's month.
 					String requestDate = ABCUtility.calcRepayDate(loan.getRepay());
 					loan.setRequestDate(requestDate);
-					if(loan.getRound() >= loan.getLoanDate()){ // 회차 수가 대출기간보다 큰 경우 
-						// 대출기간 연장
-						loan.setLoanDate(loan.getLoanDate()+1);
+					
+					// If rounds over the date of loan
+					if(loan.getRound() >= loan.getLoanDate()){ 
+						loan.setLoanDate(loan.getLoanDate()+1); // Delay the date of loan
 						ldao.extendLoanDate(loan);
-						logger.info("대출기간 연장 완료");
+						logger.info("Delay the date of loan has completed");
 					}
 					ldao.nextRepayDate(loan);
-					logger.info("다음 달 상환일 잡기 완료:"+requestDate);
+					logger.info("Get next repayment's month:"+requestDate);
 				}
 								
-				// 대출내역 객체 생성
+				// Create the object of loan detail
 				ABCLoanTransactionDto loanTran = 
 					new ABCLoanTransactionDto(
 						0,					// loanSeq
@@ -315,35 +316,36 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 						loan.getRound()		// round
 					);
 				
-				// 대출내역 추가
+				// Add a loan detail
 				loanTranDao.addTransaction(loanTran);
-				logger.info("대출내역 추가됨:" + loanTranDao.getRecentTransaction(loan.getLoanCode()));
+				logger.info("A loan detail added:" + loanTranDao.getRecentTransaction(loan.getLoanCode()));
 				
 				
-				/* 대출투자자들의 투자내역 추가	 */
+				/* Add investment detail */
 				for(ABCInvestDto invest : investList){
-					// 최근 투자내역 가져오기
+					// Get list of recent detail of investment
 					ABCInvestTransactionDto preInvestTran = 
 						investTranDao.getRecentTransaction(invest.getInvestSeq());
-					logger.info("최근 투자내역: " + preInvestTran);
+					logger.info("Recent detail of investment: " + preInvestTran);
 					
-					// 금액 계산할 변수 초기화
+					// Declare the variable 
 					interestRate = 0.06F;
-					int intendProfit = 0; // 예정수익금=>이자
-					int stackCollect = 0; // 누적 회수금
+					int intendProfit = 0; // intend profit
+					int stackCollect = 0; // stack collection
 					int origMoney = ABCUtility.getRepayMoney(
 							invest.getInvestMoney(), loan.getLoanDate(), interestRate);
-					logger.info("투자금에 따른 상환금: " + origMoney);
+					logger.info("Repayments: " + origMoney);
 					
-					// 첫 상환인 경우(null인 경우)
+					// If first repay(investment detail is null)
 					if(preInvestTran == null){
-						logger.info("첫 상환내역입니다.");
+						logger.info("First detail of investment");
 						
 						intendProfit = (int)ABCUtility.getInterest(invest.getInvestMoney(), interestRate);
 						stackCollect = origMoney - intendProfit;
-						logger.info("예정수익금: " + intendProfit);
-						logger.info("회수금: " + stackCollect);
+						logger.info("Intend profit: " + intendProfit);
+						logger.info("Stack collection: " + stackCollect);
 					} else{
+						// Get repayments from investment detail
 						balance = invest.getInvestMoney() - preInvestTran.getStackCollect();
 						intendProfit = (int)Math.round(ABCUtility.getInterest(balance, interestRate));
 						stackCollect = (int)Math.round(
@@ -352,15 +354,15 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 																	interestRate)
 								- ABCUtility.getInterest(balance, interestRate)
 								);
-						logger.info("예정수익금: " + intendProfit);
-						logger.info("회수금: " + stackCollect);
+						logger.info("Intend profit: " + intendProfit);
+						logger.info("Stack collection: " + stackCollect);
 						
-						// 회수금 누적
+						// stack collection
 						stackCollect += preInvestTran.getStackCollect();
-						logger.info("누적회수금: " + stackCollect);
+						logger.info("Stack collection: " + stackCollect);
 					}
 					
-					// 투자내역 생성 및 등록
+					// Create the object of investment detail
 					ABCInvestTransactionDto investTran = 
 						new ABCInvestTransactionDto(
 							0,						// investTransactionSeq
@@ -372,11 +374,11 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 							loan.getRound()			// round
 						);
 					investTranDao.addTransaction(investTran);
-					logger.info("투자내역 추가됨: " + investTranDao.getRecentTransaction(invest.getInvestSeq()));
+					logger.info("A investment detail added: " + investTranDao.getRecentTransaction(invest.getInvestSeq()));
 				}
 				logger.info("#####################################################################################################");
-			} // if문
-		} // for문
+			}
+		}
 	}
 
 	@Override
