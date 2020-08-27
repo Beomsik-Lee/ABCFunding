@@ -11,73 +11,60 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.abcfund.controller.ABCMemberController;
 import com.hk.abcfund.model.dao.ABCAccountDao;
-import com.hk.abcfund.model.dao.ABCAdminDao;
-import com.hk.abcfund.model.dao.ABCInvestDao;
 import com.hk.abcfund.model.dao.ABCLoanDao;
 import com.hk.abcfund.model.dao.ABCMemberDao;
 import com.hk.abcfund.model.dto.ABCAccountDto;
-import com.hk.abcfund.model.dto.ABCInvestDto;
-import com.hk.abcfund.model.dto.ABCLoanDto;
 import com.hk.abcfund.model.dto.ABCMemberDto;
 import com.hk.abcfund.model.dto.ABCMyInfoDto;
 import com.hk.abcfund.model.dto.ABCMyLoanInfoDto;
 import com.hk.abcfund.util.ABCUtility;
 
 /**
- * 회원 및 계좌 서비스 클래스
+ * Service for membership
  * @author 9age
  *
  */
 @Service
 public class ABCMemberServiceImpl implements ABCMemberService {
-	/** 회원의 DAO */
+	/** DAO of membership */
 	@Autowired
 	private ABCMemberDao dao;
 	
-	/** 계정의 DAO */
+	/** DAO of account */
 	@Autowired
 	private ABCAccountDao accDao;
 	
-	/** 대출의 DAO */
+	/** DAO of loan */
 	@Autowired
 	private ABCLoanDao loanDao;
 	
-	/** 투자의 DAO */
-	@Autowired
-	private ABCInvestDao investDao;
-	
-	/** 관리자 DAO */
-	@Autowired
-	private ABCAdminDao adminDao;
-	
-	/** log4j 로깅  */
+	/** log4j Logger */
 	private static final Logger logger = LoggerFactory
 			.getLogger(ABCMemberController.class);
 	
 	/**
-	 * 회원 등록 메서드
-	 * 회원 등록과 동시에 가상계좌도 발급
-	 * @param dto 회원 객체
+	 * Add a member and create a virtual account
+	 * @param dto A DTO of member
 	 */
 	@Override
 	public void addMemeber(ABCMemberDto dto) {
-		// 해당 회원 신용등급 생성
+		// Create credit rating of a member
 		int creditRating = Integer.parseInt(ABCUtility.randomNumber(1));
 		if(creditRating == 0) creditRating = 9;
 		dto.setCreditRating(creditRating);
 		
-		// 회원 등록
+		// Add a member through DAO
 		dao.addMemeber(dto);
 		
-		// 가상계좌 등록
+		// Add an virtual account
 		ABCAccountDto accDto = 
 			new ABCAccountDto(ABCUtility.createVANumber(), dto.getEmail(), dto.getName());		
 		accDao.addAccount(accDto);
 	}
 	
 	/**
-	 * 회원 등급을 미인증에서 일반회원으로 변경하는 메서드
-	 * @param dto 회원 객체
+	 * Change member's grade non-approval to normal
+	 * @param dto A DTO of a member
 	 */
 	@Override
 	public void doAuthMember(ABCMemberDto dto) {
@@ -85,9 +72,9 @@ public class ABCMemberServiceImpl implements ABCMemberService {
 	}
 	
 	/**
-	 * 로그인하는 메서드
-	 * @param dto 회원 객체
-	 * @return 로그인 성공시 true
+	 * To login
+	 * @param dto A DTO of a member
+	 * @return Return DTO object that has null if cannot login
 	 */
 	@Override
 	public ABCMemberDto login(ABCMemberDto dto) {
@@ -95,8 +82,8 @@ public class ABCMemberServiceImpl implements ABCMemberService {
 	}
 	
 	/**
-	 * 내 정보에서 비밀번호 변경할 때 호출하는 메서드
-	 * @param dto 회원 객체
+	 * Change the password
+	 * @param dto A DTO of member
 	 */
 	@Override
 	public void changePwd(ABCMemberDto dto) {
@@ -104,9 +91,8 @@ public class ABCMemberServiceImpl implements ABCMemberService {
 	}
 	
 	/**
-	 * 회원의 인증코드를 변경하는 메서드.
-	 * 비밀번호 찾기로 이메일 인증하려는 경우 사용
-	 * @param dto 회원 객체
+	 * Change the authentication code for find a password
+	 * @param dto A DTO of a member
 	 */
 	@Override
 	public void changeAuthCode(ABCMemberDto dto) {
@@ -114,52 +100,62 @@ public class ABCMemberServiceImpl implements ABCMemberService {
 	}
 	
 	/**
-	 * 이메일 인증으로 비밀번호를 변경할 때 사용하는 메서드
-	 * @param dto 회원 객체
+	 * Change password by email authentication
+	 * @param dto A DTO of a member
 	 */
 	@Override
 	public void changePwdOnAuth(ABCMemberDto dto) {
 		dao.changePwdOnAuth(dto);
 	}
 	
-	/** 나의 정보 얻어오는 메서드 */
+	/**
+	 * Get the member's information
+	 * @param email A email of the member
+	 */
 	@Override
 	public ABCMyInfoDto getMyInfo(String email) {
 		return dao.getMyInfo(email);
 	}
 	
-	/** 나의 정보리스트를 얻어오는 메서드 */
+	/**
+	 * Get loan list of the member
+	 * @param email A email of the member
+	 */
 	@Override
 	public ArrayList<ABCMyLoanInfoDto> getMyLoanInfoList(String email) {
 		return dao.getMyLoanInfoList(email);
 	}
 	
 	/** 
-	 * 회원탈퇴 요청하는 메서드 
-	 * @param member 회원의 DTO
+	 * Request for member's withdrawal
+	 * @param email A email of the member
 	 */
 	@Override
 	@Transactional
 	public void dropMember(String email) {
-		// 대출 데이터의 이메일을 덤프로 변경
+		// Update the email to dummy
 		loanDao.updateEmailToDump(email);
 		
-		// 가상계좌 삭제
+		// Delete the account by email
 		accDao.deleteAccount(email);
 		
-		// 회원 삭제
+		// Withdraw the member by email
 		dao.dropMember(email);
 	}
 	
 	/**
-	 * 관리자와 더미를 제외한 모든 회원리스트 가져오는 메서드
-	 * @return 회원 리스트
+	 * Get list of all member but administrator and dummy
+	 * @return List of member DTO
 	 */
 	@Override
 	public List<ABCMemberDto> getMemberList() {
 		return dao.getMemberList();
 	}
-
+	
+	/**
+	 * Get a member DTO by email
+	 * @param email A email of member
+	 */
 	@Override
 	public ABCMemberDto getMember(String email) {
 		return dao.getMember(email);

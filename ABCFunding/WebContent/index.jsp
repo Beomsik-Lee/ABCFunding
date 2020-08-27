@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>로딩 중...</title>
+<title>Loading...</title>
 </head>
 <body>
 <%response.sendRedirect("main.do"); %>

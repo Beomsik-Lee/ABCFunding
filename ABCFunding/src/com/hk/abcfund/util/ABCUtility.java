@@ -38,7 +38,6 @@ public final class ABCUtility {
 	 * @return parsed array
 	 */
 	public static String[] parseBirth(String birth){
-		// 파싱한 연,월,일을 담을 배열
 		String[] parsed = new String[3];
 		parsed[0] = birth.substring(0, 4);
 		parsed[1] = birth.substring(4, 6);

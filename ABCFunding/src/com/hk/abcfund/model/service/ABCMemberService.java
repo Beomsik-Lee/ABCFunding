@@ -8,6 +8,7 @@ import com.hk.abcfund.model.dto.ABCMyInfoDto;
 import com.hk.abcfund.model.dto.ABCMyLoanInfoDto;
 
 /**
+ * Service interface for membership
  * @author 9age
  *
  */
