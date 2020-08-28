@@ -1,14 +1,14 @@
-/* 나의 투자내역에서 상환스케쥴을 계산하는 자바스크립트입니다. */
+/* The calculation of schedule of repayments */
 
-/* 변수 선언 및 초기화 */
-var origin = 0;		// 원금
-var interest = 0;	// 이자
-var payment = 0;	// 상환금
-var balance = -999;	// 잔금
-var stackOrigin = 0;// 누적원금
+/* Variable declare */
+var origin = 0;		// principal
+var interest = 0;	// interest
+var payment = 0;	// repayments
+var balance = -999;	// balance
+var stackOrigin = 0;// accumulated principal
 
-/* getter 함수 정의
- * 반올림 후 통화단위로 표시
+/* Getter define
+ * round and show as currency
  */
 function getOrigin(){
 	document.write(Math.round(origin).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
@@ -26,7 +26,7 @@ function getStackOrigin(){
 	document.write(Math.round(stackOrigin).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 }
 
-// 변수초기화 수행하는 함수
+// Initialize
 function init(){
 	origin = 0;
 	interest = 0;
@@ -35,40 +35,40 @@ function init(){
 	stackOrigin = 0;
 }
 
-// 전체 계산 로직을 수행하는 함수
+// Calculate the all logic process
 function calc(investMoney, interestRate, loanDate){
-	calPayment(investMoney, interestRate, loanDate); // 상환금 계산
-	calInterest(interestRate, investMoney); // 이자 계산
-	calOrigin(); // 원금 계산
-	calBalance(); // 잔금 계산
-	calStackOrigin(); // 누적 원금 계산
+	calPayment(investMoney, interestRate, loanDate); // calculate the repayments
+	calInterest(interestRate, investMoney); // calculate the interest
+	calOrigin(); // calculate the principal
+	calBalance(); // calculate the balance
+	calStackOrigin(); // calculate the accumulated principal
 }
 
-// 상환금 계산 함수
+// calculate the repayments with investment fund, interest rate, and loan date
 function calPayment(investMoney, interestRate, loanDate){
 	payment = ((investMoney * (interestRate / 12))
 			* (Math.pow(1 + interestRate / 12, loanDate)))
 			/ (Math.pow(1 + interestRate / 12, loanDate) - 1);
 }
 
-// 이자 계산 함수
+// calculate the interest with interest rate and investment fund
 function calInterest(interestRate, investMoney){
-	if(balance == -999) // 초회는 잔금을 투자금으로 설정
+	if(balance == -999) // Set balance to investment fund for the first
 		balance = investMoney;
 	interest = balance * interestRate / 12;
 }
 
-// 원금 계산 함수
+// calculate the principal
 function calOrigin(){
 	origin = payment - interest;
 }
 
-// 잔금 계산 함수
+// calculate the balance
 function calBalance(){
 	balance -= origin;
 }
 
-// 누적 원금 계산 함수
+// calculate the accumulated principal
 function calStackOrigin(){
 	stackOrigin += origin;
 }
