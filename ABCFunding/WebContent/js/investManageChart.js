@@ -1,10 +1,10 @@
-/* 구글차트 사용을 위한 자바스크립트 */
+/* The chart JS for investment's management */
 
-// 변수 선언
-var chart1Data = [['투자번호','투자금','누적 수익금']];
-var chart2Data = [['진행상황', '해당 비율']];
+// Declare variables
+var chart1Data = [['Investment No.','Investment Fund','Accumulate Profit']];
+var chart2Data = [['Progress', 'Rate']];
 function chart1Patch(arr){
-	// 문자열을 정수로 파싱. 마지막 요소는 null이므로 제외
+	// Parsing string to integer but last element is null
 	for(var idx = 0; idx < arr.length; idx++){
 		arr[idx] = parseInt(arr[idx]);
 	}
@@ -15,21 +15,21 @@ function chart2Patch(arr){
 	chart2Data.push(arr);
 }
 
-// 라이브러리 로딩
+// Load google chart
 google.charts.load('current', {packages: ['corechart','line']});
 
-// 차트마다 콜백함수 등록
+// Add callback
 google.charts.setOnLoadCallback(drawChart1);
 google.charts.setOnLoadCallback(drawChart2);
 
-// 데이터 테이블 생성 및 추가하는 콜백함수
+// Callback for create and add data table
 function drawChart1(){
 	var data = new google.visualization.arrayToDataTable(chart1Data);
 
     var options = {
       chart: {
-        title: '투자 당 정보',
-        subtitle: '각 투자 건수 당 투자금과 누적 수익금'
+        title: 'Each Info',
+        subtitle: 'Each investment and accumulate profit'
       },
       width: 700,
       height: 350
@@ -45,7 +45,7 @@ function drawChart2(){
 	
 	var options = {
 	  legend: { position: 'none' },
-	  title: '전체 상환상태 비율',
+	  title: 'Rate for total repayments',
 	  pieHole: 0.4,
 	  width: 400,
       height: 350

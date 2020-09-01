@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<script src="js/investSimulator.js"></script>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -161,6 +161,7 @@
     <!-- Scrolling Nav JavaScript -->
     <script src="js/jquery.easing.min.js"></script>
     <script src="js/scrolling-nav.js"></script>
+    <script src="js/investSimulator.js"></script>
     <script>
     	$(document).ready(function(){
     		// 신청버튼을 눌렀을 때 서브밋
