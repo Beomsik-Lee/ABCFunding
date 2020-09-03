@@ -1,37 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<fmt:requestEncoding value="UTF-8" />
 <!DOCTYPE HTML>
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="crowding funding">
-<meta name="author" content="9age">
+   <style>
+      h5 > a:hover {
+         text-decoration: none;
+      }
 
-<title>${title}</title>
-
-<!-- Bootstrap Core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Custom CSS -->
-<link href="css/scrolling-nav.css" rel="stylesheet">
-
-<!-- ABC Funding CSS -->
-<link href="css/abcstyle.css" rel="stylesheet">
-
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+   </style>   
 </head>
 <body>
+<header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+   <h5 class="my-0 mr-md-auto font-weight-normal"><a href="#" class="text-dark">ABC Funding</a></h5>
+   <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" href="#">Features</a>
+      <a class="p-2 text-dark" href="#">Investment</a>
+      <a class="p-2 text-dark" href="#">Loan</a>
+      <a class="p-2 text-dark" href="#">Sign in</a>
+   </nav>
+   <a class="btn btn-outline-primary" href="#">Sign up</a>
+</header>
 <c:if test="${empty login}">
-<header>
+<header style="display: none;">
    <!-- Navigation -->
    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
@@ -66,7 +57,7 @@
 </header>
 </c:if>
 <c:if test="${not empty login}">
-<header>
+<header style="display: none;">
    <!-- Navigation -->
    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
