@@ -1,45 +1,30 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE HTML>
 <html>
-<head></head>
-<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
-    <div style="display: none">
-        <!-- Intro Section -->
-        <section id="intro" class="intro-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 id="intro-head">ABC Funding</h1>
-                        <a class="btn btn-default page-scroll" href="intro.do">Detail</a>
-                    </div>
-                </div>
+<head>
+</head>
+<body>
+    <main class="container-fluid text-center" style="padding: 0;">
+        <section id="section-introduce" class="h-100 d-flex flex-column justify-content-center">
+            <div class="">
+                <p class="h1">What is ABC Funding?</p>
+                <a class="btn btn-outline-secondary" href="intro.do">Detail</a>
             </div>
         </section>
-
-        <!-- Invest Section -->
-        <section id="invest" class="invest-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Investment Guide</h1>
-                        <a class="btn btn-default page-scroll" href="investGuide.do">Detail</a>
-                    </div>
-                </div>
+        <section id="section-investment" class="h-100 d-flex flex-column justify-content-center">
+            <div class="">
+                <p class="h1">Investment Guidance</p>
+                <a class="btn btn-outline-secondary" href="investGuide.do">Detail</a>
             </div>
         </section>
-
-        <!-- <loan> Section -->
-        <section id="loan" class="main-loan-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Loan Guide</h1>
-                        <a class="btn btn-default page-scroll" href="loanGuide.do">Detail</a>
-                    </div>
-                </div>
+        <section id="section-loan" class="h-100 d-flex flex-column justify-content-center">
+            <div class="">
+                <p class="h1">Loan Guidance</p>
+                <a class="btn btn-outline-secondary" href="loanGuide.do">Detail</a>
             </div>
         </section>
-    </div>
+    </main>
 </body>
 </html>

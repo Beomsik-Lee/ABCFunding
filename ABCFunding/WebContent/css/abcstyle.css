@@ -1,45 +1,28 @@
 /* Main section CSS */
-.myInfo-section {
-   height: 670px;
-   width: 1349px;
-   padding-top: 100px;
-   text-align: center;
+#section-introduce {
+    background-image: url("../img/main_section.jpg");
+    background-size:cover;
+    background-origin: border-box;
 }
-.invest-section {
-    height: 670px;
-    width: 1349px;
-    padding-top: 150px;
-    text-align: center;
+
+#section-investment {
     background-image: url("../img/abc_main_invest_1.jpg");
     background-size:cover;
     background-origin: border-box;
 }
 
-.main-loan-section {
-    height: 670px;
-    width: 1349px;
-    padding-top: 60px;
-    text-align: center;
-    background-image: url("../img/abc_main_loan.jpg");
+#section-loan {
+    background-image: url("../img/loan_section.jpg");
     background-size:cover;
     background-origin: border-box;
 }
 
+/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓???↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
 .loan-section {
     height: 670px;
     width: 1349px;
     padding-top: 150px;
     text-align: center;
-}
-
-.sponsor-section {
-    height: 670px;
-    width: 1349px;;
-    padding-top: 150px;
-    text-align: center;
-    background-image: url("../img/abc_main_this_is_earth_1.jpg");
-    background-size:cover;
-    background-origin: border-box;
 }
 
 .regiSuc-section {
@@ -48,6 +31,7 @@
     padding-top: 100px;
     text-align: center;
 }
+/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑???↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
 
 /* Administrator page CSS */
 .adminMain-section {
@@ -467,20 +451,6 @@
 }
 
 /* Footer CSS */
-footer {
-    display: block;
-    color: white;
-    margin: 0 auto;
-    height: 117px;
-    padding-top: 10px;
-    text-align: left;
-    background: #000;
-}
-
-a:hover{
-    text-decoration: none;
-    color: black;
-}
 
 /* Calculation CSS */
 .calcul-section {

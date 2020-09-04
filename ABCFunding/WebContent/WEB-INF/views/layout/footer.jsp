@@ -4,22 +4,8 @@
 <html>
 <head></head>
 <body>
-<footer>
-    <div class="footer-section" style="display: none;">
-        <table id="footer-table">
-            <tbody>
-            <tr>
-                <td><span class="glyphicon glyphicon-user"><strong>Developer</strong></span></td>
-            </tr>
-            <tr>
-                <td><strong>Senior: LeeBeomSik</strong></td>
-            </tr>
-            <tr>
-                <td><strong>Junior: KwagSungJin</strong></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<footer class="text-center m-5">
+    <p>Developed by <span style="color: #d39e00;">BeomSik Lee</span> / <span style="color: #788898;">SungJin Kwag</span></p>
 </footer>
 </body>
 </html>

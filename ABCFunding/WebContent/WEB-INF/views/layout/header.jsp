@@ -1,17 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE HTML>
 <html>
 <head>
-   <style>
-      h5 > a:hover {
-         text-decoration: none;
-      }
-
-   </style>   
 </head>
 <body>
-<header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+<header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm">
    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="#" class="text-dark">ABC Funding</a></h5>
    <nav class="my-2 my-md-0 mr-md-3">
       <a class="p-2 text-dark" href="#">Features</a>
