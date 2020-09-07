@@ -10,19 +10,19 @@
         <section id="section-introduce" class="h-100 d-flex flex-column justify-content-center">
             <div class="">
                 <p class="h1">What is ABC Funding?</p>
-                <a class="btn btn-outline-secondary" href="intro.do">Detail</a>
+                <a class="btn btn-info" href="intro.do">Detail</a>
             </div>
         </section>
         <section id="section-investment" class="h-100 d-flex flex-column justify-content-center">
             <div class="">
                 <p class="h1">Investment Guidance</p>
-                <a class="btn btn-outline-secondary" href="investGuide.do">Detail</a>
+                <a class="btn btn-info" href="investGuide.do">Detail</a>
             </div>
         </section>
         <section id="section-loan" class="h-100 d-flex flex-column justify-content-center">
             <div class="">
                 <p class="h1">Loan Guidance</p>
-                <a class="btn btn-outline-secondary" href="loanGuide.do">Detail</a>
+                <a class="btn btn-info" href="loanGuide.do">Detail</a>
             </div>
         </section>
     </main>

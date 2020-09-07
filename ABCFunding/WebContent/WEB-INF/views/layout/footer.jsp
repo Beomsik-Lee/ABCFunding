@@ -4,7 +4,7 @@
 <html>
 <head></head>
 <body>
-<footer class="text-center m-5">
+<footer class="text-center p-5">
     <p>Developed by <span style="color: #d39e00;">BeomSik Lee</span> / <span style="color: #788898;">SungJin Kwag</span></p>
 </footer>
 </body>
