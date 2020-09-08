@@ -7,7 +7,7 @@
 </head>
 <body>
 <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm">
-   <h5 class="my-0 mr-md-auto font-weight-normal"><a href="main.do" class="text-dark">ABC Funding</a></h5>
+   <div class="h5 my-0 mr-md-auto font-weight-normal"><a href="main.do" class="text-dark">ABC Funding</a></div>
    <nav class="my-2 my-md-0 mr-md-3">
       <a class="p-2 text-dark" href="intro.do">Features</a>
       <a class="p-2 text-dark" href="invest.do">Investment</a>
