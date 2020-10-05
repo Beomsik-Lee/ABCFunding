@@ -19,9 +19,9 @@
                 <input type="password" class="form-control" id="password" name="pwd">
             </div>
             <div class="form-group text-center">
-                <%--                     <c:if test="${isFail}"> --%>
+                <c:if test="${isFail}">
                    <p id="isFail"><strong>It's invalid. Check your email or password.</strong></p>
-        <%--                     </c:if> --%>
+                </c:if>
                 <input id="login-button" class="btn btn-primary" type="submit" name="login" value="Sign in">
                 <a href="regi.do" class="btn btn-outline-primary">Sign up</a>
                 <a href="searchpwd.do" class="btn btn-outline-primary">Find password</a>

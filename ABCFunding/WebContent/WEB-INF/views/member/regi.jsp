@@ -2,38 +2,39 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="crowding funding">
-    <meta name="author" content="9age">
-
-    <title>${title}</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="css/scrolling-nav.css" rel="stylesheet">
-
-    <!-- ABC Funding CSS -->
-    <link href="css/abcstyle.css" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
-
+<head></head>
 <body>
-
     <!-- Regi Section -->
-    <section id="addmember" class="addmember-section">
+    <section class="container" style="max-width: 800px;">
+        <h1 class="pt-5 mb-5 text-center">Sign Up</h1>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <form action="addMember.do" method="post">
+                    <div class="mb-3">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required="required" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required="required" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="pwd" required="required" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="birthDate">Birth Date</label>
+                        <input type="date" class="form-control" id="birthDate" required="required" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="gender">Gender</label>
+                        <input type="text" class="form-control" id="gender" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section id="addmember" class="addmember-section" style="display: none;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -99,16 +100,5 @@
             </div>
         </div>
     </section>
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Scrolling Nav JavaScript -->
-    <script src="js/jquery.easing.min.js"></script>
-    <script src="js/scrolling-nav.js"></script>
-
 </body>
 </html>
