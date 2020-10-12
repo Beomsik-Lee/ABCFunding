@@ -4,7 +4,7 @@
 package com.hk.abcfund.model.dto;
 
 /**
- * °ü¸®ÀÚ > ´ëÃâ°ü¸® Á¤º¸¸¦ ´ã¾Æ¿À´Â DTO Å¬·¡½º
+ * DTO for loan management from administrator
  * @author 9age
  *
  */
@@ -17,18 +17,18 @@ public class ABCAdminLoanManageDto {
 	private int loanMiddleNum;
 	
 	/**
-	 * ±âº»»ı¼ºÀÚ 
+	 * ê¸°ë³¸ìƒì„±ì 
 	 */
 	public ABCAdminLoanManageDto() {}
 
 	
 	/**
-	 * ÀüÃ¼ º¯¼ö¸¦ °®´Â »ı¼ºÀÚ
-	 * @param stackLoanNum ´©Àû´ëÃâ½ÇÇà°Ç
-	 * @param stackLoanMoney ´©Àû´ëÃâ½ÇÇà±İ
-	 * @param stackLoanRepayMoney ´©Àû´ëÃâ»óÈ¯±İ
-	 * @param loanEndNum »óÈ¯¿Ï·á°Ç¼ö
-	 * @param loanMiddleNum »óÈ¯ÁßÀÎ°Ç¼ö
+	 * ì „ì²´ ë³€ìˆ˜ë¥¼ ê°–ëŠ” ìƒì„±ì
+	 * @param stackLoanNum ëˆ„ì ëŒ€ì¶œì‹¤í–‰ê±´
+	 * @param stackLoanMoney ëˆ„ì ëŒ€ì¶œì‹¤í–‰ê¸ˆ
+	 * @param stackLoanRepayMoney ëˆ„ì ëŒ€ì¶œìƒí™˜ê¸ˆ
+	 * @param loanEndNum ìƒí™˜ì™„ë£Œê±´ìˆ˜
+	 * @param loanMiddleNum ìƒí™˜ì¤‘ì¸ê±´ìˆ˜
 	 */
 	public ABCAdminLoanManageDto(int stackLoanNum, int stackLoanMoney, int stackLoanRepayMoney, int loanEndNum,
 			int loanMiddleNum) {

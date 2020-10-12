@@ -7,104 +7,104 @@ import java.io.Serializable;
  *
  */
 public class ABCMemberDto implements Serializable {
-	/** È¸¿ø ÀÌ¸ÞÀÏ */
+	/** È¸ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ */
 	private String email;
 	
-	/** È¸¿ø ÀÌ¸ÞÀÏ ¾ÕÀÚ¸® */
+	/** È¸ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ */
 	private String email1;
 	
-	/** È¸¿ø ÀÌ¸ÞÀÏ µÞÀÚ¸® */
+	/** È¸ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ */
 	private String email2;
 	
 	/** 
-	 * È¸¿ø ºñ¹Ð¹øÈ£
-	 * ¿µ¹®´ë¼Ò¹®ÀÚ, ¼ýÀÚ, Æ¯¼ö¹®ÀÚ Æ÷ÇÔÇÑ 6~20ÀÚ±îÁö 
+	 * È¸ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 6~20ï¿½Ú±ï¿½ï¿½ï¿½ 
 	 */
 	private String pwd;
 	
 	/**
-	 * È¸¿ø ÀÌ¸§
-	 * ÇÑ±Û 6ÀÚ±îÁö
+	 * È¸ï¿½ï¿½ ï¿½Ì¸ï¿½
+	 * ï¿½Ñ±ï¿½ 6ï¿½Ú±ï¿½ï¿½ï¿½
 	 */
 	private String name;
 	
 	/**
-	 * È¸¿ø »ý³â¿ùÀÏ
-	 * ±¸ºÐÀÚ¾øÀÌ ÃÑ 8ÀÚ¸®
+	 * È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½ï¿½ ï¿½ï¿½ 8ï¿½Ú¸ï¿½
 	 */
 	private String birth;
 	
-	/** È¸¿ø »ý³âµµ */
+	/** È¸ï¿½ï¿½ ï¿½ï¿½ï¿½âµµ */
 	private String year;
 	
-	/** È¸¿ø »ý¿ù */
+	/** È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 	private String month;
 	
-	/** È¸¿ø »ýÀÏ */
+	/** È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 	private String day;
 	
 	/**
-	 * È¸¿ø ¼ºº°
-	 * ³²ÀÚ ¶Ç´Â ¿©ÀÚ
+	 * È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 */
 	private String gender;
 	
 	/**
-	 * È¸¿ø ½Å¿ëµî±Þ
-	 * 1~9±îÁö
+	 * È¸ï¿½ï¿½ ï¿½Å¿ï¿½ï¿½ï¿½
+	 * 1~9ï¿½ï¿½ï¿½ï¿½
 	 */
 	private int creditRating;
 	
 	/**
-	 * ´ëÃâ°Ç¼ö
-	 * 0ÀÌ»óÀÇ Á¤¼ö
+	 * ï¿½ï¿½ï¿½ï¿½Ç¼ï¿½
+	 * 0ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 */
 	private int loanCount;
 	
 	/**
-	 * ÅõÀÚ°Ç¼ö
-	 * 0ÀÌ»óÀÇ Á¤¼ö
+	 * ï¿½ï¿½ï¿½Ú°Ç¼ï¿½
+	 * 0ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 */
 	private int investCount;
 	
 	/**
-	 * ÈÄ¿ø °Ç¼ö
+	 * ï¿½Ä¿ï¿½ ï¿½Ç¼ï¿½
 	 */
 	private int supportCount;
 	
 	/**
-	 * È¸¿ø µî±Þ
-	 * ÀÏ¹ÝÈ¸¿øÀº 1, °ü¸®ÀÚ´Â 2
-	 * ±âº»°ª 1
+	 * È¸ï¿½ï¿½ ï¿½ï¿½ï¿½
+	 * ï¿½Ï¹ï¿½È¸ï¿½ï¿½ï¿½ï¿½ 1, ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ 2
+	 * ï¿½âº»ï¿½ï¿½ 1
 	 */
 	private int grade;
 	
 	/**
-	 * È¸¿øÀÎÁõÀ» À§ÇÑ ÀÌ¸ÞÀÏ ÀÎÁõÄÚµå
+	 * È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
 	 */
 	private String authCode;
 
 	/**
-	 * ¾Æ¹«°Íµµ ¾ø´Â ±âº»»ý¼ºÀÚ
+	 * ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½âº»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public ABCMemberDto() {}
 
 	/**
-	 * @param email ÀüÃ¼ ÀÌ¸ÞÀÏ
-	 * @param email1 ÀÌ¸ÞÀÏ ¾ÕÀÚ¸®
-	 * @param email2 ÀÌ¸ÞÀÏ µÞÀÚ¸®
-	 * @param pwd ºñ¹Ð¹øÈ£
-	 * @param name ÀÌ¸§
-	 * @param birth »ý³â¿ùÀÏ
-	 * @param year »ý³â
-	 * @param month »ý¿ù
-	 * @param day »ýÀÏ
-	 * @param gender ¼ºº°
-	 * @param creditRating ½Å¿ëµî±Þ
-	 * @param loanCount ´ëÃâ°Ç¼ö
-	 * @param investCount ÅõÀÚ°Ç¼ö
-	 * @param supportCount ÈÄ¿ø°Ç¼ö
-	 * @param grade È¸¿øµî±Þ
+	 * @param email ï¿½ï¿½Ã¼ ï¿½Ì¸ï¿½ï¿½ï¿½
+	 * @param email1 ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½
+	 * @param email2 ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½
+	 * @param pwd ï¿½ï¿½Ð¹ï¿½È£
+	 * @param name ï¿½Ì¸ï¿½
+	 * @param birth ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param year ï¿½ï¿½ï¿½ï¿½
+	 * @param month ï¿½ï¿½ï¿½ï¿½
+	 * @param day ï¿½ï¿½ï¿½ï¿½
+	 * @param gender ï¿½ï¿½ï¿½ï¿½
+	 * @param creditRating ï¿½Å¿ï¿½ï¿½ï¿½
+	 * @param loanCount ï¿½ï¿½ï¿½ï¿½Ç¼ï¿½
+	 * @param investCount ï¿½ï¿½ï¿½Ú°Ç¼ï¿½
+	 * @param supportCount ï¿½Ä¿ï¿½ï¿½Ç¼ï¿½
+	 * @param grade È¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public ABCMemberDto(String email, String email1, String email2, String pwd, String name, String birth, String year,
 			String month, String day, String gender, int creditRating, int loanCount, int investCount, int grade, int supportCount) {
@@ -127,12 +127,12 @@ public class ABCMemberDto implements Serializable {
 	}
 
 	/**
-	 * email1°ú email2¿¡ °ªÀÌ ÀÖ¾î¾ß ÇÑ´Ù.
+	 * email1ï¿½ï¿½ email2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	 * @return the email
 	 */
 	public String getEmail() {
-		if(email==null)
-			email = email1 + "@" + email2;
+//		if(email==null)
+//			email = email1 + "@" + email2;
 		return email;
 	}
 
@@ -165,12 +165,12 @@ public class ABCMemberDto implements Serializable {
 	}
 
 	/**
-	 * year, month, day¿¡ °ªÀÌ ÀÖ¾î¾ß ÇÔ.
+	 * year, month, dayï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½ï¿½.
 	 * @return the birth
 	 */
 	public String getBirth() {
-		if(birth==null)
-		birth = year + month + day;
+//		if(birth==null)
+//		birth = year + month + day;
 		return birth;
 	}
 

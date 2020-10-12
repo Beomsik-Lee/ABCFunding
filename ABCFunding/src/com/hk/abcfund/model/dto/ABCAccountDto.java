@@ -3,48 +3,47 @@ package com.hk.abcfund.model.dto;
 import java.io.Serializable;
 
 /**
- * 회원가입시 자동으로 주어지는 가상계좌의 클래스
+ * DTO for virtual account
  * @author 9age
  */
 public class ABCAccountDto implements Serializable {
 	private static final long serialVersionUID = -3828036421861465715L;
 	
 	/** 
-	 * 가상계좌번호
-	 * 숫자3-숫자6숫자3 형식의 총 14자 
+	 * Account number
 	 */
 	private String accountNo;
 	
 	/**
-	 * 누구의 계정인지를 식별할 회원의 이메일
+	 * email
 	 */
 	private String email;
 	
 	/**
-	 * 예치금(잔액)
+	 * balance
 	 */
 	private int balance;
 	
 	/**
-	 * 예금주(회원 이름)
+	 * Name
 	 */
 	private String accountHolder;
 	
 	/**
-	 * 대출코드
+	 * Loan code
 	 */
 	private int loanCode;
 
-	/** 기본 생성자 */
+	/** Default Constructor */
 	public ABCAccountDto() {}
 
 	/**
-	 * 전체 데이터를 받는 생성자
-	 * @param accountNo 가상계좌번호
-	 * @param email 회원의 이메일
-	 * @param balance 예치금
-	 * @param accountHolder 회원의 이름
-	 * @param loanCode 대출코드
+	 * Constructor for whole data
+	 * @param accountNo Account Number
+	 * @param email Email
+	 * @param balance Balance
+	 * @param accountHolder Name
+	 * @param loanCode Loan Code
 	 */
 	public ABCAccountDto(String accountNo, String email, int balance, String accountHolder, int loanCode) {
 		this(accountNo, email, accountHolder);
@@ -53,7 +52,7 @@ public class ABCAccountDto implements Serializable {
 	}
 	
 	/**
-	 * 예치금과 대출코드를 제외한 모든 데이터를 받는 생성자
+	 * Constructor for whole data but balance and loan code
 	 * @param accountNo
 	 * @param email
 	 * @param accountHolder
@@ -121,8 +120,6 @@ public class ABCAccountDto implements Serializable {
 		this.accountHolder = accountHolder;
 	}
 	
-	
-
 	/**
 	 * @return the loanCode
 	 */
