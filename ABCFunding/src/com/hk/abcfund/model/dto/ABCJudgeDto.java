@@ -2,144 +2,127 @@ package com.hk.abcfund.model.dto;
 
 
 /**
- * 관리자 화면에서 심사정보를 가져오는 DTO 클래스
+ * DTO for examination
  * @author 9age
  *
  */
 public class ABCJudgeDto {
 	
-	/** 대출상품을 식별할 대출코드 */
+	/** Loan code */
 	private int loanCode;
 	
 	/**
-	 * 대출 신청건의 신청코드
+	 * Sequence of examination
 	 */
 	private int judgeSeq;
 	
 	/**
-	 * 대출 신청인의 이메일
+	 * Email address
 	 */
 	private String email;
 	
 	/**
-	 * 대출 신청인의 이름
+	 * Name
 	 */
 	private String name;
 	
 	/**
-	 * 대출 신청인의 생년월일
+	 * Birth date
 	 */
 	private String birth;
 	
 	/**
-	 * 대출 신청인의 성별
+	 * Gender
 	 */
 	private String gender;
 	
-	/** 대출의 진행상태 
-	 * 펀딩진행중,펀딩완료,상환중,상환완료
-	 * 한글로 최대6자
+	/**
+	 * Progress of loan
 	 */
 	private String progress;
 	
 	/**
-	 * 고용형태
-	 * 정규직,비정규직,아르바이트,무직
-	 * 한글 최대 6자
+	 * Employ type
 	 */
 	private String employType;
 	
 	/**
-	 * 회사규모
-	 * 대기업,중견기업,중소기업,스타트업
-	 * 한글 최대 4자
+	 * Scale of company
 	 */
 	private String scale;
 	
 	/**
-	 * 재직기간
-	 * 0이상의 2자리 정수
+	 * Serve date
 	 */
 	private int serve;
 	
 	/**
-	 * 연봉
-	 * 단위는 만원
-	 * 0이상의 7자리 정수
+	 * Salary
 	 */
 	private int salary;
 	
 	/**
-	 * 대출구분
-	 * 개인신용대출로 고정
+	 * Loan type
 	 */
 	private String loanType;
 	
 	/**
-	 * 상환방식
-	 * 원리금균등분할상확 방식으로 고정
+	 * Repayments type
 	 */
 	private String repayType;
 	
 	/**
-	 * 대출 금리
-	 * 8% 고정 금리
+	 * Interest rate
 	 */
 	private int interestRate;
 	
 	/**
-	 * 대출신청금
-	 * 단위는 원
+	 * Loan
 	 */
 	private int loanMoney;
 	
 	/**
-	 * 대출기간
-	 * 입력가능값 : 1~12,18,24
-	 * 단위는 개월수 
+	 * Loan date
 	 */
 	private int loanDate;
 	
 	/**
-	 * 희망상환일
-	 * 입력가능 값 : 1,5,10,15,20,25
-	 * 단위는 일
+	 * Repayments date
 	 */
 	private int repay;
 	
 	/**
-	 * 소개글의 제목
+	 * Loan title
 	 */
 	private String title;
 	
 	/**
-	 * 소개글의 내용
+	 * Loan introduction
 	 */
 	private String intro;
 	
 	/**
-	 * 소개글의 파일 이름
+	 * File name
 	 */
 	private String fname;
 	
 	/**
-	 * 펀딩신청 기간
-	 * 입력가능 값 : 1~7
-	 * 단위는 일
+	 * Expire date
 	 */
 	private int expiryDate;
 	
 	/**
-	 * 대출 신청인의 신용등급
+	 * Credit rate
 	 */
 	private int creditRating;
 
 	/**
-	 * 기본 생성자
+	 * Default Constructor
 	 */
 	public ABCJudgeDto() {}
 
 	/**
+	 * Constructor for whole variables
 	 * @param loanCode
 	 * @param judgeSeq
 	 * @param email

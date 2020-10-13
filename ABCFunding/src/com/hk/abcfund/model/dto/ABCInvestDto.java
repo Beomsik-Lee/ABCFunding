@@ -3,34 +3,36 @@ package com.hk.abcfund.model.dto;
 import java.io.Serializable;
 
 /**
- * 투자 관련 DTO
+ * DTO for investments
  * @author 9age
  *
  */
 public class ABCInvestDto implements Serializable {
-	/** 투자 시퀀스번호 */
+	private static final long serialVersionUID = 1L;
+
+	/** Sequence of investment */
 	private int investSeq;
 	
-	/** 투자자를 식별할 이메일 */
+	/** Email address */
 	private String email;
 	
-	/** 어는 상품을 투자했는지를 식별할 대출코드 */
+	/** Loan code */
 	private int loanCode;
 	
-	/** 투자금액 */
+	/** Investment fund */
 	private int investMoney;
 
 	/**
-	 * 기본 생성자
+	 * Default Constructor
 	 */
 	public ABCInvestDto() {	}
 
 	/**
-	 * 전체 데이터를 받는 생성자
-	 * @param investSeq 투자 시퀀스
-	 * @param email 이메일
-	 * @param loanCode 대출 코드
-	 * @param investMoney 투자금
+	 * Constructor for whole variables
+	 * @param investSeq
+	 * @param email
+	 * @param loanCode
+	 * @param investMoney
 	 */
 	public ABCInvestDto(int investSeq, String email, int loanCode, int investMoney) {
 		super();
@@ -41,10 +43,10 @@ public class ABCInvestDto implements Serializable {
 	}
 	
 	/**
-	 * 투자시퀀스를 제외한 모든 데이터를 받는 생성자
-	 * @param email 회원 이메일
-	 * @param loanCode 상품의 대출코드
-	 * @param investMoney 투자자의 투자금액
+	 * Constructor for whole variables but sequence
+	 * @param email 
+	 * @param loanCode 
+	 * @param investMoney 
 	 */
 	public ABCInvestDto(String email, int loanCode, int investMoney) {
 		super();

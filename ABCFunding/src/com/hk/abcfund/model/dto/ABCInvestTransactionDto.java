@@ -3,46 +3,50 @@ package com.hk.abcfund.model.dto;
 import java.io.Serializable;
 
 /**
+ * DTO for investment history
  * @author 9age
  *
  */
 public class ABCInvestTransactionDto implements Serializable {
-	/** 투자내역을 식별하는 시퀀스 번호 */
+	private static final long serialVersionUID = 1L;
+
+	/** Sequence of investment history */
 	private int investTransactionSeq;
 	
-	/** 어떤 투자인지를 식별하는 투자번호 */
+	/** Sequence of investment */
 	private int investSeq;
 	
 	/**
-	 * 예정 수익금
-	 * 투자금 x 0.06
+	 * Intend profit
+	 * Investments x 0.06
 	 */
 	private int intendProfit;
 	
 	/**
-	 * 누적 회수금
-	 * 총 회수금/대출기간x현회차수
+	 * Stack recovery
+	 * Total recovery / loan date X Current rounds
 	 */
 	private int stackCollect;
 	
-	/** 대출의 진행상황 */
+	/** Progress of loan */
 	private String progress;
 	
 	/**
-	 * 누적 회수비율
-	 * 누적 회수금 / 총 회수금
+	 * Stack recovery rate
+	 * Stack recovery / Total recovery
 	 */
 	private int collectRate;
 	
-	/** 대출의 회차 수 */
+	/** Rounds of loan */
 	private int round;
 
 	/**
-	 * 기본 생성자
+	 * Default Constructor
 	 */
 	public ABCInvestTransactionDto() {}
 
 	/**
+	 * Constructor for whole variables
 	 * @param investTransactionSeq
 	 * @param investSeq
 	 * @param intendProfit

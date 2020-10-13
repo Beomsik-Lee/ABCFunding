@@ -6,27 +6,41 @@ package com.hk.abcfund.model.dto;
 import java.io.Serializable;
 
 /**
- * 심사결과를 담을 DTO 클래스
+ * DTO for examine result
  * @author 9age
  *
  */
 public class ABCJudgeResultDto implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	
+	/**
+	 * Loan code
+	 */
 	private int loanCode;
+	
+	/**
+	 * Email address
+	 */
 	private String email;
+	
+	/**
+	 * Commentary
+	 */
 	private String commentary;
 	private int result;
 	
 	/**
-	 * 기본 생성자 
+	 * Default Constructor
 	 */
 	public ABCJudgeResultDto() {}
 
 	/**
-	 * 전체 변수를 포함한 생성자
-	 * @param loanCode 대출코드
-	 * @param email 회원의 이메일
-	 * @param commentary 대출신청건의 심사평
-	 * @param result 대출신청건의 심사결과
+	 * Constructor for whole variables
+	 * @param loanCode
+	 * @param email
+	 * @param commentary
+	 * @param result
 	 */
 	public ABCJudgeResultDto(int loanCode, String email, String commentary, int result) {
 		super();

@@ -9,26 +9,44 @@ package com.hk.abcfund.model.dto;
  *
  */
 public class ABCAdminLoanManageDto {
-	
+	/**
+	 * Number of stack loans
+	 */
 	private int stackLoanNum;
+	
+	/**
+	 * Amount of stack loans
+	 */
 	private int stackLoanMoney;
+	
+	/**
+	 * Repayments of stack loans
+	 */
 	private int stackLoanRepayMoney;
+	
+	/**
+	 * Number of loan ends
+	 */
 	private int loanEndNum;
+	
+	/**
+	 * Number of middle loan
+	 */
 	private int loanMiddleNum;
 	
 	/**
-	 * 기본생성자 
+	 * Default Constructor
 	 */
 	public ABCAdminLoanManageDto() {}
 
 	
 	/**
-	 * 전체 변수를 갖는 생성자
-	 * @param stackLoanNum 누적대출실행건
-	 * @param stackLoanMoney 누적대출실행금
-	 * @param stackLoanRepayMoney 누적대출상환금
-	 * @param loanEndNum 상환완료건수
-	 * @param loanMiddleNum 상환중인건수
+	 * Constructor for whole variables
+	 * @param stackLoanNum
+	 * @param stackLoanMoney
+	 * @param stackLoanRepayMoney
+	 * @param loanEndNum
+	 * @param loanMiddleNum
 	 */
 	public ABCAdminLoanManageDto(int stackLoanNum, int stackLoanMoney, int stackLoanRepayMoney, int loanEndNum,
 			int loanMiddleNum) {

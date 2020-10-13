@@ -3,24 +3,27 @@ package com.hk.abcfund.model.dto;
 import java.io.Serializable;
 
 /**
+ * DTO for Investment chart
  * @author 9age
  *
  */
 public class ABCInvestChartDto implements Serializable {
-	/** 투자코드 */
+	private static final long serialVersionUID = 1L;
+
+	/** Sequence of investment */
 	private int investSeq;
 	
-	/** 투자금 */
+	/** Amount of investments */
 	private int investMoney;
 	
-	/** 누적원금 */
+	/** Stack of principal */
 	private int stackOrigin;
 	
-	/** 누적 이자금 */
+	/** Stack of interest */
 	private int stackInterest;
 
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public ABCInvestChartDto() {
 		super();
@@ -28,6 +31,7 @@ public class ABCInvestChartDto implements Serializable {
 	}
 
 	/**
+	 * Constructor for whole variables
 	 * @param investSeq
 	 * @param investMoney
 	 * @param stackOrigin
