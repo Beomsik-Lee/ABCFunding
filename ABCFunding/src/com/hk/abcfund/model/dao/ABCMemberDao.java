@@ -8,7 +8,7 @@ import com.hk.abcfund.model.dto.ABCMyInfoDto;
 import com.hk.abcfund.model.dto.ABCMyLoanInfoDto;
 
 /**
- * 회원에 대한 DAO 인터페이스
+ * DAO interface for member
  * @author Beom
  *
  */

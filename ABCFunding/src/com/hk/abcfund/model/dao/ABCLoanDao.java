@@ -7,7 +7,7 @@ import com.hk.abcfund.model.dto.ABCLoanDto;
 import com.hk.abcfund.model.dto.ABCLoanSubDto;
 
 /**
- * 대출신청에 대한 DAO 인터페이스
+ * DAO interface for loan
  * @author 9age
  *
  */

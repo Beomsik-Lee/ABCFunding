@@ -5,7 +5,7 @@ import java.util.List;
 import com.hk.abcfund.model.dto.ABCInvestTransactionDto;
 
 /**
- * 투자내역의 DAO 인터페이스
+ * DAO interface for transaction of investment
  * @author 9age
  *
  */

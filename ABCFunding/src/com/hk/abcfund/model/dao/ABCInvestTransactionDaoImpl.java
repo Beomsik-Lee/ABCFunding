@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.hk.abcfund.model.dto.ABCInvestTransactionDto;
 
 /**
- * 투자내역 구현 클래스
+ * DAO implement for transaction of investment
  * @author 9age
  *
  */

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.hk.abcfund.model.dto.ABCInvestDto;
 
 /**
- * 투자 DAO 구현 클래스
+ * DAO implement for investment
  * @author 9age
  *
  */
@@ -19,7 +19,7 @@ public class ABCInvestDaoImpl implements ABCInvestDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	/** 참조할 맵퍼 네임스페이스 */
+	/** name space */
 	private String namespace = "ABCInvest.";
 		
 	@Override

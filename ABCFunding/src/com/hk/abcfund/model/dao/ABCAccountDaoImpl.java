@@ -13,7 +13,7 @@ import com.hk.abcfund.model.dto.ABCAccountDto;
 import com.hk.abcfund.model.dto.ABCInvestDto;
 
 /**
- * 계좌 DAO 구현 클래스
+ * DAO implement for account
  * @author 9age
  *
  */
@@ -22,7 +22,7 @@ public class ABCAccountDaoImpl implements ABCAccountDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	/** MyBatis 계좌의 네임스페이스 */
+	/** MyBatis - name space of account */
 	private String namespace = "ABCAccount.";
 
 	@Override

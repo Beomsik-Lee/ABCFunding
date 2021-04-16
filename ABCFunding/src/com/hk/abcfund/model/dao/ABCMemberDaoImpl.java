@@ -20,7 +20,7 @@ public class ABCMemberDaoImpl implements ABCMemberDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	/** MyBatis 회원 네임스페이스 */
+	/** name space */
 	private String nameSpace = "ABCMember.";
 	
 	@Override

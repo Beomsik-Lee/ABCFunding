@@ -6,7 +6,7 @@ import java.util.Map;
 import com.hk.abcfund.model.dto.ABCInvestDto;
 
 /**
- * 투자 관련 DAO
+ * DAO interface for investment
  * @author 9age
  *
  */

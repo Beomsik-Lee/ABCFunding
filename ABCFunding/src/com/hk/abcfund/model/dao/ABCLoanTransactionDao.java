@@ -2,11 +2,10 @@ package com.hk.abcfund.model.dao;
 
 import java.util.List;
 
-import com.hk.abcfund.model.dto.ABCLoanDto;
 import com.hk.abcfund.model.dto.ABCLoanTransactionDto;
 
 /**
- * 대출내역DAO 인터페이스
+ * DAO interface for transaction of loan
  * @author 9age
  *
  */

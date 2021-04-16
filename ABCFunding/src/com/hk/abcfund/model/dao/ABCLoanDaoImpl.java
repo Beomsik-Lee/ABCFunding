@@ -14,7 +14,7 @@ import com.hk.abcfund.model.dto.ABCLoanDto;
 import com.hk.abcfund.model.dto.ABCLoanSubDto;
 
 /**
- * 대출 신청에 대한 DAO 클래스
+ * DAO implement for loan
  * @author 9age
  *
  */
@@ -23,11 +23,11 @@ public class ABCLoanDaoImpl implements ABCLoanDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	/** MyBatis 대출신청 네임스페이스 */
+	/** name space */
 	private String nameSpace = "ABCLoan.";
 
 	/**
-	 * 대출 신청 정보 등록
+	 * Add the loan
 	 */
 	@Override
 	public void addLoan(ABCLoanDto ldto) {
@@ -35,7 +35,7 @@ public class ABCLoanDaoImpl implements ABCLoanDao {
 	}
 	
 	/**
-	 * 회원 신용등급 등록
+	 * Add credit rating of member
 	 */
 	@Override
 	public void addCreditRating(ABCLoanSubDto lsdto) {
@@ -43,7 +43,7 @@ public class ABCLoanDaoImpl implements ABCLoanDao {
 	}
 
 	/**
-	 * 심사 대기 등록을 위한 대출 코드 얻어오기
+	 * Get code of loan waiting audit
 	 */
 	@Override
 	public int getLoanCode() {
@@ -51,7 +51,7 @@ public class ABCLoanDaoImpl implements ABCLoanDao {
 	}
 
 	/**
-	 * 대출 신청 후 심사 대기 등록
+	 * Insert audit waiting after request the loan
 	 */
 	@Override
 	public void addJudge(int lcode) {

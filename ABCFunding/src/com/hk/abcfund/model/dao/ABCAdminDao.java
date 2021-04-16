@@ -11,7 +11,7 @@ import com.hk.abcfund.model.dto.ABCJudgeDto;
 import com.hk.abcfund.model.dto.ABCJudgeResultDto;
 
 /**
- * 관리자 화면의 DAO 인터페이스
+ * DAO interface for administrator
  * @author 9age
  *
  */

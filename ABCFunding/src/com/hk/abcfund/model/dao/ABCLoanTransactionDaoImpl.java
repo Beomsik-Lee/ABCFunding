@@ -6,11 +6,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.hk.abcfund.model.dto.ABCLoanDto;
 import com.hk.abcfund.model.dto.ABCLoanTransactionDto;
 
 /**
- * 대출내역 DAO 구현클래스
+ * DAO implement for transaction of loan
  * @author 9age
  *
  */

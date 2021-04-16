@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.hk.abcfund.model.dao;
 
 import java.util.Date;
@@ -15,10 +12,9 @@ import org.springframework.stereotype.Repository;
 import com.hk.abcfund.model.dto.ABCAdminLoanManageDto;
 import com.hk.abcfund.model.dto.ABCJudgeDto;
 import com.hk.abcfund.model.dto.ABCJudgeResultDto;
-import com.hk.abcfund.model.service.ABCLoanServiceImpl;
 
 /**
- * 관리자 화면의 DAO 클래스
+ * DAO implements for administrator
  * @author 9age
  *
  */
@@ -29,14 +25,14 @@ public class ABCAdminDaoImpl implements ABCAdminDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	/** MyBatis 관리자 네임스페이스 */
+	/** name space of administrator */
 	private String nameSpace = "ABCAdmin.";
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(ABCLoanDaoImpl.class);
 	
 	/**
-	 * 심사상태가 대기인 리스트를 조회
+	 * Search for list that waiting for audit
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -45,8 +41,8 @@ public class ABCAdminDaoImpl implements ABCAdminDao {
 	}
 
 	/**
-	 * 심사상태가 대기인 심사건의 상세 내용 조회
-	 * @param loanCode 해당 심사건의 대출신청코드
+	 * Search for detail of waiting audit
+	 * @param loanCode loan code
 	 */
 	@Override
 	public ABCJudgeDto getJudgeDetail(int loanCode) {
@@ -54,8 +50,8 @@ public class ABCAdminDaoImpl implements ABCAdminDao {
 	}
 
 	/**
-	 * 심사결과 정보를 갱신
-	 * @param ABCJudgeResultDto 심사결과 정보를 담은 DTO 객체
+	 * Update the result of audit
+	 * @param ABCJudgeResultDto A DTO for result of audit
 	 */
 	@Override
 	public void addJudgeResult(ABCJudgeResultDto jrdto) {
@@ -73,38 +69,38 @@ public class ABCAdminDaoImpl implements ABCAdminDao {
 	}
 	
 	/**
-	 * 대출실행건수와 대출실행금 조회
+	 * Search for number of loans
 	 */
 	@Override
 	public ABCAdminLoanManageDto getAdminLoanInfo1() {
-		logger.info("getAdminLoanInfo1() 호출 성공!" + new Date());
+		logger.info("getAdminLoanInfo1() Called!" + new Date());
 		return (ABCAdminLoanManageDto)sqlSession.selectOne(nameSpace+"getAdminLoanInfo1");
 	}
 
 	/**
-	 * 누적대출상환금 조회
+	 * Search for accumulated repayments of loan
 	 */
 	@Override
 	public ABCAdminLoanManageDto getAdminLoanInfo2() {
-		logger.info("getAdminLoanInfo2() 호출 성공!" + new Date());
+		logger.info("getAdminLoanInfo2() Called!" + new Date());
 		return (ABCAdminLoanManageDto)sqlSession.selectOne(nameSpace+"getAdminLoanInfo2");
 	}
 
 	/**
-	 * 상환완료 건수 조회
+	 * Search for complement of repayments
 	 */
 	@Override
 	public ABCAdminLoanManageDto getAdminLoanInfo3() {
-		logger.info("getAdminLoanInfo3() 호출 성공!" + new Date());
+		logger.info("getAdminLoanInfo3() Called!" + new Date());
 		return (ABCAdminLoanManageDto)sqlSession.selectOne(nameSpace+"getAdminLoanInfo3");
 	}
 
 	/**
-	 * 상환중인 건수
+	 * Search for number of repaying
 	 */
 	@Override
 	public ABCAdminLoanManageDto getAdminLoanInfo4() {
-		logger.info("getAdminLoanInfo4() 호출 성공!" + new Date());
+		logger.info("getAdminLoanInfo4() Called!" + new Date());
 		return (ABCAdminLoanManageDto)sqlSession.selectOne(nameSpace+"getAdminLoanInfo4");
 	}
 }
