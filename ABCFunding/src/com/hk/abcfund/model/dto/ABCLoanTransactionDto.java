@@ -3,36 +3,36 @@ package com.hk.abcfund.model.dto;
 import java.io.Serializable;
 
 /**
+ * DTO for loan transaction
  * @author 9age
  *
  */
 public class ABCLoanTransactionDto implements Serializable {
-	/** 대출내역을 식별할 시퀀스 번호 */
+	/** sequence for loan transaction */
 	private int loanSeq;
 	
-	/** 어떤 대출상품인지를 식별할 대출코드 */
+	/** loan code */
 	private int loanCode;
 	
-	/** 누적상환이자금 */
+	/** Accumulated repayments rate */
 	private int stackRepayRate;
 	
-	/** 누적상환원금 */
+	/** Accumulated repayments principal */
 	private int stackRepayOrigin;
 	
-	/** 대출의 진행상황 */
+	/** loan progress */
 	private String progress;
 	
 	/**
-	 * 회수 비율
-	 * (누적상환금 / 총상환금)으로 계산
+	 * rate collected
 	 */
 	private int collectRate;
 	
-	/** 대출의 회차 수 */
+	/** rounds for loan */
 	private int round;
 
 	/**
-	 * 기본생성자
+	 * Default constructor
 	 */
 	public ABCLoanTransactionDto() {}
 

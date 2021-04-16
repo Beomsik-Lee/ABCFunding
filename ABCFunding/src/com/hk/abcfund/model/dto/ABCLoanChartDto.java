@@ -6,17 +6,18 @@ package com.hk.abcfund.model.dto;
 import java.io.Serializable;
 
 /**
- * @author Beom
+ * DTO for chart
+ * @author 9age
  *
  */
 public class ABCLoanChartDto implements Serializable {
-	/** 대출코드 */
+	/** loan code */
 	private int loanCode;
 	
-	/** 누적 원금 */
+	/** Accumulated principal */
 	private int stackRepayOrigin;
 	
-	/** 누적 이자금 */
+	/** Accumulated interest */
 	private int stackRepayRate;
 
 	/**

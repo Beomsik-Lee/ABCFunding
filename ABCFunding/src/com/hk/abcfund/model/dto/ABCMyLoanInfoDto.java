@@ -6,95 +6,80 @@ package com.hk.abcfund.model.dto;
 import java.io.Serializable;
 
 /**
+ * DTO for loan info
  * @author 9age
  *
  */
 public class ABCMyLoanInfoDto implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 725294898092999866L;
 
 	/**
-	 * 대출 신청인의 이메일
+	 * email
 	 */
 	private String email;
 	
-	/** 대출상품을 식별할 대출코드 */
+	/** loan code */
 	private int loanCode;
 	
-	/** 대출의 진행상태 
-	 * 펀딩진행중,펀딩완료,상환중,상환완료
-	 * 한글로 최대6자
+	/** 
+	 * progress of loan
 	 */
 	private String progress;
 	
 	/**
-	 * 대출 금리
-	 * 8% 고정 금리
+	 * interest rate
 	 */
 	private int interestRate;
 	
 	/**
-	 * 상환방식
-	 * 원리금균등분할상환 방식으로 고정
+	 * type of repayments
 	 */
 	private String repayType;
 	
 	
 	/**
-	 * 대출구분
-	 * 개인신용대출로 고정
+	 * type of loan
 	 */
 	private String loanType;
 	
 	/**
-	 * 대출신청금
-	 * 단위는 원
+	 * A loan
 	 */
 	private int loanMoney;
 	
 	/**
-	 * 대출기간
-	 * 입력가능값 : 1~12,18,24
-	 * 단위는 개월수 
+	 * date of loan 
 	 */
 	private int loanDate;
 	
 	/**
-	 * 희망상환일
-	 * 입력가능 값 : 1,5,10,15,20,25
-	 * 단위는 일
+	 * Desired repayments date
 	 */
 	private int repay;
 	
 	/**
-	 * 펀딩신청 기간
-	 * 입력가능 값 : 1~7
-	 * 단위는 일
+	 * Expire date
 	 */
 	private int expiryDate;
 	
 	/**
-	 * 대출 잔액
-	 * 현재 남아있는 상환해야할 대출 잔액
+	 * balance
 	 */
 	private int balance;
 	
 	/**
-	 * 대출 심사 결과
-	 * 대출 신청건에 대한 심사결과를 담을 변수
+	 * result for loan
 	 */
 	private int result;
 
 	/**
-	 * 기본 생성자
+	 * Default constructor
 	 */
 	public ABCMyLoanInfoDto() {}
 
 	/**
-	 * 전체 변수를 가지는 기본 생성자
+	 * The constructor that have all parameters
 	 * @param email
 	 * @param loanCode
 	 * @param progress

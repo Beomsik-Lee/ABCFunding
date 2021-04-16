@@ -3,108 +3,101 @@ package com.hk.abcfund.model.dto;
 import java.io.Serializable;
 
 /**
+ * DTO for member
  * @author 9age
  *
  */
 public class ABCMemberDto implements Serializable {
-	/** ȸ�� �̸��� */
+	/** email */
 	private String email;
 	
-	/** ȸ�� �̸��� ���ڸ� */
+	/** email1 */
 	private String email1;
 	
-	/** ȸ�� �̸��� ���ڸ� */
+	/** email2 */
 	private String email2;
 	
 	/** 
-	 * ȸ�� ��й�ȣ
-	 * ������ҹ���, ����, Ư������ ������ 6~20�ڱ��� 
+	 * password
 	 */
 	private String pwd;
 	
 	/**
-	 * ȸ�� �̸�
-	 * �ѱ� 6�ڱ���
+	 * name
 	 */
 	private String name;
 	
 	/**
-	 * ȸ�� �������
-	 * �����ھ��� �� 8�ڸ�
+	 * birth day
 	 */
 	private String birth;
 	
-	/** ȸ�� ���⵵ */
+	/** year of birth day*/
 	private String year;
 	
-	/** ȸ�� ���� */
+	/** month of birth day */
 	private String month;
 	
-	/** ȸ�� ���� */
+	/** date of birth day */
 	private String day;
 	
 	/**
-	 * ȸ�� ����
-	 * ���� �Ǵ� ����
+	 * gender
 	 */
 	private String gender;
 	
 	/**
-	 * ȸ�� �ſ���
-	 * 1~9����
+	 * credit rating
 	 */
 	private int creditRating;
 	
 	/**
-	 * ����Ǽ�
-	 * 0�̻��� ����
+	 * number of loan
 	 */
 	private int loanCount;
 	
 	/**
-	 * ���ڰǼ�
-	 * 0�̻��� ����
+	 * number of investment
 	 */
 	private int investCount;
 	
 	/**
-	 * �Ŀ� �Ǽ�
+	 * number of support
 	 */
 	private int supportCount;
 	
 	/**
-	 * ȸ�� ���
-	 * �Ϲ�ȸ���� 1, �����ڴ� 2
-	 * �⺻�� 1
+	 * grade
 	 */
 	private int grade;
 	
 	/**
-	 * ȸ�������� ���� �̸��� �����ڵ�
+	 * auth code
 	 */
 	private String authCode;
 
 	/**
-	 * �ƹ��͵� ���� �⺻������
+	 * The constructor that have all parameters
 	 */
 	public ABCMemberDto() {}
 
 	/**
-	 * @param email ��ü �̸���
-	 * @param email1 �̸��� ���ڸ�
-	 * @param email2 �̸��� ���ڸ�
-	 * @param pwd ��й�ȣ
-	 * @param name �̸�
-	 * @param birth �������
-	 * @param year ����
-	 * @param month ����
-	 * @param day ����
-	 * @param gender ����
-	 * @param creditRating �ſ���
-	 * @param loanCount ����Ǽ�
-	 * @param investCount ���ڰǼ�
-	 * @param supportCount �Ŀ��Ǽ�
-	 * @param grade ȸ�����
+	 * 
+	 * @param email
+	 * @param email1
+	 * @param email2
+	 * @param pwd
+	 * @param name
+	 * @param birth
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @param gender
+	 * @param creditRating
+	 * @param loanCount
+	 * @param investCount
+	 * @param grade
+	 * @param supportCount
 	 */
 	public ABCMemberDto(String email, String email1, String email2, String pwd, String name, String birth, String year,
 			String month, String day, String gender, int creditRating, int loanCount, int investCount, int grade, int supportCount) {
@@ -127,7 +120,6 @@ public class ABCMemberDto implements Serializable {
 	}
 
 	/**
-	 * email1�� email2�� ���� �־�� �Ѵ�.
 	 * @return the email
 	 */
 	public String getEmail() {
@@ -165,7 +157,6 @@ public class ABCMemberDto implements Serializable {
 	}
 
 	/**
-	 * year, month, day�� ���� �־�� ��.
 	 * @return the birth
 	 */
 	public String getBirth() {

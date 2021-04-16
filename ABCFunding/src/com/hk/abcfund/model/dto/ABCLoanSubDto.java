@@ -3,7 +3,7 @@ package com.hk.abcfund.model.dto;
 import java.io.Serializable;
 
 /**
- * 대출 신청시 신용정보와 이메일을 담기 위한 DTO 클래스
+ * DTO for credit rating and email
  * @author 9age
  *
  */
@@ -11,17 +11,17 @@ public class ABCLoanSubDto implements Serializable {
 	private static final long serialVersionUID = 6522303323187086821L;
 
 	/**
-	 * 회원의 신용등급
+	 * credit rating
 	 */
 	private int creditRating;
 	
 	/**
-	 * 회원의 이메일
+	 * email
 	 */
 	private String email;
 
 	/**
-	 * 기본생성자
+	 * Default constructor
 	 */
 	public ABCLoanSubDto() {}
 

@@ -6,7 +6,7 @@ package com.hk.abcfund.model.dto;
 import java.io.Serializable;
 
 /**
- * 내 정보의 기본 정보를 담아올 DTO 클래스
+ * DTO for my info
  * @author 9age
  *
  */
@@ -25,7 +25,7 @@ public class ABCMyInfoDto implements Serializable {
 	private int balance;
 	
 	/**
-	 * 기본생성자 
+	 * Default constructor
 	 */
 	public ABCMyInfoDto() {}
 

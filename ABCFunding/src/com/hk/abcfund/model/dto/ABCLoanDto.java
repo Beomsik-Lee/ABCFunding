@@ -5,187 +5,166 @@ import java.io.Serializable;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 대출신청 정보를 담아오는 DTO 클래스
+ * DTO for loan
  * @author 9age
  *
  */
 public class ABCLoanDto implements Serializable {
-	/** 대출상품을 식별할 대출코드 */
+	/** loan code */
 	private int loanCode;
 	
-	/** 대출의 진행상태 
-	 * 펀딩진행중,펀딩완료,상환중,상환완료
-	 * 한글로 최대6자
+	/** 
+	 * progress of funding and repayments
 	 */
 	private String progress;
 	
 	/**
-	 * 현재 투자된 금액
-	 * 0이상의 정수 
+	 * invested money
 	 */
 	private int currentMoney;
 	
 	/** 
-	 * 현재 참여한 투자자 수
-	 * 0이상의 정수
+	 * number of joint
 	 */
 	private int jointCount;
 	
 	/**
-	 * 현재 회차 수
-	 * 0이상의 정수
+	 * current rounds
 	 */
 	private int round;
 	
 	/**
-	 * 대출 신청인의 이메일
+	 * email of borrower
 	 */
 	private String email;
 	
 	/**
-	 * 대출 신청인의 이름
+	 * name of borrower
 	 */
 	private String name;
 	
 	/**
-	 * 대출 신청인의 생년월일
+	 * birth date of borrower
 	 */
 	private String birth;
 	
 	/**
-	 * 대출 신청인의 성별
+	 * gender of borrower
 	 */
 	private String gender;
 	
 	/**
-	 * 고용형태
-	 * 정규직,비정규직,아르바이트,무직
-	 * 한글 최대 6자
+	 * type of employ
 	 */
 	private String employType;
 	
 	/**
-	 * 회사규모
-	 * 대기업,중견기업,중소기업,스타트업
-	 * 한글 최대 4자
+	 * The company size
 	 */
 	private String scale;
 	
 	/**
-	 * 재직기간
-	 * 0이상의 2자리 정수
+	 * Term of employment
 	 */
 	private int serve;
 	
 	/**
-	 * 연봉
-	 * 단위는 만원
-	 * 0이상의 7자리 정수
+	 * salary
 	 */
 	private int salary;
 	
 	/**
-	 * 대출 금리
-	 * 8% 고정 금리
+	 * rate of interest(8% fixed)
 	 */
 	private int interestRate;
 	
 	/**
-	 * 상환방식
-	 * 원리금균등분할상확 방식으로 고정
+	 * type of repayments
 	 */
 	private String repayType;
 	
 	/**
-	 * 대출구분
-	 * 개인신용대출로 고정
+	 * type of loan
 	 */
 	private String loanType;
 	
 	/**
-	 * 대출신청금
-	 * 단위는 원
+	 * A loan
 	 */
 	private int loanMoney;
 	
 	/**
-	 * 대출기간
-	 * 입력가능값 : 1~12,18,24
-	 * 단위는 개월수 
+	 * loan period
 	 */
 	private int loanDate;
 	
 	/**
-	 * 희망상환일
-	 * 입력가능 값 : 1,5,10,15,20,25
-	 * 단위는 일
+	 * Desired repayments date
 	 */
 	private int repay;
 	
 	/**
-	 * 소개글의 제목
+	 * title of funding
 	 */
 	private String title;
 	
 	/**
-	 * 소개글의 내용
+	 * intro of funding
 	 */
 	private String intro;
 	
 	/**
-	 * 소개글의 파일 이름
+	 * file name of introduction
 	 */
 	private String fname;
 	
 	/**
-	 * 소개글의 파일
+	 * uploaded file of introduction
 	 */
 	private MultipartFile uploadfile;
 	
 	/**
-	 * 펀딩신청 기간
-	 * 입력가능 값 : 1~7
-	 * 단위는 일
+	 * Expire date
 	 */
 	private int expiryDate;
 	
 	/**
-	 * 펀딩신청일
-	 * 형식 : yyyy-mm-dd
+	 * Request date
 	 */
 	private String requestDate;
 
 	/**
-	 * 기본 생성자
+	 * Default constructor
 	 */
 	public ABCLoanDto() {}
 
 	/**
-	 * 모든 파라미터를 가지는 생성자
-	 * @param loanCode 대출코드
-	 * @param progress 진행상태
-	 * @param currentMoney 현재까지 모집된 금액
-	 * @param jointCount 현재까지 참여한 인원수
-	 * @param round 현재 상환 회차수
-	 * @param eamil 대출 신청인의 이메일
-	 * @param name 대출 신청자의 이름
-	 * @param birth 대출 신청자의 생년월일
-	 * @param gender 대출 신청자의 성별
-	 * @param employType 고용형태
-	 * @param scale 회사규모
-	 * @param serve 재직기간
-	 * @param salary 연봉
-	 * @param interestRate 대출금리
-	 * @param repayType 대출상환방식(원리금균등분할)
-	 * @param loanType 대출구분(개인신용대출)
-	 * @param loanMoney 대출신청금
-	 * @param loanDate 대출신청기간
-	 * @param repay 희망상환일
-	 * @param title 소개글의 제목
-	 * @param intro 소개글의 내용
-	 * @param fname 소개글의 파일 이름
-	 * @param uploadfile 소개글의 파일
-	 * @param expiryDate 펀딩모집기간
+	 * Constructor that have all parameters
+	 * @param loanCode
+	 * @param progress
+	 * @param currentMoney
+	 * @param jointCount
+	 * @param round
+	 * @param email
+	 * @param name
+	 * @param birth
+	 * @param gender
+	 * @param employType
+	 * @param scale
+	 * @param serve
+	 * @param salary
+	 * @param interestRate
+	 * @param repayType
+	 * @param loanType
+	 * @param loanMoney
+	 * @param loanDate
+	 * @param repay
+	 * @param title
+	 * @param intro
+	 * @param fname
+	 * @param uploadfile
+	 * @param expiryDate
+	 * @param requestDate
 	 */
 	public ABCLoanDto(int loanCode, String progress, int currentMoney, int jointCount, int round, String email, String name,
 			String birth, String gender, String employType, String scale, int serve, int salary, int interestRate,
@@ -222,9 +201,9 @@ public class ABCLoanDto implements Serializable {
 	
 
 	/**
-	 * 대출코드와 진행상황만을 초기화하는 생성자
-	 * @param loanCode 대출코드
-	 * @param progress 진행상황
+	 * Constructor that only initialize the loan code and progress
+	 * @param loanCode
+	 * @param progress
 	 */
 	public ABCLoanDto(int loanCode, String progress) {
 		super();
