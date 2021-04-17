@@ -1,6 +1,11 @@
 package com.hk.abcfund.model.dto;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.hk.abcfund.util.ABCUtility;
 
 /**
  * DTO for member
@@ -10,13 +15,6 @@ import java.io.Serializable;
 public class ABCMemberDto implements Serializable {
 	/** email */
 	private String email;
-	
-	/** email1 */
-	private String email1;
-	
-	/** email2 */
-	private String email2;
-	
 	/** 
 	 * password
 	 */
@@ -28,18 +26,14 @@ public class ABCMemberDto implements Serializable {
 	private String name;
 	
 	/**
-	 * birth day
+	 * birth day by String
 	 */
 	private String birth;
 	
-	/** year of birth day*/
-	private String year;
-	
-	/** month of birth day */
-	private String month;
-	
-	/** date of birth day */
-	private String day;
+	/**
+	 * Year of birth day
+	 */
+	private String year;	
 	
 	/**
 	 * gender
@@ -74,7 +68,7 @@ public class ABCMemberDto implements Serializable {
 	/**
 	 * auth code
 	 */
-	private String authCode;
+	private String authCode = "1";
 
 	/**
 	 * The constructor that have all parameters
@@ -99,18 +93,12 @@ public class ABCMemberDto implements Serializable {
 	 * @param grade
 	 * @param supportCount
 	 */
-	public ABCMemberDto(String email, String email1, String email2, String pwd, String name, String birth, String year,
-			String month, String day, String gender, int creditRating, int loanCount, int investCount, int grade, int supportCount) {
+	public ABCMemberDto(String email, String pwd, String name, String birth, String gender, int creditRating, int loanCount, int investCount, int grade, int supportCount) {
 		super();
 		this.email = email;
-		this.email1 = email1;
-		this.email2 = email2;
 		this.pwd = pwd;
 		this.name = name;
 		this.birth = birth;
-		this.year = year;
-		this.month = month;
-		this.day = day;
 		this.gender = gender;
 		this.creditRating = creditRating;
 		this.loanCount = loanCount;
@@ -123,25 +111,9 @@ public class ABCMemberDto implements Serializable {
 	 * @return the email
 	 */
 	public String getEmail() {
-//		if(email==null)
-//			email = email1 + "@" + email2;
 		return email;
 	}
-
-	/**
-	 * @return the email1
-	 */
-	public String getEmail1() {
-		return email1;
-	}
-
-	/**
-	 * @return the email2
-	 */
-	public String getEmail2() {
-		return email2;
-	}
-
+	
 	/**
 	 * @return the pwd
 	 */
@@ -160,30 +132,7 @@ public class ABCMemberDto implements Serializable {
 	 * @return the birth
 	 */
 	public String getBirth() {
-//		if(birth==null)
-//		birth = year + month + day;
 		return birth;
-	}
-
-	/**
-	 * @return the year
-	 */
-	public String getYear() {
-		return year;
-	}
-
-	/**
-	 * @return the month
-	 */
-	public String getMonth() {
-		return month;
-	}
-
-	/**
-	 * @return the day
-	 */
-	public String getDay() {
-		return day;
 	}
 
 	/**
@@ -236,41 +185,6 @@ public class ABCMemberDto implements Serializable {
 	}
 
 	/**
-	 * @param email1 the email1 to set
-	 */
-	public void setEmail1(String email1) {
-		this.email1 = email1;
-	}
-
-	/**
-	 * @param email2 the email2 to set
-	 */
-	public void setEmail2(String email2) {
-		this.email2 = email2;
-	}
-
-	/**
-	 * @param year the year to set
-	 */
-	public void setYear(String year) {
-		this.year = year;
-	}
-
-	/**
-	 * @param month the month to set
-	 */
-	public void setMonth(String month) {
-		this.month = month;
-	}
-
-	/**
-	 * @param day the day to set
-	 */
-	public void setDay(String day) {
-		this.day = day;
-	}
-
-	/**
 	 * @param pwd the pwd to set
 	 */
 	public void setPwd(String pwd) {
@@ -288,7 +202,7 @@ public class ABCMemberDto implements Serializable {
 	 * @param birth the birth to set
 	 */
 	public void setBirth(String birth) {
-		this.birth = birth;
+		this.birth = ABCUtility.getDateNoHyphen(birth);
 	}
 
 	/**
@@ -346,14 +260,28 @@ public class ABCMemberDto implements Serializable {
 	public void setSupportCount(int supportCount) {
 		this.supportCount = supportCount;
 	}
+	
+	/**
+	 * @return year of birth day
+	 */
+	public String getYear() {
+		return year;
+	}
+	
+	/**
+	 * @param year year of birth day
+	 */ 
+	public void setYear(String year) {
+		this.year = year;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "ABCMemberDto [email=" + email + ", email1=" + email1 + ", email2=" + email2 + ", pwd=" + pwd + ", name="
-				+ name + ", birth=" + birth + ", year=" + year + ", month=" + month + ", day=" + day + ", gender="
+		return "ABCMemberDto [email=" + email + ", pwd=" + pwd + ", name="
+				+ name + ", birth=" + birth + ", gender="
 				+ gender + ", creditRating=" + creditRating + ", loanCount=" + loanCount + ", investCount="
 				+ investCount + ", supportCount=" + supportCount + ", grade=" + grade + ", authCode=" + authCode + "]";
 	}

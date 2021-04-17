@@ -25,7 +25,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="birthDate">Birth Date</label>
-                        <input type="date" class="form-control" id="birthDate" required="required" />
+                        <input type="date" name="birth" class="form-control" id="birthDate" required="required" />
                     </div>
                     <div class="mb-2">
                         <span>Gender</span>
@@ -48,72 +48,6 @@
                         <input type="submit" class="btn btn-primary btn-lg btn-block" value="Sign Up" />
                     </div>
                 </form>
-            </div>
-        </div>
-    </section>
-    <section id="addmember" class="addmember-section" style="display: none;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>회원가입</h1>
-                    <br>
-                    <br>
-                    <form action="addMember.do" method="post">
-                    <table class="addmember-table">
-                      <tr>
-                        <td>이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</td>
-                        <td><input type="text" name="name" required="required"/></td>
-                      </tr>
-                      <tr>
-                        <td>이&nbsp;&nbsp;메&nbsp;&nbsp;일</td>
-                        <td><input type="text" name="email1" required="required"/>
-                        	@
-                        	<input type="text" name="email2" required="required"/></td>
-                      </tr>
-                      <tr>
-                        <td>비밀번호</td>
-                        <td><input type="password" name="pwd" required="required"/></td>
-                      </tr>
-                      <tr>
-                        <td>생년월일</td>
-                        <td>
-                           <select name="year">
-                               <c:forEach var="idx" begin="1964" end="2004">
-                                   <option value="${idx}">${idx}</option>
-                                </c:forEach>
-                           </select>년
-                           <select name="month">
-                        <c:forEach var="idx" begin="1" end="12">
-                           <c:set var="cnt" value="0${idx}" />
-                           <option value="${idx<10 ? cnt : idx}">
-                           ${idx<10 ? cnt : idx}</option>
-                        </c:forEach>
-                           </select>월
-                           <select name="day">
-                                <c:forEach var="idx" begin="1" end="31">
-                           <c:set var="cnt" value="0${idx}" />
-                           <option value="${idx<10 ? cnt : idx}">
-                           ${idx<10 ? cnt : idx}</option>
-                        </c:forEach>
-                           </select>일
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;별
-                          <td>
-                            <input type="radio" checked="checked" name="gender" value="남자" />
-                               남자&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="gender" value="여자" />여자
-                          </td>
-                      </tr>
-                  <tr>
-                  <td></td>
-                  <td><input type="submit" class="btn btn-primary" name="addmember" value="회원가입하기" />&nbsp;&nbsp;&nbsp;
-                  <input type="reset" class="btn btn-primary" name="reset" value="리셋" /></td>
-                  </tr>
-                  </table>
-                  </form>
-                </div>
             </div>
         </div>
     </section>

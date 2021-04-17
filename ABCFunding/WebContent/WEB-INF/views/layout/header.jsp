@@ -12,13 +12,15 @@
       <a class="p-2 text-dark" href="intro.do">Features</a>
       <a class="p-2 text-dark" href="invest.do">Investment</a>
       <a class="p-2 text-dark" href="loan.do">Loan</a>
+      <c:if test="${empty login}">
       <a class="p-2 text-dark" href="login.do">Sign in</a>
+      </c:if>
+      <c:if test="${not empty login}">
+      <a class="p-2 text-dark" href="logout.do">Sign out</a>
+      </c:if>
    </nav>
    <c:if test="${empty login}">
    <a class="btn btn-outline-primary" href="regi.do">Sign up</a>
-   </c:if>
-   <c:if test="${not empty login}">
-   <a class="btn btn-outline-primary" href="logout.do">Sign out</a>
    </c:if>
 </header>
 </body>

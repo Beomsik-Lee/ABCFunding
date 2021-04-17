@@ -1,5 +1,6 @@
 package com.hk.abcfund.util;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -191,5 +192,14 @@ public final class ABCUtility {
 	 */
 	public static double getInterest(int balance, float interestRate){
 		return balance * interestRate / 12;
+	}
+	
+	/**
+	 * Get date by string
+	 * @param date A Date object
+	 * @return Date of string
+	 */
+	public static String getDateNoHyphen(String date) {
+		return String.join("", date.split("-"));
 	}
 }
