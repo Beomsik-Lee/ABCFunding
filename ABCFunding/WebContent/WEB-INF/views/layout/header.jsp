@@ -10,12 +10,12 @@
    <div class="h5 my-0 mr-md-auto font-weight-normal"><a href="main.do" class="text-dark">ABC Funding</a></div>
    <nav class="my-2 my-md-0 mr-md-3">
       <a class="p-2 text-dark" href="intro.do">Features</a>
-      <a class="p-2 text-dark" href="invest.do">Investment</a>
-      <a class="p-2 text-dark" href="loan.do">Loan</a>
       <c:if test="${empty login}">
       <a class="p-2 text-dark" href="login.do">Sign in</a>
       </c:if>
       <c:if test="${not empty login}">
+      <a class="p-2 text-dark" href="invest.do">Investment</a>
+      <a class="p-2 text-dark" href="loan.do">Loan</a>
       <a class="p-2 text-dark" href="logout.do">Sign out</a>
       </c:if>
    </nav>

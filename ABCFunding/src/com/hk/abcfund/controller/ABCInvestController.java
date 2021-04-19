@@ -121,7 +121,6 @@ public class ABCInvestController {
 	}
 	
 	/**
-	 * 투자신청 화면으로 이동하는 메서드
 	 * Go to investing page
 	 * @param model To set title
 	 * @param request To get session

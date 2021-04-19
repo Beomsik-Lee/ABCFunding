@@ -36,9 +36,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>회원가입 성공!</h1>
-                    <p>회원가입에 성공적으로 완료하였습니다.</p><br>
-                    <a href="login.do"><button type="button" class="btn btn-primary">로그인화면으로 이동</button></a>
+                    <h1>Registration Success</h1>
+                    <p>Your registration has been successfully received.</p><br>
+                    <a href="login.do"><button type="button" class="btn btn-primary">Go to sign in</button></a>
                 </div>
             </div>
         </div>

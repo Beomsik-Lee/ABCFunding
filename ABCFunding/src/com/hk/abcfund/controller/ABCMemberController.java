@@ -38,6 +38,7 @@ import com.hk.abcfund.model.service.ABCAdminSerivce;
 import com.hk.abcfund.model.service.ABCInvestService;
 import com.hk.abcfund.model.service.ABCLoanService;
 import com.hk.abcfund.model.service.ABCMemberService;
+import com.hk.abcfund.util.ABCUtility;
 
 /**
  * @author 9age
@@ -111,9 +112,8 @@ public class ABCMemberController {
         // Set title with function name
         model.addAttribute("title", "Registration :: " + MAIN_TITLE);
         
-        // Delete for non-auth
-        // Send email of authentication
-//        emailAuthentication(dto, "authAf.do");
+        // Delete hyphen of birth day
+        dto.setBirth(ABCUtility.getDateNoHyphen(dto.getBirth()));
         
         // Regist membership
         service.addMemeber(dto);
@@ -150,6 +150,10 @@ public class ABCMemberController {
         if(member == null) {
             return "redirect:/login.do?isFail=true"; // Go to login page
         }
+        
+        // Set birth day with hyphen
+        String joint = String.join("-", ABCUtility.parseBirth(member.getBirth()));
+        member.setBirth(joint);
         
         // If login success, put the member object to session
         request.getSession().setAttribute("login", member);
@@ -189,209 +193,6 @@ public class ABCMemberController {
     }
     
     /**
-     * Move to password find page
-     * @param model
-     * @return tiles name of password find page
-     */
-    @RequestMapping(value="searchpwd.do", method = RequestMethod.GET)
-    public String searchpwd(Model model) {
-        // Set title of find password
-        model.addAttribute("title", "Find password" + MAIN_TITLE);
-        
-        return "searchpwd.tiles";
-    }
-    
-    // Delete for non-auth
-//    /**
-//     * Set next page after find password
-//     * @param dto Only have email data
-//     * @return Redirect to main page
-//     */
-//    @RequestMapping(value="searchpwdAf.do", method = RequestMethod.POST)
-//    public String searchpwdAf(ABCMemberDto dto) {
-//        // Send authentication email
-//        emailAuthentication(dto, "pwdAfAuth.do");
-//        
-//        // Change new authentication code
-//        service.changeAuthCode(dto);
-//        
-//        return "redirect:/main.do";
-//    }
-    
-    /**
-     * Go to change password page
-     * @param model To set title
-     * @return tiles name of change password
-     */
-    @RequestMapping(value="pwdAfAuth.do", method = RequestMethod.GET)
-    public String pwdAfAuth(Model model, HttpServletRequest request ,ABCMemberDto dto) {
-        // set title of change password
-        model.addAttribute("title", "Change Password :: " + MAIN_TITLE);
-        
-        // email decoding
-        byte[] decoded = Base64.decodeBase64(dto.getEmail().getBytes());
-        
-        // set decoded email
-        dto.setEmail(new String(decoded));
-        
-        // add to session
-        request.getSession().setAttribute("authAf", dto);
-        
-        return "pwdAfAuth.tiles";
-    }
-    
-    /**
-     * Set next page after change password
-     * @param request To get added session
-     * @param pwd To change password
-     * @return Redirect to login page
-     */
-    @RequestMapping(value="pwdAfAuthAf.do", method = RequestMethod.POST)
-    public String pwdAfAuthAf(HttpServletRequest request , String pwd) {
-        // Set password to session
-        ABCMemberDto dto = (ABCMemberDto)(request.getSession().getAttribute("authAf"));
-        dto.setPwd(pwd);
-        
-        // invalidate no use of session
-        request.getSession().invalidate();
-        
-        // change password on request of authentication
-        service.changePwdOnAuth(dto);
-        
-        return "redirect:/login.do";
-    }
-    
-    // Delete for non-auth START
-//    /**
-//     * Authenticate the email
-//     * @param dto Member object for authentication
-//     * @param path path for authentication
-//     */
-//    public void emailAuthentication(ABCMemberDto dto, String path) {
-//        try {
-//            // Create UUID
-//            String uuid = UUID.randomUUID().toString().replace("-", "");
-//            dto.setAuthCode(uuid);
-//            
-//            /* Set data to send the email */
-//            // set my email
-//            String from = "dlqjatlr990@gmail.com";
-//            
-//            // set title
-//            String subject = "[ABC Funding]Authentication on your request";
-//            
-//            // encoding email
-//            byte[] encodeEmail = Base64.encodeBase64(dto.getEmail().getBytes());
-//            String content =
-//                "http://localhost:8090/ABCFunding/"+path+"?email="+
-//                        new String(encodeEmail)+"&authCode="+uuid;
-//
-//            /* Set data to connect to SMTP*/
-//            Properties p = new Properties();
-//            p.put("mail.smtp.host", "smtp.gmail.com");
-//            p.put("mail.smtp.port", "465");
-//            p.put("mail.smtp.starttls.enable", "true");
-//            p.put("mail.smtp.auth", "true");
-//            p.put("mail.smtp.debug", "true");
-//            p.put("mail.smtp.socketFactory.port", "465");
-//            p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-//            p.put("mail.smtp.socketFactory.fallback", "false");            
-//            
-//            // SMTP Authentication
-//            Authenticator auth = new SMTPAuthenticator();
-//            
-//            // Create session with SMTP connection
-//            Session session = Session.getInstance(p, auth);
-//            
-//            // set session debug
-//            session.setDebug(true);
-//            
-//            /* Create instance for email contents */
-//            MimeMessage msg = new MimeMessage(session);
-//            Address fromAddr = new InternetAddress(from);
-//            Address toAddr = new InternetAddress(dto.getEmail());
-//            String emailContent = makeEmail(content, dto.getEmail());
-//            
-//            // set subject
-//            msg.setSubject(subject);
-//
-//            // set from-email
-//            msg.setFrom(fromAddr); 
-//
-//            // set to-email
-//            msg.addRecipient(Message.RecipientType.TO, toAddr); 
-//            
-//            // set text
-//            msg.setText(emailContent, "UTF-8");
-//            
-//            // set MIME
-//            msg.setHeader("content-Type", "text/html;charset=utf-8");
-//            
-//            // send email
-//            Transport.send(msg);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-    
-//    /**
-//     * Write email body
-//     * @param content email message
-//     * @param email to-email
-//     * @return Created HTML String
-//     */
-//    public String makeEmail(String content, String email){
-//        StringBuffer sb = new StringBuffer(); 
-//
-//        sb.append("<HTML>\n"); 
-//        sb.append("<HEAD>\n"); 
-//        sb.append("<TITLE>"+"Notification"+"</TITLE>\n"); 
-//        sb.append("<META content=text/html; charset=utf-8>\n"); 
-//        sb.append("</HEAD>\n"); 
-//        sb.append("<BODY text=black vLink=blue aLink=red link=blue bgColor=#ffffff>\n"); 
-//        
-//        sb.append("<P align=left><B><FONT size=8px color=black>Confirm Authentication</FONT></B></P>\n");
-//        sb.append("<P align=left><B><FONT size=6px color=black>Welcome "+email+"!!</FONT></B></P>\n");
-//        sb.append("<P align=left><B><FONT size=6px color=black>Click the button</FONT></B></P>\n");
-//        sb.append("<P align=left><a href='" + content +"'><FONT size=5px color=blue>Confirm</FONT></a></P>\n");
-//
-//        sb.append("</BODY>\n"); 
-//        sb.append("</HTML>\n"); 
-//        
-//        return sb.toString();
-//    }
-    
-//    /**
-//     * Confirm authentication from email
-//     * @param dto Membership dto
-//     * @param model
-//     * @return tiles name of login page
-//     */
-//    @RequestMapping(value = "authAf.do", method = RequestMethod.GET)
-//    public String authAf(ABCMemberDto dto, Model model) {
-//        // set title of email authentication
-//        model.addAttribute("title", "Authentication :: " + MAIN_TITLE);
-//        
-//        try {
-//            // Decode email
-//            byte[] decoded = Base64.decodeBase64(dto.getEmail().getBytes());
-//            
-//            // Set email decoded
-//            dto.setEmail(new String(decoded));
-//            
-//            // Grant permission of normal member
-//            System.out.println(dto);
-//            service.doAuthMember(dto);
-//            
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return "redirect:/login.do";
-//    }
-    // Delete for non-auth END
-    
-    /**
      * Go to my info page
      * @param request To get email of the member
      * @param model To set retrieved data
@@ -408,7 +209,6 @@ public class ABCMemberController {
         // Request to service
         model.addAttribute("myInfo", service.getMyInfo(login.getEmail()));
         
-        logger.info("myInfo.do Success!" + new Date());
         return "myInfo.tiles";
     }
     

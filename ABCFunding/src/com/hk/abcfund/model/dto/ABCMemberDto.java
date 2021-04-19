@@ -202,7 +202,7 @@ public class ABCMemberDto implements Serializable {
 	 * @param birth the birth to set
 	 */
 	public void setBirth(String birth) {
-		this.birth = ABCUtility.getDateNoHyphen(birth);
+		this.birth = birth;
 	}
 
 	/**

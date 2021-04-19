@@ -1,220 +1,148 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="crowding funding">
-    <meta name="author" content="9age">
-
-    <title>${title}</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="css/scrolling-nav.css" rel="stylesheet">
-
-    <!-- ABC Funding CSS -->
-    <link href="css/abcstyle.css" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
+<head></head>
 <body>
-
 	<!-- Loan Section -->
-	<section id="loan" class="loan-section">
-		<div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                  <h1>대출 신청하기</h1>
-                  <br>
-                  <br>
-                  
-                  <form action="loanAf.do" method="post" enctype="multipart/form-data">
-                  	<input type="hidden" name="email" value="${login.email}">
-                    <table class="loan-table">
-                      <tr>
-                      	<td colspan="2">개인정보</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          이름
-                        </td>
-                        <td>
-                          <input type="text" name="name" value="${login.name}" readonly>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          생년월일
-                        </td>
-                        <td>
-                          <input type="text" name="birth" value="${login.birth}" readonly>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          성별
-                        </td>
-                        <td>
-                          <input type="text" name="gender" value="${login.gender}" readonly>
-                        </td>
-                      </tr>
-                      
-                      
-                      <tr>
-                      	<td colspan="2">
-                      	  직장정보
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>
-                      		고용형태
-                      	</td>
-                      	<td>
-                      		<select name="employType">
-                      			<option value="정규직">정규직</option>
-                      			<option value="비정규직">비정규직</option>
-                      			<option value="아르바이트">아르바이트</option>
-                      			<option value="무직">무직</option>
-                      		</select>
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>직장규모</td>
-                      	<td>
-                      		<select name="scale">
-                      			<option value="대기업">대기업</option>
-                      			<option value="중견기업">중견기업</option>
-                      			<option value="중소기업">중소기업</option>
-                      			<option value="스타트업">스타트업</option>
-                      		</select>
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>재직기간</td>
-                      	<td>
-                      		<select name="serve">
-                      			<c:forEach var="idx" begin="1" end="50" step="1">
-                      			<option value="${idx}">${idx}</option>
-                      			</c:forEach>
-                      		</select>년
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>연봉</td>
-                      	<td>
-                      		<input type="text" name="salary" required="required">만원
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td colspan="2">대출신청 정보</td>
-                      </tr>
-                      <tr>
-                      	<td>금리</td>
-                      	<td>
-                      		<input type="text" name="interestRate" value="8" readonly>%
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>상환방식</td>
-                      	<td>
-                      		<input type="text" name="repayType" value="원리금균등상환" readonly>
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>대출구분</td>
-                      	<td>
-                      		<input type="text" name="loanType" value="개인신용대출" readonly>
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>대출신청금</td>
-                      	<td>
-                      		<input type="number" name="loanMoney"
-                      		required="required" max="50000000">원
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>대출기간</td>
-                      	<td><select name="loanDate">
-							<c:forEach var="idx" begin="1" end="12">
-								<option value="${idx}">${idx}</option>
-							</c:forEach>
-								<option value="18">18</option>
-								<option value="24">24</option>
-							</select>개월
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>희망상환일</td>
-                      	<td>
-                      	<select name="repay">
-                      		<option value="1">1</option>
-								<c:forEach var="idx" begin="5" end="25" step="5">
-							<option value="${idx}">${idx}</option>
-								</c:forEach>
-						</select>일
-                      	</td>
-                      </tr>
-                      
-                      <tr>
-                      	<td colspan="2">소개글</td>
-                      </tr>
-                      <tr>
-                      	<td>제목</td>
-                      	<td>
-                      		<input type="text" name="title" size="50" required="required">
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>내용</td>
-                      	<td>
-                      		<textarea name="intro" cols="52" rows="10" required="required"></textarea>
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>이미지파일</td>
-                      	<td>
-                      		<input type="file" name="uploadfile" required="required">
-                      	</td>
-                      </tr>
-                      <tr>
-                      	<td>펀딩기간</td>
-                      	<td>
-                      	<select name="expiryDate">
-							<c:forEach var="idx" begin="1" end="7" step="1">
-								<option value="${idx}">${idx}</option>
-							</c:forEach>
-						</select>일
-                      	</td>
-                      </tr>
-                    </table>
-                    <input id="loan-button" class="btn btn-primary" type="submit" name="loan" value="대출신청하기">
-                  </form>
-                </div>
+    <section class="container" style="max-width: 800px;">
+        <h1 class="pt-5 mb-5 text-center">Loan application</h1>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <form action="loanAf.do" method="post" enctype="multipart/form-data">
+                    <div class="mb-5">
+                        <h3>Personal Information</h3>
+                        <div class="mb-3">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" name="name" id="name" value="${login.name}" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="birth">Birth day</label>
+                            <input type="date" class="form-control" name="birth" id="birth" value="${login.birth}" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gender">Gender</label>
+                            <input type="text" class="form-control" name="gender" id="gender" value="${login.gender}" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <h3>Work Information</h3>
+                        <div class="mb-3">
+                            <label for="employType">Type of employment</label>
+                            <select class="custom-select" id="employType" name="employType">
+                                <option value="regular">Regular</option>
+                                <option value="nonRegular">Non-regular</option>
+                                <option value="partTime">Part time job</option>
+                                <option value="none">Not employed</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="scale">Enterprise size</label>
+                            <select class="custom-select" id="scale" name="scale">
+                                <option value="large">Large enterprise</option>
+                                <option value="medium">Medium-sized enterprise</option>
+                                <option value="small">Small-sized enterprise</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="serve">Term of employment</label>
+                            <div class="form-inline">
+                                <select class="custom-select mr-sm-2" id="serve" name="serve">
+                                    <c:forEach var="idx" begin="1" end="50" step="1">
+                                        <option value="${idx}">${idx}</option>
+                                    </c:forEach>
+                                </select>
+                                <span>Year</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="salary">Salary</label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">$</div>
+                                </div>
+                                <input type="number" class="form-control" name="salary" id="salary" value="0" required="required" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <h3>Loan application</h3>
+                        <div class="mb-3">
+                            <label for="interestRate">Interest rate</label>
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" name="interestRate" id="interestRate" value="8" readonly>
+                                <div class="input-group-append">
+                                    <div class="input-group-text">%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="repayType">Repayment method</label>
+                            <input type="text" class="form-control" name="repayType" id="repayType" value="Equivalence of principal and interest" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loanType">Loan classification</label>
+                            <input type="text" class="form-control" name="loanType" id="loanType" value="Personal credit loan" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loanMoney">Loan application amount</label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">$</div>
+                                </div>
+                                <input type="number" class="form-control" name="loanMoney" id="loanMoney" value="Personal credit loan" max="50000000" required="required">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loanDate">Loan period</label>
+                            <div class="form-inline">
+                                <select class="custom-select mr-sm-2" name="loanDate" id="loanType">
+                                    <c:forEach var="idx" begin="1" end="24">
+                                        <option value="${idx}">${idx}</option>
+                                    </c:forEach>
+                                </select>
+                                <span>months</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="repay">Desired repayment date</label>
+                            <select class="custom-select mr-sm-2" name="repay" id="repay">
+                                <option value="1">1</option>
+                                <c:forEach var="idx" begin="5" end="25" step="5">
+                                    <option value="${idx}">${idx}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <h3>Introduction</h3>
+                        <div class="mb-3">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" name="title" id="title" size="50" required="required">
+                        </div>
+                        <div class="mb-3">
+                            <label for="intro">content</label>
+                            <textarea class="form-control" name="intro" id="intro" cols="52" rows="10" required="required"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="uploadfile">Image file</label>
+                            <input type="file" class="form-control-file" name="uploadfile" id="uploadfile" required="required">
+                        </div>
+                        <div class="mb-3">
+                            <label for="expiryDate">Funding period</label>
+                            <select class="custom-select mr-sm-2" name="expiryDate" id="expiryDate">
+                                <c:forEach var="idx" begin="1" end="7" step="1">
+                                    <option value="${idx}">${idx}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" name="email" value="${login.email}">
+                    <input type="submit" class="btn btn-primary btn-lg btn-block" value="Apply a loan" />
+                </form>
             </div>
         </div>
-	</section>
-	
-	<!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Scrolling Nav JavaScript -->
-    <script src="js/jquery.easing.min.js"></script>
-    <script src="js/scrolling-nav.js"></script>
-
+    </section>
 </body>
 </html>
