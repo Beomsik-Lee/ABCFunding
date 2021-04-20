@@ -33,45 +33,34 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1>투자신청</h1>
+					<h1>Investment application</h1>
 					
-					<!-- 안내문 -->
-					<div id="invest-attention">
-						<h2>안내문</h2>
-						<div id="invest-attention123">
-							<p>1. 세금 : 세법에 의거하여 이자소득에 대해 25%(이자소득세) + 2.5%(주민세) = 총 27.5% 의 세금을 납부합니다.</p>
-							<p>2. 수수료 : 2%</p>
-							<p>3. 투자위험안내 : 당사는 원금 및 수익을 보장하지 않습니다. 다만, 채권 추심에 도의적 책임을 다합니다.</p>
-						</div>
-					</div>
-					
-					<!-- 가상계좌정보 -->
+					<!-- Virtual account information -->
 					<div class="panel panel-default" id="invest-account-info">
-						<div class="panel-heading">나의 계좌정보</div>
+						<div class="panel-heading">My account</div>
 						<div class="panel-body">
 							<table>
 								<tr>
-									<td>가상계좌번호:</td>
+									<td>VANumber:</td>
 									<td>${account.accountNo}</td>
 								</tr>
 								<tr>
-									<td>계좌잔액:</td>
-									<td><!-- 통화단위로 형식변경 -->
-										<fmt:formatNumber type="currency"
-										value="${account.balance}" />원
+									<td>Balance:</td>
+									<td>
+                                        <span>$ ${account.balance}</span>
 									</td>
 								</tr>
 							</table>
 						</div>
 					</div>
 					
-					<!-- 투자시뮬레이션 Button trigger of modal -->
+					<!-- Investment simulation : Button trigger of modal -->
 					<button id="invest-simulation" type="button"
 						class="btn btn-default btn-lg glyphicon glyphicon-calendar"
 						data-toggle="modal" data-target=".bs-example-modal-lg"
-						onclick="checkSimulTable()">투자시뮬레이션</button>
+						onclick="checkSimulTable()">Investment simulation</button>
 
-					<!-- 투자시뮬레이션 Modal content -->
+					<!-- Investment simulation : Modal content -->
 					<div class="modal fade bs-example-modal-lg" tabindex="-1"
 						role="dialog" aria-labelledby="myLargeModalLabel"
 						aria-hidden="true">
@@ -82,25 +71,25 @@
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-									<h4 class="modal-title" id="myModalLabel">투자시뮬레이션</h4>
+									<h4 class="modal-title" id="myModalLabel">Investment simulation</h4>
 								</div>
 								<div class="modal-body">
 									<div class="row">
 										<p>
-											최대 투자가능 금액: <strong> <fmt:formatNumber
-													type="currency" value="${investable}" />원
+											Max: <strong> $<fmt:formatNumber
+													type="currency" value="${investable}" currencySymbol="" />
 											</strong>
 										</p>
 									</div>
 									<div class="row">
-										<label for="investMoney" class="col-sm-2 control-label">투자금</label>
+										<label for="investMoney" class="col-sm-2 control-label">Investment</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="investMoney" name="investMoney"
-												placeholder="최대 투자가능 금액 이하로 입력해주세요.">
+												placeholder="Enter investment under max">
 										</div>
 										<div class="col-sm-2">
 											<button type="button" class="btn btn-default"
-											onclick="startSimulation('${loan.loanDate }')">계산하기</button>
+											onclick="startSimulation('${loan.loanDate }')">Calculate</button>
 										</div>
 									</div>
 									<div class="row">
@@ -112,37 +101,39 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default"
-										data-dismiss="modal">닫기</button>
+										data-dismiss="modal">Close</button>
 								</div>
 							</div>
 						</div>
 					</div>
 					
-					<!-- 투자신청금 -->
+					<!-- investment -->
 					<form id="invest-form" role="form" action="investSuc.do" method="post">
 					<div class="panel panel-default" id="invest-request">
 						<div class="panel-body">
-							<p>최대 투자가능 금액: 
+							<p>Available: 
 								<strong>
+                                    $
 									<fmt:formatNumber type="currency"
-									value="${investable}"/>원
+									value="${investable}" currencySymbol="" />
 								</strong>
 							</p>
 							<div class="form-group">
+                                <span>$</span>
 								<input class="control-form" id="invest-money"
 								name="investMoney" type="number"
-								min="1" max="${investable/10000}" step="1"
-								placeholder="투자신청금 입력"/>만원
+								min="1" max="${investable}" step="1"
+								placeholder="Enter investment"/>
 								<input type="hidden" name="loanCode" value="${loan.loanCode}" />
 								<input type="hidden" name="title" value="${loan.title}" />
 							</div>
 						</div>
 					</div>
 					
-					<!-- 투자하기 버튼 -->
+					<!-- Invest button -->
 					<div id="invest-button2">
 						<button class="btn btn-default btn-lg" id="submit-invest">
-				        	<span class="glyphicon glyphicon-thumbs-up"></span>투자신청
+				        	<span class="glyphicon glyphicon-thumbs-up"></span>Invest
 				        </button>
 			        </div>
 			        </form>
@@ -160,11 +151,9 @@
 
     <!-- Scrolling Nav JavaScript -->
     <script src="js/jquery.easing.min.js"></script>
-    <script src="js/scrolling-nav.js"></script>
     <script src="js/investSimulator.js"></script>
     <script>
     	$(document).ready(function(){
-    		// 신청버튼을 눌렀을 때 서브밋
     		$("#submit-invest").click(function(){
     			$("invest-form").submit();
     		});

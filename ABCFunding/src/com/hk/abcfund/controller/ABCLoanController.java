@@ -59,6 +59,9 @@ public class ABCLoanController {
 		// Set title of loan application
 		model.addAttribute("title", "Applying Loan :: "+MAIN_TITLE);
 		
+		// Set birth day
+		ldto.setBirth(ABCUtility.getDateNoHyphen(ldto.getBirth()));
+		
 		// Upload the image file
 		MultipartFile uploadfile = ldto.getUploadfile();
 		if (uploadfile != null) {

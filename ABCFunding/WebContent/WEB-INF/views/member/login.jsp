@@ -24,7 +24,6 @@
                 </c:if>
                 <input id="login-button" class="btn btn-primary" type="submit" name="login" value="Sign in">
                 <a href="regi.do" class="btn btn-outline-primary">Sign up</a>
-                <a href="searchpwd.do" class="btn btn-outline-primary">Find password</a>
             </div>
           </form>
       </div>

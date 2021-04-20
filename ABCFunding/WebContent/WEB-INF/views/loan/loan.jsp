@@ -31,18 +31,18 @@
                         <div class="mb-3">
                             <label for="employType">Type of employment</label>
                             <select class="custom-select" id="employType" name="employType">
-                                <option value="regular">Regular</option>
-                                <option value="nonRegular">Non-regular</option>
-                                <option value="partTime">Part time job</option>
-                                <option value="none">Not employed</option>
+                                <option value="0">Regular</option>
+                                <option value="1">Non-regular</option>
+                                <option value="2">Part time job</option>
+                                <option value="3">Not employed</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="scale">Enterprise size</label>
                             <select class="custom-select" id="scale" name="scale">
-                                <option value="large">Large enterprise</option>
-                                <option value="medium">Medium-sized enterprise</option>
-                                <option value="small">Small-sized enterprise</option>
+                                <option value="0">Large enterprise</option>
+                                <option value="1">Medium-sized enterprise</option>
+                                <option value="2">Small-sized enterprise</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -79,11 +79,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="repayType">Repayment method</label>
-                            <input type="text" class="form-control" name="repayType" id="repayType" value="Equivalence of principal and interest" readonly>
+                            <span>Equivalence of principal and interest</span>
+                            <input type="hidden" name="repayType" id="repayType" value="0">
                         </div>
                         <div class="mb-3">
                             <label for="loanType">Loan classification</label>
-                            <input type="text" class="form-control" name="loanType" id="loanType" value="Personal credit loan" readonly>
+                            <span>Personal credit loan</span>
+                            <input type="hidden" name="loanType" id="loanType" value="0" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="loanMoney">Loan application amount</label>

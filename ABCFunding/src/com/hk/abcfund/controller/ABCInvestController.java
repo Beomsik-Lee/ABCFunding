@@ -58,24 +58,24 @@ public class ABCInvestController {
 		List<ABCLoanDto> list = loanService.getLoanList();
 		
 		// Cancel expired loans
-		int[] delArray = new int[list.size()];
-		Arrays.fill(delArray, -1);	// Initiate all to -1
-		for(int idx = 0; idx < list.size(); idx++){
-			ABCLoanDto dto = list.get(idx);
-			if(ABCUtility.isExpired(dto.getRequestDate(), dto.getExpiryDate())) {
-				loanService.loanCancel(dto.getLoanCode());
-				delArray[idx] = idx;
-			}
-		}
-		
-		// Delete list of loan
-		Iterator<ABCLoanDto> it = list.iterator();
-		for(int idx = 0; it.hasNext(); idx++) {
-			it.next();
-			if(delArray[idx] != -1) {
-				it.remove();
-			}
-		}
+//		int[] delArray = new int[list.size()];
+//		Arrays.fill(delArray, -1);	// Initiate all to -1
+//		for(int idx = 0; idx < list.size(); idx++){
+//			ABCLoanDto dto = list.get(idx);
+//			if(ABCUtility.isExpired(dto.getRequestDate(), dto.getExpiryDate())) {
+//				loanService.loanCancel(dto.getLoanCode());
+//				delArray[idx] = idx;
+//			}
+//		}
+//		
+//		// Delete list of loan
+//		Iterator<ABCLoanDto> it = list.iterator();
+//		for(int idx = 0; it.hasNext(); idx++) {
+//			it.next();
+//			if(delArray[idx] != -1) {
+//				it.remove();
+//			}
+//		}
 		
 		model.addAttribute("loanList", list);
 		

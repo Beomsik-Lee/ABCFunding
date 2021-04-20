@@ -14,9 +14,6 @@
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="css/scrolling-nav.css" rel="stylesheet">
-
     <!-- ABC Funding CSS -->
     <link href="css/abcstyle.css" rel="stylesheet">
 </head>
@@ -26,105 +23,101 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div id="invest-detail-title"><h1>${loan.title}</h1></div>
-					<!-- 심사평 -->
-					<div class="panel panel-default">
-						<div class="panel-heading">심사평</div>
-						<div class="panel-body">${judge.commentary}</div>
-					</div>
 					
-					<!-- 대출신청현황 -->
+					<!-- Loan Information -->
 					<div id="invest-detail-loan-info">
-						<h3>대출신청현황</h3>
+						<h3>Loan Information</h3>
 						<table id="invest-detail-table" class="table table-bordered">
 							<thead>
 								<tr>
-									<th>금리</th>
-									<th>대출신청금</th>
-									<th>대출상환방식</th>
-									<th>대출기간</th>
-									<th>희망상환일</th>
+									<th>Interest</th>
+									<th>A loan</th>
+									<th>Repayment method</th>
+									<th>Loan period</th>
+									<th>Desired repayment date</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td>6%</td>
 									<td>
-									<fmt:parseNumber integerOnly="true">
-										${loan.loanMoney/10000}
-									</fmt:parseNumber>만원
+                                        <span>$</span>
+    									<fmt:parseNumber integerOnly="true">
+    										${loan.loanMoney/10000}
+    									</fmt:parseNumber>
 									</td>
-									<td>${loan.repayType}</td>
-									<td>${loan.loanDate}개월</td>
-									<td>${loan.repay}일</td>
+									<td>Equivalence of principal and interest</td>
+									<td>${loan.loanDate}months</td>
+									<td>${loan.repay}</td>
 								</tr>
 							</tbody>
 						</table>
-						<!-- 신용정보 -->
+						<!-- Credit information -->
 						<div id="invest-detail-credit">
-							<h4>신 용 등 급</h4>
-							<img alt="신용등급"
+							<h4>Credit rating</h4>
+							<img alt="credit"
 							src="${pageContext.request.contextPath}/img/credit/number${personal.creditRating}.jpg" 
-							width="200" height="180"/>
+							width="200" height="150"/>
 						</div>
-						<!-- 개인정보 -->
+						<!-- Personal information -->
 						<div id="invest-detail-personal">
-							<h4>개 인 정 보</h4>
+							<h4>Personal information</h4>
 							<table>
 								<tr>
-									<td>이름</td>
+									<td>Name</td>
 									<td>${personal.name}</td>
 								</tr>
 								<tr>
-									<td>성별</td>
+									<td>Gender</td>
 									<td>${personal.gender}</td>
 								</tr>
 								<tr>
-									<td>나이</td>
-									<td>${age}세</td>
+									<td>Age</td>
+									<td>${age}</td>
 								</tr>
 								<tr>
-									<td>연소득</td>
-									<td>${loan.salary}만원</td>
+									<td>Salary</td>
+									<td>$ ${loan.salary}</td>
 								</tr>
 							</table>
 						</div>
-						<!-- 직장정보 -->
+						<!-- Work information -->
 						<div id="invest-detail-job">
-							<h4>직 장 정 보</h4>
+							<h4>Work information</h4>
 							<table>
 								<tr>
-									<td>고용형태</td>
+									<td>Employment type</td>
 									<td>${loan.employType}</td>
 								</tr>
 								<tr>
-									<td>회사규모</td>
+									<td>Enterprise size</td>
 									<td>${loan.scale}</td>
 								</tr>
 								<tr>
-									<td>재직기간</td>
-									<td>${loan.serve}년</td>
+									<td>Term of employment</td>
+									<td>${loan.serve} year</td>
 								</tr>
 							</table>
 						</div>
-						<!-- 소개글 -->
+						<!-- Introduction -->
 						<div id="invest-detail-intro">
-							<h3>소개글</h3>
-							<img alt="소개글 이미지" src="uploadFile/${loan.fname}" />
+							<h3>Introduction</h3>
+							<img alt="intro" src="uploadFile/${loan.fname}" />
 							<p>${loan.intro}</p>
 						</div>
-						<!-- 투자하기 버튼 -->
+						<!-- Invest button -->
 						<div id="invest-button">
-							<!-- 이미 투자했다면 투자버튼을 비활성화 -->
+							<!-- Disable if already invested -->
 							<c:set var="isAble" value="${isInvested == true ? 'disabled' : ''}" />
-							<c:if test="${loan.progress=='펀딩완료'}">
+							<c:if test="${loan.progress=='Funding Over'}">
 								<c:set var="isAble" value="disabled" />
 							</c:if>
 							<a href="doInvest.do?loanCode=${loan.loanCode}" 
 							class="btn btn-default btn-lg ${isAble}">
-					        	<span class="glyphicon glyphicon-thumbs-up"></span>투자하기
+					        	<span class="glyphicon glyphicon-thumbs-up"></span>Invest
 					        </a>
 					        <c:if test="${isAble == 'disabled'}">
-					        	<h4 style="color: red">투자하실 수 없습니다.</h4>
+					        	<h4 style="color: red">You cannot invest to this anymore.</h4>
 					        </c:if>
 				        </div>
 					</div>
@@ -142,6 +135,5 @@
 
     <!-- Scrolling Nav JavaScript -->
     <script src="js/jquery.easing.min.js"></script>
-    <script src="js/scrolling-nav.js"></script>
 </body>
 </html>

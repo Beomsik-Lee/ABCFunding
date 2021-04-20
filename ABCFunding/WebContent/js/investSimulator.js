@@ -47,21 +47,21 @@ function startSimulation(loanDate) {
 
 	makeinvestSchedule += "<thead><tr><th>Rounds</th><th>Monthly Repayments</th><th>Monthly Principal</th><th>Monthly Profit</th><th>Accumulate repayments</th><th>Balance</th></tr></thead><tbody>";
 	makeinvestSchedule += "<tr><td>" + j + "</td>";
-	makeinvestSchedule += "<td>"
+	makeinvestSchedule += "<td>$"
 		+ monthlyPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-		+ "Won</td>";
-	makeinvestSchedule += "<td>"
+		+ "</td>";
+	makeinvestSchedule += "<td>$"
 		+ paymentPrincipal[0].toString().replace(
-				/\B(?=(\d{3})+(?!\d))/g, ",") + "Won</td>";
-	makeinvestSchedule += "<td>"
+				/\B(?=(\d{3})+(?!\d))/g, ",") + "</td>";
+	makeinvestSchedule += "<td>$"
 		+ rateMoney[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-		+ "Won</td>";
-	makeinvestSchedule += "<td>"
+		+ "</td>";
+	makeinvestSchedule += "<td>$"
 		+ sumMonthlyPay[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-		",") + "Won</td>";
-	makeinvestSchedule += "<td>"
+		",") + "</td>";
+	makeinvestSchedule += "<td>$"
 		+ balance[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-		+ "Won</td>";
+		+ "</td>";
 
 	for (var i = 1; i < loanDate; i++) {
 		paymentPrincipal[i] = Math.round(monthlyPay - (balance[i - 1])
@@ -80,21 +80,21 @@ function startSimulation(loanDate) {
 		balance[i] = Math.round(investMoney - sumMonthlyPay[i]); // balance
 
 		makeinvestSchedule += "<tr><td>" + (i + 1) + "</td>"; // rounds	
-		makeinvestSchedule += "<td>"
+		makeinvestSchedule += "<td>$"
 			+ monthlyPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-			",") + "Won</td>"; // monthly repayments
-		makeinvestSchedule += "<td>"
+			",") + "</td>"; // monthly repayments
+		makeinvestSchedule += "<td>$"
 			+ paymentPrincipal[i].toString().replace(
-					/\B(?=(\d{3})+(?!\d))/g, ",") + "Won</td>"; // monthly repayments principal
-		makeinvestSchedule += "<td>"
+					/\B(?=(\d{3})+(?!\d))/g, ",") + "</td>"; // monthly repayments principal
+		makeinvestSchedule += "<td>$"
 			+ rateMoney[i].toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-			",") + "Won</td>"; // monthly repayments profit
-		makeinvestSchedule += "<td>"
+			",") + "</td>"; // monthly repayments profit
+		makeinvestSchedule += "<td>$"
 			+ sumMonthlyPay[i].toString().replace(
-					/\B(?=(\d{3})+(?!\d))/g, ",") + "Won</td>"; // Accumulate principal
-		makeinvestSchedule += "<td>"
+					/\B(?=(\d{3})+(?!\d))/g, ",") + "</td>"; // Accumulate principal
+		makeinvestSchedule += "<td>$"
 			+ balance[i].toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-			",") + "Won</td>"; // balance
+			",") + "</td>"; // balance
 		makeinvestSchedule += "</tr></tbody>";
 	}
 	$("#investTable").append(makeinvestSchedule);

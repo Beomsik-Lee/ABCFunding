@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    (LOAN_CODE,EMAIL,PROGRESS,CURRENT_MONEY,JOIN_COUNT,ROUND,EMPLOY_TYPE,
 	    SCALE,SERVE,SALARY,LOAN_TYPE,REPAY_TYPE,INTEREST_RATE,LOAN_MONEY,LOAN_DATE,
 	    REPAY,TITLE,FNAME,INTRO,EXPIRY_DATE,REQUEST_DATE)
-	    VALUES(SEQ_LOAN.NEXTVAL, #{email}, '신청완료', 0, 0, 0,#{employType},#{scale},#{serve}, #{salary},
+	    VALUES(SEQ_LOAN.NEXTVAL, #{email}, 'Accepted', 0, 0, 0,#{employType},#{scale},#{serve}, #{salary},
 	    #{loanType},#{repayType},#{interestRate},#{loanMoney},#{loanDate},#{repay},#{title},#{fname},
 	    #{intro},#{expiryDate},#{requestDate})
 	</insert>
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="addJudge" parameterType="java.lang.Integer">
 		INSERT INTO ABC_JUDGE
 		(JUDGE_SEQ,LOAN_CODE,COMMENTARY,RESULT)
-		VALUES (SEQ_JUDGE.NEXTVAL,#{loanCode},'심사평을 입력해주세요.',0)
+		VALUES (SEQ_JUDGE.NEXTVAL,#{loanCode},'Enter your estimation',0)
 	</insert>
 	
 	<select id="getLoanList" resultType="com.hk.abcfund.model.dto.ABCLoanDto">
@@ -39,9 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				LOAN.LOAN_MONEY LOANMONEY,LOAN.LOAN_DATE LOANDATE,
 				LOAN.REPAY REPAY,LOAN.TITLE TITLE,LOAN.FNAME FNAME,
 				LOAN.INTRO INTRO,LOAN.EXPIRY_DATE EXPIRYDATE,LOAN.REQUEST_DATE REQUESTDATE
-		FROM	ABC_LOAN LOAN, ABC_JUDGE JUDGE
-		WHERE	LOAN.LOAN_CODE = JUDGE.LOAN_CODE AND
-				JUDGE.RESULT = 1
+		FROM	ABC_LOAN LOAN
 		ORDER BY LOAN.LOAN_CODE DESC
 	</select>
 	

@@ -37,45 +37,44 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                	<h1>투자하기</h1>
-                	
-					<!-- 리스트 요소 -->
+                	<h1>Investment</h1>
 					<c:forEach items="${loanList}" var="loan">
 						<div class="invest-element"">
 						<c:set var="href" value="investDetail.do?loanCode=${loan.loanCode}" />
-						<c:if test="${loan.progress == '상환중' || loan.progress== '상환완료'}">
-							<c:set var="href" value="#" />
-						</c:if>
+<%-- 						<c:if test="${loan.progress == 'repaying' || loan.progress== 'repayCom'}"> --%>
+<%-- 							<c:set var="href" value="#" /> --%>
+<%-- 						</c:if> --%>
 						<a class="invest-click" href="${href}">
 							<div class="invest-img-hover">
-								<span>자세히 보기</span>
+								<span>Detail</span>
 							</div>
-						    <img class="ivest-img" src="${pageContext.request.contextPath}/uploadFile/${loan.fname}" alt="이미지" />
-						    <!-- 대출정보 텍스트 -->
+						    <img class="ivest-img" src="${pageContext.request.contextPath}/uploadFile/${loan.fname}" alt="image" />
+						    <!-- Loan information -->
 						    <div class="invest-title">${loan.title}</div>
 						    <table class="invest-info">
 							    <tr>
-								    <td>목표금액</td>
-								    <td><!-- 나눗셈 결과를 정수로 변환 -->
+								    <td>Goal</td>
+								    <td>
+                                        <span>$</span>
 								    	<fmt:parseNumber integerOnly="true">
 								    		${loan.loanMoney/10000}
-								    	</fmt:parseNumber>만원
+								    	</fmt:parseNumber>
 								    </td>
 							    </tr>
 						       <tr>
-						        <td>상환기간</td>
-						        <td>${loan.loanDate}개월</td>
+						        <td>Repayment period</td>
+						        <td>${loan.loanDate}months</td>
 						       </tr>
 						       <tr>
-						        <td>수익률</td>
+						        <td>Rate of return</td>
 						        <td>6%</td>
 						       </tr>
 						       <tr>
-						        <td>참여인원수</td>
-						        <td>${loan.jointCount}명</td>
+						        <td>Participants</td>
+						        <td>${loan.jointCount}</td>
 						       </tr>
 					      </table>
-					      <!-- 진행바 -->
+					      <!-- Progress bar -->
 					      <fmt:parseNumber integerOnly="true"
 					      var="percent" value="${loan.currentMoney / loan.loanMoney * 100}"/>
 					      <div class="progress">
@@ -85,7 +84,7 @@
 					            ${percent}%
 					          </div>
 					      </div>
-					      <!-- 진행상태 -->
+					      <!-- progress -->
 					      <span class="progress-stat"><strong>${loan.progress}</strong></span>
 						</a>
 						</div>
