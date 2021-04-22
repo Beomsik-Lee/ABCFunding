@@ -11,7 +11,7 @@
                 <div class="col-lg-12">
                     <h1>Loan success!</h1>
 <!--                     <p>such a thankful message</p><br> -->
-<%--                     <a href="myInfo.do?email=${login.email}"><button type="button" class="btn btn-primary">Go to my info</button></a> --%>
+                    <a href="main.do"><button type="button" class="btn btn-primary">Go home</button></a>
                 </div>
             </div>
         </div>

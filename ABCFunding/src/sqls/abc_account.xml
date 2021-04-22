@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			ACCOUNT_NO, EMAIL, BALANCE, ACCOUNT_HOLDER
 		)
 		VALUES(
-			#{accountNo}, #{email}, 0, #{accountHolder}
+			#{accountNo}, #{email}, ${balance}, #{accountHolder}
 		)
 	</insert>
 	<update id="changeBalance"

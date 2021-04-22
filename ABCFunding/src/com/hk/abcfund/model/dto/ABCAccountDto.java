@@ -22,7 +22,7 @@ public class ABCAccountDto implements Serializable {
 	/**
 	 * balance
 	 */
-	private int balance;
+	private int balance = Integer.MAX_VALUE;
 	
 	/**
 	 * Name

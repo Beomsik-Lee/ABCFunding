@@ -181,9 +181,6 @@ public class ABCInvestController {
 		// Get member DTO from session
 		ABCMemberDto member = (ABCMemberDto)request.getSession().getAttribute("login");
 		
-		// Amount of investment was in units of 10K WON so multiply 10000
-		investMoney *= 10000;
-		
 		// Request investment
 		investService.investRequest(member.getEmail(), loanCode, investMoney);
 		

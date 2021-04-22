@@ -123,7 +123,8 @@
 								<input class="control-form" id="invest-money"
 								name="investMoney" type="number"
 								min="1" max="${investable}" step="1"
-								placeholder="Enter investment"/>
+								placeholder="Enter investment"
+                                required="required"/>
 								<input type="hidden" name="loanCode" value="${loan.loanCode}" />
 								<input type="hidden" name="title" value="${loan.title}" />
 							</div>

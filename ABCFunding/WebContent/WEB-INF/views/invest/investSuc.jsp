@@ -25,14 +25,16 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1>투자 신청 완료</h1>
+					<h1>Application of investment success</h1>
 					<div id="invest-wrap-border">
 						<div id="invest-suc-wrap">
-							<fmt:formatNumber type="currency" var="invest" value="${investMoney}" />
-							<span>${login.name}님 '${title}'상품에 대한 <br/>${invest}원 투자가<br/>
-							성공적으로 완료되었습니다.</span>
-							<a href="main.do" class="btn btn-info btn-lg">홈으로 가기</a>
-							<a href="myInfoInvest.do" class="btn btn-success btn-lg">투자내역 확인하러 가기</a>
+							<fmt:formatNumber type="currency" var="invest" value="${investMoney}" currencySymbol="" />
+                            <span>
+                                ${invest} investment in <br/>
+                                '${title}' products has been completed.
+                            </span>
+							<a href="main.do" class="btn btn-info btn-lg">Go home</a>
+<!-- 							<a href="myInfoInvest.do" class="btn btn-success btn-lg">Check out my investments</a> -->
 						</div>
 					</div>
 				</div>

@@ -43,11 +43,11 @@
 									<td>
                                         <span>$</span>
     									<fmt:parseNumber integerOnly="true">
-    										${loan.loanMoney/10000}
+    										${loan.loanMoney}
     									</fmt:parseNumber>
 									</td>
 									<td>Equivalence of principal and interest</td>
-									<td>${loan.loanDate}months</td>
+									<td>${loan.loanDate} months</td>
 									<td>${loan.repay}</td>
 								</tr>
 							</tbody>

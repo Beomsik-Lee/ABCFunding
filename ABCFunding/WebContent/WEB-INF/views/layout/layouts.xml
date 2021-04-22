@@ -53,7 +53,7 @@
     </definition>
 
     <!-- Investment list page -->
-    <definition name="invest.tiles" extends="main.tiles">
+    <definition name="invest.tiles" extends="temp.tiles">
         <put-attribute name="content"
             value="/WEB-INF/views/invest/invest.jsp" />
     </definition>

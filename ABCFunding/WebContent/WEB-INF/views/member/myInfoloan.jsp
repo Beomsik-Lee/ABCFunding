@@ -63,7 +63,7 @@
 									<th>대출신청금액</th>
 									<th>상환예정금</th>
 									<th colspan="2">대출신청기간</th>
-									<th>진행상태</th>
+<!-- 									<th>Progress</th> -->
 									<th>대출취소</th>
 								</tr>
 							</thead>
@@ -73,12 +73,12 @@
 									<td><fmt:formatNumber>${myloan.loanMoney} </fmt:formatNumber>원</td>
 									<td><fmt:formatNumber>${myloan.loanMoney} </fmt:formatNumber>원</td>
 									<td colspan="2"><c:out value="${myloan.loanDate}" />개월</td>
-									<td><c:set var="judgeResult" value="${myloan.result}" />
-										<c:choose>
-											<c:when test="${judgeResult eq 0 }">심사결과대기</c:when>
-											<c:when test="${judgeResult eq 1 }">${myloan.progress}</c:when>
-											<c:otherwise>심사거절</c:otherwise>
-										</c:choose></td>
+<%-- 									<td><c:set var="judgeResult" value="${myloan.result}" /> --%>
+<%-- 										<c:choose> --%>
+<%-- 											<c:when test="${judgeResult eq 0 }">Audit wait</c:when> --%>
+<%-- 											<c:when test="${judgeResult eq 1 }">${myloan.progress}</c:when> --%>
+<%-- 											<c:otherwise>Rejected</c:otherwise> --%>
+<%-- 										</c:choose></td> --%>
 									<td>
 										<c:set var="isAble" value="" />
 										<c:if test="${myloan.progress eq '상환완료'}">

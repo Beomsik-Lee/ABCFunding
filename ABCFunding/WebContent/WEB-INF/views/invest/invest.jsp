@@ -57,7 +57,7 @@
 								    <td>
                                         <span>$</span>
 								    	<fmt:parseNumber integerOnly="true">
-								    		${loan.loanMoney/10000}
+								    		${loan.loanMoney}
 								    	</fmt:parseNumber>
 								    </td>
 							    </tr>

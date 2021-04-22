@@ -16,6 +16,7 @@
       <c:if test="${not empty login}">
       <a class="p-2 text-dark" href="invest.do">Investment</a>
       <a class="p-2 text-dark" href="loan.do">Loan</a>
+      <a class="p-2 text-dark" href="myInfo.do">My Info</a>
       <a class="p-2 text-dark" href="logout.do">Sign out</a>
       </c:if>
    </nav>
