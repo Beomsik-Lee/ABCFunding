@@ -45,28 +45,26 @@
 
 				<!-- myInfoloan SideMenu -->
 				<div class="col-md-3">
-					<ul class="nav nav-pills nav-stacked">
-						<li role="presentation"><a
-							href="myInfo.do?email=${login.email}">내 정보</a></li>
-						<li role="presentation"><a href="myLoanInfoList.do?email=${login.email}">나의 대출
-								내역</a></li>
-						<li role="presentation"><a href="myInfoInvest.do">나의 투자 내역</a></li>
-					</ul>
-				</div>
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link" href="myInfo.do?email=${login.email}" >My information</a>
+                        <a class="nav-link" href="myLoanInfoList.do?email=${login.email}">Loan history</a>
+                        <a class="nav-link active" href="myInfoInvest.do">Investment history</a>
+                    </div>
+                </div>
 
 				<!-- myInfoInvest MainList -->
 				<div class="col-md-9">
-					<!-- 대출 리스트 -->
+					<!-- Loan list -->
 					<c:forEach var="myloan" items="${loanList}" varStatus="vs">
 						<table class="myLoanTable table table-hover text-center">
 							<thead>
 								<tr>
-									<th>번호</th>
-									<th>상품명</th>
-									<th>목표금액</th>
-									<th>내투자금액</th>
-									<th>상환기간</th>
-									<th>상환일</th>
+									<th>No</th>
+									<th>Product</th>
+									<th>Goal</th>
+									<th>Investment</th>
+									<th>Period</th>
+									<th>Date</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -74,9 +72,9 @@
 									<td><c:out value="${vs.count}" /></td>
 									<td>${myloan.title}</td>
 									<td>${myloan.loanMoney}</td>
-									<td>${investList.get(vs.count-1).getInvestMoney()}원</td>
-									<td>${myloan.loanDate}개월</td>
-									<td>${myloan.repay}일</td>
+									<td>$${investList.get(vs.count-1).getInvestMoney()}</td>
+									<td>${myloan.loanDate} months</td>
+									<td>${myloan.repay}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -87,32 +85,32 @@
 								<button class="btn btn-default" type="button"
 									data-toggle="collapse" data-target="#collapse_${vs.count}"
 									aria-expanded="false" aria-controls="collapse_${vs.count}">
-									상환스케쥴</button>
+									Repayments Schedule</button>
 							</div>
 							<div class="btn-group" role="group">
 								<button class="btn btn-default" type="button"
 									data-toggle="collapse"
 									data-target="#collapseDetail_${vs.count}" aria-expanded="false"
-									aria-controls="collapseDetail_${vs.count}">상환상세내역</button>
+									aria-controls="collapseDetail_${vs.count}">Repayments Details</button>
 							</div>
 						</div>
 
-						<!-- 각 투자 내역의 상환스케쥴 -->
+						<!-- Each Repayments Schedules -->
 						<div class="collapse" id="collapse_${vs.count}">
 							<div class="well">
-								<!-- 상환스케쥴 초기화 -->
+								<!-- Initialize Schedule -->
 								<script>init();</script>
 								<table class="myLoanTable table table-hover text-center">
 									<tr>
-										<td>회차수</td>
-										<td>싱환금</td>
-										<td>납입원금</td>
-										<td>이자</td>
-										<td>남입원급계</td>
-										<td>잔금</td>
+										<td>Rounds</td>
+                                        <td>Repayments</td>
+                                        <td>Principal</td>
+                                        <td>Interest</td>
+                                        <td>Accumulate Principal</td>
+                                        <td>Balance</td>
 									</tr>
 									<c:forEach begin="1" end="${myloan.loanDate}" step="1" varStatus="idx">
-									<!-- 상환 계산 -->
+									<!-- Calculate repayments -->
 									<script>
 										var investMoney = ${investList.get(vs.count-1).getInvestMoney()};
 										var interestRate = 0.06;
@@ -132,16 +130,16 @@
 							</div>
 						</div>
 
-						<!-- 각 대출 내역의 상환상세내역 -->
+						<!-- Repayments Details -->
 						<div class="collapse" id="collapseDetail_${vs.count}">
 							<div class="well">
 								<table class="myLoanTable table table-hover text-center">
 									<tr>
-										<td>회차수</td>
-										<td>진행상황</td>
-										<td>예정수익금</td>
-										<td>누적회수금</td>
-										<td>회수비율</td>
+										<td>Rounds</td>
+										<td>Progress</td>
+										<td>Profit</td>
+										<td>Accumulated</td>
+										<td>Recovery</td>
 									</tr>
 									<c:forEach var="investTran" items="${investTranList}">
 									<c:if test="${investList.get(vs.count-1).getInvestSeq()
@@ -149,8 +147,8 @@
 									<tr>
 										<td>${investTran.round}</td>
 										<td>${investTran.progress}</td>
-										<td><fmt:formatNumber type="number" value="${investTran.intendProfit}" /></td>
-										<td><fmt:formatNumber type="number" value="${investTran.stackCollect}" /></td>
+										<td>$<fmt:formatNumber type="number" value="${investTran.intendProfit}" /></td>
+										<td>$<fmt:formatNumber type="number" value="${investTran.stackCollect}" /></td>
 										<td>${investTran.collectRate}%</td>
 									</tr>
 									</c:if>

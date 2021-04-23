@@ -3,8 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<script src="js/myloaninfo.js"></script>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +29,8 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+<!-- Repayment Schedule Script -->
+<script src="js/investCal.js"></script>
 </head>
 
 <!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
@@ -44,14 +44,12 @@
 
 				<!-- myInfoloan SideMenu -->
 				<div class="col-md-3">
-					<ul class="nav nav-pills nav-stacked">
-						<li role="presentation"><a
-							href="myInfo.do?email=${login.email}">내 정보</a></li>
-						<li role="presentation"><a href="myLoanInfoList.do?email=${login.email}">나의 대출
-								내역</a></li>
-						<li role="presentation"><a href="myInfoInvest.do">나의 투자 내역</a></li>
-					</ul>
-				</div>
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link" href="myInfo.do?email=${login.email}" >My information</a>
+                        <a class="nav-link active" href="myLoanInfoList.do?email=${login.email}">Loan history</a>
+                        <a class="nav-link" href="myInfoInvest.do">Investment history</a>
+                    </div>
+                </div>
 
 				<!-- myInfoloan MainList -->
 				<div class="col-md-9">
@@ -59,20 +57,20 @@
 						<table class="myLoanTable table table-hover text-center">
 							<thead>
 								<tr>
-									<th>번호</th>
-									<th>대출신청금액</th>
-									<th>상환예정금</th>
-									<th colspan="2">대출신청기간</th>
+									<th>No.</th>
+									<th>A loan</th>
+									<th>Repay</th>
+									<th colspan="2">Period</th>
 <!-- 									<th>Progress</th> -->
-									<th>대출취소</th>
+									<th>Cancel</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td><c:out value="${vs.count}" /></td>
-									<td><fmt:formatNumber>${myloan.loanMoney} </fmt:formatNumber>원</td>
-									<td><fmt:formatNumber>${myloan.loanMoney} </fmt:formatNumber>원</td>
-									<td colspan="2"><c:out value="${myloan.loanDate}" />개월</td>
+									<td>$<fmt:formatNumber>${myloan.loanMoney} </fmt:formatNumber></td>
+									<td>$<fmt:formatNumber>${myloan.loanMoney} </fmt:formatNumber></td>
+									<td colspan="2"><c:out value="${myloan.loanDate}" /> months</td>
 <%-- 									<td><c:set var="judgeResult" value="${myloan.result}" /> --%>
 <%-- 										<c:choose> --%>
 <%-- 											<c:when test="${judgeResult eq 0 }">Audit wait</c:when> --%>
@@ -81,11 +79,11 @@
 <%-- 										</c:choose></td> --%>
 									<td>
 										<c:set var="isAble" value="" />
-										<c:if test="${myloan.progress eq '상환완료'}">
+										<c:if test="${myloan.progress eq 'Complete'}">
 											<c:set var="isAble" value="disabled" />
 										</c:if>
 										<a href="loanCancel.do?loanCode=${myloan.loanCode}"
-										 class="btn btn-danger ${isAble}">취소</a>
+										 class="btn btn-danger ${isAble}">Cancel</a>
 									</td>
 								</tr>
 							</tbody>
@@ -97,44 +95,62 @@
 								<button class="btn btn-default" type="button"
 									data-toggle="collapse" data-target="#collapse_${vs.count}"
 									aria-expanded="false" aria-controls="collapse_${vs.count}">
-									상환스케쥴</button>
+									Repayment Schedule</button>
 							</div>
 							<div class="btn-group" role="group">
 								<button class="btn btn-default" type="button"
 									data-toggle="collapse"
 									data-target="#collapseDetail_${vs.count}" aria-expanded="false"
-									aria-controls="collapseDetail_${vs.count}">상환상세내역</button>
+									aria-controls="collapseDetail_${vs.count}">Repayment Details</button>
 							</div>
 						</div>
 
-						<!-- 각 대출 내역의 상환스케쥴 -->
+						<!-- Repayment Schedule -->
 						<div class="collapse" id="collapse_${vs.count}">
-							<div class="well">
-								<table class="myLoanTable table table-hover text-center"
-									id="loanSubList_${vs.count}">
-									<script type="text/javascript">
-										var loanMoney = "<c:out value="${myloan.loanMoney}" />";
-										var loanDate = "<c:out value="${myloan.loanDate}" />";
-										var loanSubList = "loanSubList_"
-												+ "<c:out value="${vs.count}" />";
-										callLoanSchedule(loanMoney, loanDate,
-												loanSubList);
-									</script>
-								</table>
-							</div>
+                            <div class="well">
+                                <!-- Initialize Schedule -->
+                                <script>init();</script>
+                                <table class="myLoanTable table table-hover text-center">
+                                    <tr>
+                                        <td>Rounds</td>
+                                        <td>Repayments</td>
+                                        <td>Principal</td>
+                                        <td>Interest</td>
+                                        <td>Accumulate Principal</td>
+                                        <td>Balance</td>
+                                    </tr>
+                                    <c:forEach begin="1" end="${myloan.loanDate}" step="1" varStatus="idx">
+                                    <!-- Calculate repayments -->
+                                    <script>
+                                        var interestRate = 0.08;
+                                        var loanMoney = ${myloan.loanMoney};
+                                        var loanDate = ${myloan.loanDate};
+                                        calc(loanMoney, interestRate, loanDate);
+                                    </script>
+                                    <tr>
+                                        <td>${idx.count}</td>
+                                        <td><script>getPayment();</script></td>
+                                        <td><script>getOrigin();</script></td>
+                                        <td><script>getInterest();</script></td>
+                                        <td><script>getStackOrigin();</script></td>
+                                        <td><script>getBalance();</script></td>
+                                    </tr>
+                                    </c:forEach>
+                                </table>
+                            </div>
 						</div>
 
-						<!-- 각 대출 내역의 상환상세내역 -->
+						<!-- Repayment details -->
 						<div class="collapse" id="collapseDetail_${vs.count}">
 							<div class="well">
 								<table class="myLoanTable table table-hover text-center">
 									<tr>
-										<td>회차 수</td>
-										<td>누적상환금</td>
-										<td>누적상환이자금</td>
-										<td>누적상환원금</td>
-										<td>진행상황</td>
-										<td>회수비율</td>
+										<td>Rounds</td>
+										<td>Repayments</td>
+										<td>Interest</td>
+										<td>Principal</td>
+										<td>Progress</td>
+										<td>Recovery</td>
 									</tr>
 									<c:forEach var="loanTran" items="${loanTranList}">
 									<c:if test="${loanLists.get(vs.count-1).loanCode
@@ -142,11 +158,11 @@
 									<tr>
 										<td>${loanTran.round}</td>
 										<td>
-											<fmt:formatNumber type="number" 
+											$<fmt:formatNumber type="number" 
 											value="${loanTran.stackRepayRate+loanTran.stackRepayOrigin}" />
 										</td>
-										<td><fmt:formatNumber type="number" value="${loanTran.stackRepayRate}" /></td>
-										<td><fmt:formatNumber type="number" value="${loanTran.stackRepayOrigin}" /></td>
+										<td>$<fmt:formatNumber type="number" value="${loanTran.stackRepayRate}" /></td>
+										<td>$<fmt:formatNumber type="number" value="${loanTran.stackRepayOrigin}" /></td>
 										<td>${loanTran.progress}</td>
 										<td>${loanTran.collectRate}%</td>
 									</tr>
@@ -171,9 +187,6 @@
 	<!-- Bootstrap Core JavaScript -->
 	<script src="js/bootstrap.min.js"></script>
 
-	<!-- Scrolling Nav JavaScript -->
-	<script src="js/jquery.easing.min.js"></script>
-	<script src="js/scrolling-nav.js"></script>
 
 </body>
 </html>

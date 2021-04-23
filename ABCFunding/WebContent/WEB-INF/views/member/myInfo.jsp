@@ -30,7 +30,7 @@
     
 <script type="text/javascript">
 	$(document).ready(function(){
-		// 입금란 숨기기
+		// hide deposit layout
 		$("#depositMoney").hide();
 	});
 </script>
@@ -45,65 +45,59 @@
 	<section id="myInfo" class="myInfo-section">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-3">
-					<ul class="nav nav-pills nav-stacked">
-						<li role="presentation"><a href="myInfo.do?email=${login.email}">내 정보</a></li>
-						<li role="presentation"><a href="myLoanInfoList.do?email=${login.email}">나의 대출 내역</a></li>
-						<li role="presentation"><a href="myInfoInvest.do">나의 투자 내역</a></li>
-					</ul>
-				</div>
+                <div class="col-md-3">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" href="myInfo.do?email=${login.email}" >My information</a>
+                        <a class="nav-link" href="myLoanInfoList.do?email=${login.email}">Loan history</a>
+                        <a class="nav-link" href="myInfoInvest.do">Investment history</a>
+                    </div>
+                </div>
 				<div class="col-md-9">
-					<h4 class="text-center">개인 기본정보</h4>
+					<h4 class="text-center">Personal Information</h4>
 					<table class="myInfo-table text-center table table-hover">
 						<thead>
 							<tr>
-								<th class="text-center">이름</th>
+								<th class="text-center">Name</th>
 								<td><c:out value="${myInfo.name}" /></td>
 							</tr>
 							<tr>
-								<th class="text-center">성별</th>
+								<th class="text-center">Gender</th>
 								<td><c:out value="${myInfo.gender}" /></td>
 							</tr>
 							<tr>
-								<th class="text-center">생년월일</th>
+								<th class="text-center">Birthday</th>
 								<td><c:out value="${myInfo.birth}" /></td>
 							</tr>
 							<tr>
-								<th class="text-center">신용등급</th>
+								<th class="text-center">Credit Rating</th>
 								<td><c:out value="${myInfo.creditRating}" /></td>
-							</tr>
-							<tr>
-								<td><input class="btn btn-default" type="button"
-									value="비밀번호 변경" onclick="location.href='changePwd.do'"></td>
-								<td><input class="btn btn-default" type="button"
-									value="회원탈퇴" onclick="location.href='dropMember.do'"></td>
 							</tr>
 						</thead>
 					</table>
 					<br><br>
-					<h4 class="text-center">가상 계좌정보</h4>
+					<h4 class="text-center">Virtual Account</h4>
 					<form action="doDeposit.do" id="deposit-form" method="post">
 						<table class="myInfo-table text-center table table-hover">
 							<thead>
 								<tr>
-									<th class="text-center">가상계좌번호</th>
+									<th class="text-center">VA Number</th>
 									<td><c:out value="${myInfo.accountNo}" /></td>
 								</tr>
 								<tr>
-									<th class="text-center">잔액</th>
-									<td><c:out value="${myInfo.balance}" />원</td>
+									<th class="text-center">Balance</th>
+									<td>$<c:out value="${myInfo.balance}" /></td>
 								</tr>
 								<tr>
 									<td colspan="2"  id="depositMoney">
-										<input type="number" name="money" placeholder="입금액수 입력" 
-										 value="1" required="required"/>원
+										$<input type="number" name="money" placeholder="Enter deposit money" 
+										 value="1" required="required"/>
 										<input type="hidden" name="email" value="${login.email}" />
 									</td>
 								</tr>
 								<tr>
 									<td colspan="2">
 										<a class="btn btn-default" id="deposit-button">
-										예치금 입금하기</a>
+										Deposit</a>
 									</td>
 								</tr>
 							</thead>
@@ -121,22 +115,16 @@
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="js/bootstrap.min.js"></script>
-
-	<!-- Scrolling Nav JavaScript -->
-	<script src="js/jquery.easing.min.js"></script>
-	<script src="js/scrolling-nav.js"></script>
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
-			// 입금버튼 제어를 위한 변수
 			var isClicked = false;
 			$("#deposit-button").click(function(){
-				if(!isClicked){	// 처음은 입력란을 보여준다.
+				if(!isClicked){	// Show layout first
 					isClicked = true;
 					$("#depositMoney").slideDown("fast");
-				} else{	// 입금요청을 위한 서브밋
-					alert($("#depositMoney").children("input:first").val()+
-							"원 입금합니다.");
+				} else{
+					alert("Deposit : $" + $("#depositMoney").children("input:first").val());
 					$("#deposit-form").submit();
 				}
 			});
