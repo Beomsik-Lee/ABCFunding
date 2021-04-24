@@ -129,7 +129,7 @@ public class ABCMemberController {
     @RequestMapping (value="login.do", method = RequestMethod.GET)
     public String login(Model model, String isFail) {
         // Set login title
-        model.addAttribute("title", "로그인 :: " + MAIN_TITLE);
+        model.addAttribute("title", "Sign in :: " + MAIN_TITLE);
         
         // set variable which is failed
         model.addAttribute("isFail", isFail);
@@ -201,7 +201,7 @@ public class ABCMemberController {
     @RequestMapping(value = "myInfo.do", method = {RequestMethod.GET,RequestMethod.POST})
     public String myInfo(HttpServletRequest request, Model model) {
         // Set title of my info
-        model.addAttribute("title", "내정보" + MAIN_TITLE);
+        model.addAttribute("title", "My Info" + MAIN_TITLE);
         
         // Get login data from session
         ABCMemberDto login = (ABCMemberDto)request.getSession().getAttribute("login");
@@ -316,7 +316,7 @@ public class ABCMemberController {
         // Check progression of the loan
         for(ABCLoanDto loan : loanList){
             int loanCode = loan.getLoanCode();    // Get loan code
-            if(!loan.getProgress().equals("상환완료")){ // Cancel loan of not-approval or funding
+            if(!loan.getProgress().equals("Completed")){ // Cancel loan of not-approval or funding
                 loanService.loanCancel(loanCode);
             }
             
