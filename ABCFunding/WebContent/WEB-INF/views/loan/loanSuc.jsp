@@ -5,14 +5,12 @@
 <head></head>
 <body>
 	<!-- Loan Success Section -->
-	<section id="loanSuc" class="loanSuc-section">
-		<div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>Loan success!</h1>
+	<section class="container">
+        <div class="text-center">
+            <div class="col-lg-12">
+                <h1>Loan success!</h1>
 <!--                     <p>such a thankful message</p><br> -->
-                    <a href="main.do"><button type="button" class="btn btn-primary">Go home</button></a>
-                </div>
+                <a href="main.do"><button type="button" class="btn btn-primary">Go home</button></a>
             </div>
         </div>
 	</section>

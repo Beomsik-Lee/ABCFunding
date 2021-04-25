@@ -12,7 +12,7 @@
         <h1 class="pt-5 mb-5 text-center">Investment</h1>
         <div class="row">
             <c:forEach items="${loanList}" var="loan">
-                <div class="col-sm-4">
+                <div class="col-sm-4 mb-5">
                     <fmt:parseNumber integerOnly="true"
                         var="percent" value="${loan.currentMoney / loan.loanMoney * 100}"/>
                     <div class="card" style="width: 18rem;">
