@@ -144,7 +144,7 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 	 */
 	@Override
 	@Transactional
-//	@Scheduled(cron="0 */1 * 1,5,10,15,20,25 * ?")
+	@Scheduled(cron="0 */1 * 1,5,10,15,20,25 * ?")
 //	@Scheduled(cron="*/10 * * * * *")
 	public void checkRepay() {
 		// 1. Get list of loan
@@ -155,7 +155,7 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 		for(ABCLoanDto loan : loanList){
 			
 			// If date of repayments is today and still repaying, then do the process of repayments
-			if(//ABCUtility.isSameDate(loan.getRequestDate()) &&
+			if(ABCUtility.isSameDate(loan.getRequestDate()) &&
 					!loan.getProgress().equals("Complete")){
 				logger.info("Loan progressing: " + loan);
 				
