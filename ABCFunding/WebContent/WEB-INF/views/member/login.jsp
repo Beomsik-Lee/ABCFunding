@@ -8,22 +8,23 @@
 <script src="js/prng4.js"></script>
 <script src="js/rng.js"></script>
 <script src="js/rsa.js"></script>
+<script src="js/base64.js"></script>
 <script>
 // Encrypt email and password by RSA
 function encrypt() {
 	// Get email and password
-	var email = document.getElementById("email");
-	var pwd = document.getElementById("password");
+	var email = document.getElementById("plainEmail").value;
+	var pwd = document.getElementById("plainPwd").value;
 	
 	// Create RSA insatance
 	var rsa = new RSAKey();
 	
-	// Set public key by exponent and modulus
-	rsa.setPublic("10001", "a5261939975948bb7a58dffe5ff54e65f0498f9175f5a09288810b8975871e99af3b5dd94057b0fc07535f5f97444504fa35169d461d0d30cf0192e307727c065168c788771c561a9400fb49175e9e6aa4e23fe11af69e9412dd23b0cb6684c4c2429bce139e848ab26d0829073351f4acd36074eafd036a5eb83359d2a698d3");
+	// Set public key by modulus and exponent
+	rsa.setPublic("","");
 	
 	// Set encrypted value
-	email.value = rsa.encrypt(email.value);
-	pwd.value = rsa.encrypt(pwd.value);
+	document.forms[0].email.value = hex2b64(rsa.encrypt(email));
+	document.forms[0].pwd.value = hex2b64(rsa.encrypt(pwd));
 }       
 </script>
 </head>
@@ -34,12 +35,12 @@ function encrypt() {
       <div class="row">
           <form class="col-lg-5 my-5 mx-auto text-left" action="loginAf.do" method="post">
             <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" name="email">
+                <label for="plainEmail">Email address</label>
+                <input type="email" class="form-control" id="plainEmail" name="plainEmail">
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="pwd">
+                <label for="plainPwd">Password</label>
+                <input type="password" class="form-control" id="plainPwd" name="plainPwd">
             </div>
             <div class="form-group text-center">
                 <c:if test="${isFail}">
@@ -48,6 +49,8 @@ function encrypt() {
                 <input id="login-button" class="btn btn-primary" type="submit" onclick="encrypt()" name="login" value="Sign in">
                 <a href="regi.do" class="btn btn-outline-primary">Sign up</a>
             </div>
+            <input type="hidden" name="email" value="" />
+            <input type="hidden" name="pwd" value="" />
           </form>
       </div>
     </section>
