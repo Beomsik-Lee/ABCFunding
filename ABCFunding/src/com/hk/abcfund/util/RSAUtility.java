@@ -93,8 +93,7 @@ public final class RSAUtility {
 	        
 	        decrypted = new String(bytePlain, "utf-8");
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// This system does not support RSA
 		} catch (InvalidKeyException e) {
 			
 		} catch (BadPaddingException | IllegalBlockSizeException e) {

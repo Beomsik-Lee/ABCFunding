@@ -1,5 +1,6 @@
 package com.hk.abcfund.controller;
 
+import java.security.PrivateKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hk.abcfund.model.dto.ABCLoanDto;
 import com.hk.abcfund.model.dto.ABCMemberDto;
+import com.hk.abcfund.model.dto.RSA;
 import com.hk.abcfund.model.service.ABCAccountService;
 import com.hk.abcfund.model.service.ABCAdminSerivce;
 import com.hk.abcfund.model.service.ABCInvestService;
 import com.hk.abcfund.model.service.ABCLoanService;
 import com.hk.abcfund.model.service.ABCMemberService;
 import com.hk.abcfund.util.ABCUtility;
+import com.hk.abcfund.util.RSAUtility;
 
 /**
  * @author 9age
@@ -113,9 +116,25 @@ public class ABCMemberController {
      * @return tiles name of login
      */
     @RequestMapping (value="login.do", method = RequestMethod.GET)
-    public String login(Model model, String isFail) {
+    public String login(Model model, HttpServletRequest request, String isFail) {
         // Set login title
         model.addAttribute("title", "Sign in :: " + MAIN_TITLE);
+        
+        // Create RSA key pair
+        RSA rsa = null;
+        try {
+			rsa = new RSA(RSAUtility.genRSAKeyPair());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			isFail = "true";
+		}
+        
+        // Set public key
+        model.addAttribute("RSAModulus", rsa.getModulus());
+        model.addAttribute("RSAExponent", rsa.getExponent());
+        
+        // Set private key
+        request.getSession().setAttribute("RSAPrivateKey", rsa.getPrivateKey());
         
         // set variable which is failed
         model.addAttribute("isFail", isFail);
@@ -131,6 +150,17 @@ public class ABCMemberController {
      */
     @RequestMapping (value="loginAf.do", method = RequestMethod.POST)
     public String loginAf(Model model, HttpServletRequest request ,ABCMemberDto dto) {
+    	// Get private key from session
+    	PrivateKey privateKey = (PrivateKey)request.getSession().getAttribute("RSAPrivateKey");
+    	
+    	// Get email and password from DTO
+    	String email = dto.getEmail();
+    	String pwd = dto.getPwd();
+    	
+    	// Decrypt email and password with RSA and set those to DTO
+    	dto.setEmail(RSAUtility.decryptRSAbyBase64(email, privateKey));
+    	dto.setPwd(RSAUtility.decryptRSAbyBase64(pwd, privateKey));
+    	
         // when request failed
         ABCMemberDto member = service.login(dto);
         if(member == null) {
@@ -144,10 +174,10 @@ public class ABCMemberController {
         // If login success, put the member object to session
         request.getSession().setAttribute("login", member);
         
-        /* judge normal member or administrator */
         String tile = "redirect:/main.do";
-        if (member.getGrade() == 2)
-            tile = "redirect:/admin.do";
+//        if (member.getGrade() == 2) {
+//            tile = "redirect:/admin.do";
+//        }
         
         return tile;
     }

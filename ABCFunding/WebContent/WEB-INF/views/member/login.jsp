@@ -20,7 +20,7 @@ function encrypt() {
 	var rsa = new RSAKey();
 	
 	// Set public key by modulus and exponent
-	rsa.setPublic("","");
+	rsa.setPublic("${RSAModulus}","${RSAExponent}");
 	
 	// Set encrypted value
 	document.forms[0].email.value = hex2b64(rsa.encrypt(email));
