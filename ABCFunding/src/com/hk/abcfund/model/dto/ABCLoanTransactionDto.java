@@ -8,6 +8,8 @@ import java.io.Serializable;
  *
  */
 public class ABCLoanTransactionDto implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	/** sequence for loan transaction */
 	private int loanSeq;
 	

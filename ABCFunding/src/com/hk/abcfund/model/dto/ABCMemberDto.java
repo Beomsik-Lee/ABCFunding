@@ -1,11 +1,6 @@
 package com.hk.abcfund.model.dto;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.hk.abcfund.util.ABCUtility;
 
 /**
  * DTO for member
@@ -13,6 +8,8 @@ import com.hk.abcfund.util.ABCUtility;
  *
  */
 public class ABCMemberDto implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	/** email */
 	private String email;
 	/** 
@@ -74,18 +71,13 @@ public class ABCMemberDto implements Serializable {
 	 * The constructor that have all parameters
 	 */
 	public ABCMemberDto() {}
-
+	
 	/**
-	 * 
+	 * The constructor that have some parameters.
 	 * @param email
-	 * @param email1
-	 * @param email2
 	 * @param pwd
 	 * @param name
 	 * @param birth
-	 * @param year
-	 * @param month
-	 * @param day
 	 * @param gender
 	 * @param creditRating
 	 * @param loanCount
@@ -275,9 +267,6 @@ public class ABCMemberDto implements Serializable {
 		this.year = year;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "ABCMemberDto [email=" + email + ", pwd=" + pwd + ", name="
@@ -285,8 +274,4 @@ public class ABCMemberDto implements Serializable {
 				+ gender + ", creditRating=" + creditRating + ", loanCount=" + loanCount + ", investCount="
 				+ investCount + ", supportCount=" + supportCount + ", grade=" + grade + ", authCode=" + authCode + "]";
 	}
-
-	
-	
-	
 }

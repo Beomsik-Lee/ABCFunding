@@ -3,13 +3,10 @@ package com.hk.abcfund.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hk.abcfund.controller.ABCMemberController;
 import com.hk.abcfund.model.dao.ABCAccountDao;
 import com.hk.abcfund.model.dao.ABCLoanDao;
 import com.hk.abcfund.model.dao.ABCMemberDao;
@@ -37,10 +34,6 @@ public class ABCMemberServiceImpl implements ABCMemberService {
 	/** DAO of loan */
 	@Autowired
 	private ABCLoanDao loanDao;
-	
-	/** log4j Logger */
-	private static final Logger logger = LoggerFactory
-			.getLogger(ABCMemberController.class);
 	
 	/**
 	 * Add a member and create a virtual account

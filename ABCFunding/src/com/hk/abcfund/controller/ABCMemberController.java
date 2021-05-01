@@ -161,7 +161,7 @@ public class ABCMemberController {
     	dto.setEmail(RSAUtility.decryptRSAbyBase64(email, privateKey));
     	dto.setPwd(RSAUtility.decryptRSAbyBase64(pwd, privateKey));
     	
-        // when request failed
+        // When request failed
         ABCMemberDto member = service.login(dto);
         if(member == null) {
             return "redirect:/login.do?isFail=true"; // Go to login page
@@ -174,27 +174,9 @@ public class ABCMemberController {
         // If login success, put the member object to session
         request.getSession().setAttribute("login", member);
         
-        String tile = "redirect:/main.do";
-//        if (member.getGrade() == 2) {
-//            tile = "redirect:/admin.do";
-//        }
-        
-        return tile;
+        return "redirect:/main.do";
     }
-    
-    /**
-     * Set next page after admin login
-     * @param model To set the title
-     * @return tiles name of login
-     */
-    @RequestMapping (value="admin.do", method = {RequestMethod.GET,RequestMethod.POST})
-    public String admin(Model model) {
-        // Set title of administrator
-        model.addAttribute("title", "Administrator :: " + MAIN_TITLE);
-        
-        return "admin.tiles";
-    }
-    
+
     /**
      * Set next page after logout
      * @param request To invalidate the session

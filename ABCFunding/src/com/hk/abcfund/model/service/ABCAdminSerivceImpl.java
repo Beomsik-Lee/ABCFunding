@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.hk.abcfund.model.service;
 
 import java.util.ArrayList;
@@ -32,7 +29,6 @@ import com.hk.abcfund.model.dto.ABCLoanTransactionDto;
 /**
  * Service class for administrator
  * @author 9age
- *
  */
 @Service
 public class ABCAdminSerivceImpl implements ABCAdminSerivce {

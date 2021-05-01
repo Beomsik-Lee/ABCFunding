@@ -19,13 +19,13 @@ function encrypt() {
 	// Create RSA insatance
 	var rsa = new RSAKey();
 	
-	// Set public key by modulus and exponent
+	// Set modulus and exponent of public key
 	rsa.setPublic("${RSAModulus}","${RSAExponent}");
 	
 	// Set encrypted value
 	document.forms[0].email.value = hex2b64(rsa.encrypt(email));
 	document.forms[0].pwd.value = hex2b64(rsa.encrypt(pwd));
-}       
+}
 </script>
 </head>
 <body>

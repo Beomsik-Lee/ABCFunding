@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
  *
  */
 public class ABCLoanDto implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	/** loan code */
 	private int loanCode;
 	
