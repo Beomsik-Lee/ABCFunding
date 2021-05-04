@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hk.abcfund.enums.ABCProgressType;
 import com.hk.abcfund.model.dao.ABCAccountDao;
 import com.hk.abcfund.model.dao.ABCAdminDao;
 import com.hk.abcfund.model.dao.ABCInvestDao;
@@ -118,11 +119,11 @@ public class ABCInvestServiceImpl implements ABCInvestService {
 		// Get a loan by loan code
 		ABCLoanDto loan = loanDao.getLoan(loanCode);
 		
-		// If current money matches goal
+		// If current money have reached the goal
 		if(loan.getCurrentMoney() == loan.getLoanMoney()) {
-			// Set request date to first repayments date
+			// Set request date to first date of repayments
 			String repayDate = ABCUtility.calcRepayDate(loan.getRepay());
-			loan.setProgress("펀딩완료");
+			loan.setProgress(ABCProgressType.REPAYING.getCode());
 			loan.setRequestDate(repayDate);
 			loanDao.fundComplete(loan);
 			
@@ -167,7 +168,14 @@ public class ABCInvestServiceImpl implements ABCInvestService {
 	 */
 	@Override
 	public List<ABCInvestTransactionDto> getInvestTransaction(String email) {
-		return investTranDao.getTransaction(email);
+		List<ABCInvestTransactionDto> investTran = investTranDao.getTransaction(email);
+		
+		// Set progress
+		for(ABCInvestTransactionDto tran : investTran) {
+			tran.setProgress(ABCProgressType.findName(tran.getProgress()));
+		}
+		
+		return investTran;
 	}
 	
 	/**

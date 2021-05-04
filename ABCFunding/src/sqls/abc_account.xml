@@ -84,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="depositForAdmin" parameterType="java.lang.Integer">
 		UPDATE	ABC_ACCOUNT
 		SET		BALANCE = BALANCE + #{money}
-		WHERE	ACCOUNT_HOLDER = '관리자'
+		WHERE	ACCOUNT_HOLDER = 'Admin'
 	</update>
 	
 	<update id="withdrawForInvest" parameterType="hashmap">

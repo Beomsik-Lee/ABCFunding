@@ -43,18 +43,8 @@
             </div>
         </div>
         <div class="row mb-5" style="height: 230px;">
-            <div class="col-md-4">
-                <div class="card h-100" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Credit Rating</h5>
-                        <img alt="credit"
-                        src="${pageContext.request.contextPath}/img/credit/number${personal.creditRating}.jpg" 
-                        width="200" height="150"/>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100" style="width: 18rem;">
+            <div class="col-md-6">
+                <div class="card h-100" >
                     <div class="card-body">
                         <h5 class="card-title">Personal Information</h5>
                         <table class="table table-sm table-borderless">
@@ -80,8 +70,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100" style="width: 18rem;">
+            <div class="col-md-6">
+                <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">Work information</h5>
                         <table class="table table-sm table-borderless">

@@ -68,10 +68,6 @@
 								<th class="text-center">Birthday</th>
 								<td><c:out value="${myInfo.birth}" /></td>
 							</tr>
-							<tr>
-								<th class="text-center">Credit Rating</th>
-								<td><c:out value="${myInfo.creditRating}" /></td>
-							</tr>
 						</thead>
 					</table>
 					<br><br>

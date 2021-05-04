@@ -18,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.hk.abcfund.enums.ABCGenderType;
+import com.hk.abcfund.enums.ABCProgressType;
 import com.hk.abcfund.model.dto.ABCLoanDto;
 import com.hk.abcfund.model.dto.ABCMemberDto;
 import com.hk.abcfund.model.dto.RSA;
@@ -97,7 +99,7 @@ public class ABCMemberController {
      * @throws Exception
      */
     @RequestMapping(value = "addMember.do", method = RequestMethod.POST)
-    public String addMember(Model model, ABCMemberDto dto, @DateTimeFormat(pattern="yyyy-MM-dd") Date birthDate) throws Exception {
+    public String addMember(Model model, ABCMemberDto dto) throws Exception {
         // Set title with function name
         model.addAttribute("title", "Registration :: " + MAIN_TITLE);
         
@@ -170,6 +172,9 @@ public class ABCMemberController {
         // Set birth day with hyphen
         String joint = String.join("-", ABCUtility.parseBirth(member.getBirth()));
         member.setBirth(joint);
+        
+        // Set gender
+        member.setGender(ABCGenderType.findName(member.getGender()));
         
         // If login success, put the member object to session
         request.getSession().setAttribute("login", member);
@@ -314,7 +319,7 @@ public class ABCMemberController {
         // Check progression of the loan
         for(ABCLoanDto loan : loanList){
             int loanCode = loan.getLoanCode();    // Get loan code
-            if(!loan.getProgress().equals("Completed")){ // Cancel loan of not-approval or funding
+            if(!loan.getProgress().equals(ABCProgressType.REPAYED.getCode())){ // Cancel a loan which is not repayed
                 loanService.loanCancel(loanCode);
             }
             

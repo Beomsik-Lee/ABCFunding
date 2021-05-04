@@ -63,14 +63,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    SELECT MAX(ROWNUM) AS STACKLOANNUM, 
         SUM(CURRENT_MONEY) AS STACKLOANMONEY
 		FROM ABC_LOAN
-		WHERE PROGRESS IN('펀딩완료','상환중','상환완료')
+		WHERE PROGRESS IN('0','1','2')
 	</select>
 	
 	<select id="getAdminLoanInfo2"
 	    resultType="com.hk.abcfund.model.dto.ABCAdminLoanManageDto">
-	    SELECT SUM(A.합계) AS STACKLOANREPAYMONEY
+	    SELECT SUM(A.TOTAL) AS STACKLOANREPAYMONEY
 	    FROM(
-                 SELECT MAX(STACK_REPAY_RATE+STACK_REPAY_ORIGIN) AS 합계,
+                 SELECT MAX(STACK_REPAY_RATE+STACK_REPAY_ORIGIN) AS TOTAL,
                            LOAN_CODE,
                            MAX(ROUND)
 				 FROM ABC_LOAN_TRANSACTION
@@ -81,13 +81,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    resultType="com.hk.abcfund.model.dto.ABCAdminLoanManageDto">
 	    SELECT COUNT(PROGRESS) AS LOANENDNUM
 		FROM ABC_LOAN
-		WHERE PROGRESS = '상환완료'
+		WHERE PROGRESS = '2'
 	</select>
 	
 	<select id="getAdminLoanInfo4"
 	    resultType="com.hk.abcfund.model.dto.ABCAdminLoanManageDto">
 	    SELECT COUNT(PROGRESS) AS LOANMIDDLENUM
 		FROM ABC_LOAN
-		WHERE PROGRESS = '상환중'
+		WHERE PROGRESS = '2'
 	</select>
 </mapper>

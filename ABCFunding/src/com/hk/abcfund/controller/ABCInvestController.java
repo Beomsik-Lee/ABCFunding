@@ -12,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.hk.abcfund.enums.ABCEmploymentType;
+import com.hk.abcfund.enums.ABCEnterpriseSizeType;
+import com.hk.abcfund.enums.ABCGenderType;
 import com.hk.abcfund.model.dto.ABCAccountDto;
 import com.hk.abcfund.model.dto.ABCJudgeResultDto;
 import com.hk.abcfund.model.dto.ABCLoanDto;
@@ -80,7 +83,16 @@ public class ABCInvestController {
 		ABCLoanDto loan = (ABCLoanDto)list.get(0);
 		ABCMemberDto personal = (ABCMemberDto)list.get(1);
 		ABCJudgeResultDto judge = (ABCJudgeResultDto)list.get(2);
-				
+		
+		// Set gender
+		personal.setGender(ABCGenderType.findName(personal.getGender()));
+		
+		// Set employment type
+		loan.setEmployType(ABCEmploymentType.findName(loan.getEmployType()));
+		
+		// Set enterprise size
+		loan.setScale(ABCEnterpriseSizeType.findName(loan.getScale()));
+		
 		// Calculate age
 		int age = ABCUtility.getAge(personal.getBirth());
 		
@@ -99,7 +111,7 @@ public class ABCInvestController {
 	}
 	
 	/**
-	 * Go to investing page
+	 * Go to invest page
 	 * @param model To set title
 	 * @param request To get session
 	 * @param loanCode A loan code

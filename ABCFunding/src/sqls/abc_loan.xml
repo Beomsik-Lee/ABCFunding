@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    (LOAN_CODE,EMAIL,PROGRESS,CURRENT_MONEY,JOIN_COUNT,ROUND,EMPLOY_TYPE,
 	    SCALE,SERVE,SALARY,LOAN_TYPE,REPAY_TYPE,INTEREST_RATE,LOAN_MONEY,LOAN_DATE,
 	    REPAY,TITLE,FNAME,INTRO,EXPIRY_DATE,REQUEST_DATE)
-	    VALUES(SEQ_LOAN.NEXTVAL, #{email}, 'Accepted', 0, 0, 0,#{employType},#{scale},#{serve}, #{salary},
+	    VALUES(SEQ_LOAN.NEXTVAL, #{email}, #{progress}, 0, 0, 0,#{employType},#{scale},#{serve}, #{salary},
 	    #{loanType},#{repayType},#{interestRate},#{loanMoney},#{loanDate},#{repay},#{title},#{fname},
 	    #{intro},#{expiryDate},#{requestDate})
 	</insert>
@@ -123,7 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    resultType="com.hk.abcfund.model.dto.ABCLoanDto">
 	    SELECT	LOAN_CODE
 	    FROM	ABC_LOAN
-	    WHERE	PROGRESS IN ('펀딩완료', '상환중')
+	    WHERE	PROGRESS IN ('0', '1')
 	    		AND
 	    		EMAIL = #{email}
 	</select>
@@ -156,7 +156,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultType="java.lang.Integer">
 		SELECT	COUNT(LOAN_CODE)
 		FROM	ABC_LOAN
-		WHERE	PROGRESS = '상환중'
+		WHERE	PROGRESS = '1'
 				AND
 				LOAN_CODE IN (
 					SELECT	LOAN_CODE

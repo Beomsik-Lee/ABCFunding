@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hk.abcfund.enums.ABCGenderType;
 import com.hk.abcfund.model.dao.ABCAccountDao;
 import com.hk.abcfund.model.dao.ABCLoanDao;
 import com.hk.abcfund.model.dao.ABCMemberDao;
@@ -41,11 +42,6 @@ public class ABCMemberServiceImpl implements ABCMemberService {
 	 */
 	@Override
 	public void addMemeber(ABCMemberDto dto) {
-		// Create credit rating of a member
-		int creditRating = Integer.parseInt(ABCUtility.randomNumber(1));
-		if(creditRating == 0) creditRating = 9;
-		dto.setCreditRating(creditRating);
-		
 		// Add a member through DAO
 		dao.addMemeber(dto);
 		
@@ -107,7 +103,12 @@ public class ABCMemberServiceImpl implements ABCMemberService {
 	 */
 	@Override
 	public ABCMyInfoDto getMyInfo(String email) {
-		return dao.getMyInfo(email);
+		ABCMyInfoDto info = dao.getMyInfo(email); 
+		
+		// Set gender
+		info.setGender(ABCGenderType.findName(info.getGender()));
+		
+		return info;
 	}
 	
 	/**

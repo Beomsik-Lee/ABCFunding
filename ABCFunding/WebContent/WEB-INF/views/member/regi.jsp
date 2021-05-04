@@ -33,13 +33,13 @@
                     <div class="row">
                         <div class="col-lg-6 mb-3">
                             <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" id="male" name="gender" value="m" checked="checked" />
+                                <input type="radio" class="form-check-input" id="male" name="gender" value="0" checked="checked" />
                                 <label class="form-check-label" for="male">Male</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" id="female" name="gender" value="f" />
+                                <input type="radio" class="form-check-input" id="female" name="gender" value="1" />
                                 <label class="form-check-label" for="female">Female</label>
                             </div>
                         </div>

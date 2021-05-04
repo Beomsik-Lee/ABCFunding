@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hk.abcfund.enums.ABCGenderType;
+import com.hk.abcfund.enums.ABCProgressType;
 import com.hk.abcfund.model.dto.ABCLoanDto;
 import com.hk.abcfund.model.dto.ABCMemberDto;
 import com.hk.abcfund.model.service.ABCLoanService;
@@ -59,9 +61,6 @@ public class ABCLoanController {
 		// Set title of loan application
 		model.addAttribute("title", "Applying Loan :: "+MAIN_TITLE);
 		
-		// Set birth day
-		ldto.setBirth(ABCUtility.getDateNoHyphen(ldto.getBirth()));
-		
 		// Upload the image file
 		MultipartFile uploadfile = ldto.getUploadfile();
 		if (uploadfile != null) {
@@ -81,6 +80,9 @@ public class ABCLoanController {
 				e.printStackTrace();
 			}
 		}
+		
+		// Set progress
+		ldto.setProgress(ABCProgressType.ACCEPTED.getCode());
 		
 		// Apply loan and calculate the repay date
 		ldto.setRequestDate(ABCUtility.calcRepayDate(ldto.getRepay()));

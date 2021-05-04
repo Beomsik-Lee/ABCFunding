@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hk.abcfund.enums.ABCProgressType;
 import com.hk.abcfund.model.dao.ABCAccountDao;
 import com.hk.abcfund.model.dao.ABCAdminDao;
 import com.hk.abcfund.model.dao.ABCInvestDao;
@@ -88,7 +89,14 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 	 */
 	@Override
 	public List<ABCLoanDto> getLoanList() {
-		return ldao.getLoanList();
+		List<ABCLoanDto> loanList = ldao.getLoanList();
+		
+		// Set progress
+		for (ABCLoanDto loan : loanList) {
+			loan.setProgress(ABCProgressType.findName(loan.getProgress()));
+		}
+		
+		return loanList;
 	}
 	
 	/**
@@ -156,7 +164,7 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 			
 			// If date of repayments is today and still repaying, then do the process of repayments
 			if(ABCUtility.isSameDate(loan.getRequestDate()) &&
-					!loan.getProgress().equals("Complete")){
+					!loan.getProgress().equals(ABCProgressType.REPAYED.getCode())){
 				logger.info("Loan progressing: " + loan);
 				
 				// Create hash map
@@ -220,9 +228,10 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 				}
 				logger.info("Deposit to investor has completed");
 				
+				// Remove Administrator Functions
 				// Repay to administrator
-				accountDao.depositForAdmin(totalRepay);
-				logger.info("Deposit to administrator has completed:" + totalRepay);
+//				accountDao.depositForAdmin(totalRepay);
+//				logger.info("Deposit to administrator has completed:" + totalRepay);
 				
 				// Increase the rounds of the loan 
 				loan.setRound(loan.getRound() + 1);
@@ -248,7 +257,7 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 					logger.info("It's first repayments");
 					
 					// Change progression to repaying
-					loan.setProgress("Repaying");
+					loan.setProgress(ABCProgressType.REPAYING.getCode());
 					ldao.updateProgress(loan);
 					logger.info("Changed the progression to repaying");
 					
@@ -285,7 +294,7 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 				// Check if complete the repayments
 				// If complete, change the progression to complete and delete the account
 				if(stackRepayOrigin >= loan.getLoanMoney()){
-					loan.setProgress("Complete");
+					loan.setProgress(ABCProgressType.REPAYED.getCode());
 					ldao.updateProgress(loan);
 					accountDao.deleteByLoan(loan.getLoanCode());
 					logger.info("##Complete the repayment##");
@@ -393,7 +402,14 @@ public class ABCLoanServiceImpl implements ABCLoanService {
 
 	@Override
 	public List<ABCLoanTransactionDto> getTransactionBySorted(String email) {
-		return loanTranDao.getTransactionBySorted(email);
+		List<ABCLoanTransactionDto> loanTran = loanTranDao.getTransactionBySorted(email); 
+		
+		// Set progress
+		for(ABCLoanTransactionDto tran : loanTran) {
+			tran.setProgress(ABCProgressType.findName(tran.getProgress()));
+		}
+		
+		return loanTran;
 	}
 
 	@Override
