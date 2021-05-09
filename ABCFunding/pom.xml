@@ -36,7 +36,7 @@
   </build>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <org.springframework.version>3.0.4.RELEASE</org.springframework.version>
+    <org.springframework.version>3.2.8.RELEASE</org.springframework.version>
   </properties>
   <dependencies>
     <!-- For JSP -->
@@ -194,6 +194,22 @@
 	    <artifactId>spring-test</artifactId>
 	    <version>${org.springframework.version}</version>
 	    <scope>test</scope>
+	</dependency>
+	<!-- Spring security -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-core</artifactId>
+	    <version>${org.springframework.version}</version>
+	</dependency>
+	<dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>${org.springframework.version}</version>
+    </dependency>
+	<dependency> 
+        <groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-config</artifactId>
+		<version>${org.springframework.version}</version>
 	</dependency>
 	<!-- MyBatis for DB mapper -->
 	<dependency>

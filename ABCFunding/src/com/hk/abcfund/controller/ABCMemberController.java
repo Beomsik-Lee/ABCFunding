@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -56,6 +57,10 @@ public class ABCMemberController {
     /** Administrator service */
     @Autowired
     private ABCAdminSerivce adminService;
+    
+    /** Password encoder */
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     /** Default title */
     public static String MAIN_TITLE = "ABC Funding";
@@ -162,6 +167,9 @@ public class ABCMemberController {
     	// Decrypt email and password with RSA and set those to DTO
     	dto.setEmail(RSAUtility.decryptRSAbyBase64(email, privateKey));
     	dto.setPwd(RSAUtility.decryptRSAbyBase64(pwd, privateKey));
+    	
+    	// Encode the password
+    	String encodedPwd = passwordEncoder.encode(dto.getPwd());
     	
         // When request failed
         ABCMemberDto member = service.login(dto);
