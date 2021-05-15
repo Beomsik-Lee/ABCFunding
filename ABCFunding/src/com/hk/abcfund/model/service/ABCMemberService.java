@@ -1,5 +1,6 @@
 package com.hk.abcfund.model.service;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +14,9 @@ import com.hk.abcfund.model.dto.ABCMyLoanInfoDto;
  *
  */
 public interface ABCMemberService {
-	void addMemeber(ABCMemberDto dto);
+	void addMemeber(ABCMemberDto dto, PrivateKey privateKey);
 	void doAuthMember(ABCMemberDto dto);
-	ABCMemberDto login(ABCMemberDto dto);
+	ABCMemberDto login(ABCMemberDto dto, PrivateKey privateKey);
 	void changePwd(ABCMemberDto dto);
 	void changeAuthCode(ABCMemberDto dto);
 	void changePwdOnAuth(ABCMemberDto dto);

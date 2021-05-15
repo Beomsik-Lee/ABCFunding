@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	SELECT 	EMAIL,PWD,NAME,BIRTH,GENDER,CREDIT_RATING CREDITRATING,
 	    		LOAN_COUNT LOANCOUNT, INVEST_COUNT INVESTCOUNT,GRADE
 	    FROM 	ABC_MEMBER
-	    WHERE 	EMAIL = #{email} AND PWD = #{pwd}
+	    WHERE 	EMAIL = #{email}
 	</select>
 	<update id="changePwd"
 	    parameterType="com.hk.abcfund.model.dto.ABCMemberDto">

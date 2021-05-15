@@ -1,7 +1,7 @@
 -----------------------------------------------ABC_MEMBER-------------------------------------------------------
 create table abc_member(
   email varchar2(51),
-  pwd varchar2(20) not null,
+  pwd varchar2(60) not null,
   name varchar2(12) not null,
   birth varchar2(8) not null,
   gender varchar2(4) not null,

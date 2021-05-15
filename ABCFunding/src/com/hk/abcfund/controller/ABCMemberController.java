@@ -58,10 +58,6 @@ public class ABCMemberController {
     @Autowired
     private ABCAdminSerivce adminService;
     
-    /** Password encoder */
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    
     /** Default title */
     public static String MAIN_TITLE = "ABC Funding";
     
@@ -89,9 +85,24 @@ public class ABCMemberController {
      * @throws Exception
      */
     @RequestMapping(value = "regi.do", method = RequestMethod.GET)
-    public String regi(Model model) throws Exception {
+    public String regi(Model model, HttpServletRequest request) throws Exception {
         // Set registration title
         model.addAttribute("title", "Registration :: " + MAIN_TITLE);
+        
+        // Create RSA key pair
+        RSA rsa = null;
+        try {
+			rsa = new RSA(RSAUtility.genRSAKeyPair());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+        
+        // Set public key
+        model.addAttribute("RSAModulus", rsa.getModulus());
+        model.addAttribute("RSAExponent", rsa.getExponent());
+        
+        // Set private key
+        request.getSession().setAttribute("RSAPrivateKey", rsa.getPrivateKey());
         
         return "regi.tiles";
     }
@@ -104,15 +115,18 @@ public class ABCMemberController {
      * @throws Exception
      */
     @RequestMapping(value = "addMember.do", method = RequestMethod.POST)
-    public String addMember(Model model, ABCMemberDto dto) throws Exception {
+    public String addMember(Model model, ABCMemberDto dto, HttpServletRequest request) throws Exception {
         // Set title with function name
         model.addAttribute("title", "Registration :: " + MAIN_TITLE);
         
         // Delete hyphen of birth day
         dto.setBirth(ABCUtility.getDateNoHyphen(dto.getBirth()));
         
+        // Get RSA private key from session
+    	PrivateKey privateKey = (PrivateKey)request.getSession().getAttribute("RSAPrivateKey");
+        
         // Regist membership
-        service.addMemeber(dto);
+        service.addMemeber(dto, privateKey);
         
         return "regiSuc.tiles";
     }
@@ -157,22 +171,11 @@ public class ABCMemberController {
      */
     @RequestMapping (value="loginAf.do", method = RequestMethod.POST)
     public String loginAf(Model model, HttpServletRequest request ,ABCMemberDto dto) {
-    	// Get private key from session
+    	// Get RSA private key from session
     	PrivateKey privateKey = (PrivateKey)request.getSession().getAttribute("RSAPrivateKey");
     	
-    	// Get email and password from DTO
-    	String email = dto.getEmail();
-    	String pwd = dto.getPwd();
-    	
-    	// Decrypt email and password with RSA and set those to DTO
-    	dto.setEmail(RSAUtility.decryptRSAbyBase64(email, privateKey));
-    	dto.setPwd(RSAUtility.decryptRSAbyBase64(pwd, privateKey));
-    	
-    	// Encode the password
-    	String encodedPwd = passwordEncoder.encode(dto.getPwd());
-    	
         // When request failed
-        ABCMemberDto member = service.login(dto);
+        ABCMemberDto member = service.login(dto, privateKey);
         if(member == null) {
             return "redirect:/login.do?isFail=true"; // Go to login page
         }

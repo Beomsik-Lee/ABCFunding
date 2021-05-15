@@ -2,7 +2,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<head></head>
+<head>
+<!-- RSA scripts -->
+<script src="js/jsbn.js"></script>
+<script src="js/prng4.js"></script>
+<script src="js/rng.js"></script>
+<script src="js/rsa.js"></script>
+<script src="js/base64.js"></script>
+<script>
+// Encrypt email and password by RSA
+function encrypt() {
+    // Get email and password
+    var email = document.getElementById("plainEmail").value;
+    var pwd = document.getElementById("plainPwd").value;
+    
+    // Create RSA insatance
+    var rsa = new RSAKey();
+    
+    // Set modulus and exponent of public key
+    rsa.setPublic("${RSAModulus}","${RSAExponent}");
+    
+    // Set encrypted value
+    document.forms[0].email.value = hex2b64(rsa.encrypt(email));
+    document.forms[0].pwd.value = hex2b64(rsa.encrypt(pwd));
+}
+</script>
+</head>
 <body>
     <!-- Regi Section -->
     <section class="container" style="max-width: 800px;">
@@ -15,12 +40,12 @@
                         <input type="text" class="form-control" id="name" name="name" required="required" />
                     </div>
                     <div class="mb-3">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required="required" />
+                        <label for="plainEmail">Email</label>
+                        <input type="email" class="form-control" id="plainEmail" name="plainEmail" required="required" />
                     </div>
                     <div class="mb-3">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="pwd" required="required" pattern="[0-9a-zA-Z!@#$]{6,20}"
+                        <label for="plainPwd">Password</label>
+                        <input type="password" class="form-control" id="plainPwd" name="plainPwd" required="required" pattern="[0-9a-zA-Z!@#$]{6,20}"
                         placeholder="Number / Upper and lower case / !@#$ / 6~20 " />
                     </div>
                     <div class="mb-3">
@@ -45,8 +70,10 @@
                         </div>
                     </div>
                     <div>
-                        <input type="submit" class="btn btn-primary btn-lg btn-block" value="Sign Up" />
+                        <input type="submit" class="btn btn-primary btn-lg btn-block" value="Sign Up" onclick="encrypt()" />
                     </div>
+                    <input type="hidden" name="email" value="" />
+                    <input type="hidden" name="pwd" value="" />
                 </form>
             </div>
         </div>

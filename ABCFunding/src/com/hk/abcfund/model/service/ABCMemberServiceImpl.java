@@ -1,9 +1,11 @@
 package com.hk.abcfund.model.service;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,7 @@ import com.hk.abcfund.model.dto.ABCMemberDto;
 import com.hk.abcfund.model.dto.ABCMyInfoDto;
 import com.hk.abcfund.model.dto.ABCMyLoanInfoDto;
 import com.hk.abcfund.util.ABCUtility;
+import com.hk.abcfund.util.RSAUtility;
 
 /**
  * Service for membership
@@ -36,12 +39,28 @@ public class ABCMemberServiceImpl implements ABCMemberService {
 	@Autowired
 	private ABCLoanDao loanDao;
 	
+	/** Password encoder */
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+	
 	/**
 	 * Add a member and create a virtual account
 	 * @param dto A DTO of member
 	 */
 	@Override
-	public void addMemeber(ABCMemberDto dto) {
+	public void addMemeber(ABCMemberDto dto, PrivateKey privateKey) {
+		// Get email and password from DTO
+    	String email = dto.getEmail();
+    	String pwd = dto.getPwd();
+    	
+    	// Decrypt email and password with RSA and set those to DTO
+    	dto.setEmail(RSAUtility.decryptRSAbyBase64(email, privateKey));
+    	dto.setPwd(RSAUtility.decryptRSAbyBase64(pwd, privateKey));
+    	
+    	// Encode the password
+    	String encodedPwd = passwordEncoder.encode(dto.getPwd());
+    	dto.setPwd(encodedPwd);
+		
 		// Add a member through DAO
 		dao.addMemeber(dto);
 		
@@ -61,13 +80,31 @@ public class ABCMemberServiceImpl implements ABCMemberService {
 	}
 	
 	/**
-	 * To login
+	 * Decrypt the password by RSA and encrypt by BCrypt. Then try to login.
 	 * @param dto A DTO of a member
 	 * @return Return DTO object that has null if cannot login
 	 */
 	@Override
-	public ABCMemberDto login(ABCMemberDto dto) {
-		return dao.login(dto);
+	public ABCMemberDto login(ABCMemberDto dto, PrivateKey privateKey) {
+		// Get email and password from DTO
+    	String email = dto.getEmail();
+    	String pwd = dto.getPwd();
+    	
+    	// Decrypt email and password with RSA and set those to DTO
+    	dto.setEmail(RSAUtility.decryptRSAbyBase64(email, privateKey));
+    	dto.setPwd(RSAUtility.decryptRSAbyBase64(pwd, privateKey));
+    	
+    	// Get member data
+    	ABCMemberDto member = dao.login(dto);
+    	
+    	// Make sure passwords match
+    	if (passwordEncoder.matches(dto.getPwd(), member.getPwd())) {
+    		member.setPwd(null);
+    	} else {
+    		member = null;
+    	}
+		
+		return member; 
 	}
 	
 	/**
