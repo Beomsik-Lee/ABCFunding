@@ -1,13 +1,13 @@
 # ABCFunding
-"Angel Bridge to Customer" is crowd funding site for learning Spring.
-You can make a mock investment using equal repayment of principal and interest.
+"Angel Bridge to Customer" is crowd funding site for learning Spring.\
+You can make a mock investment using equal repayment of principal and interest(a.k.a ERPI).
 
-※This project was a two-person study project conducted in the summer of 2016.
+※This project was a two-person study project conducted in the summer of 2016.\
 I have removed unnecessary functions and adjusted layout, but there may be some traces left.
 
 # 📍 Features
 1. Investment Simulator
-By implementing equal repayment calculations of principal and interest in JavaScript, you can check the estimated return by entering the investable amount.
+By implementing calculations of ERPI in JavaScript, you can check the estimated return by entering the investable amount.
 
 2. Spring Job Schedule
 The repayment work was implemented using Spring Job Scheduler, and the logic is as follows.
