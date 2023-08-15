@@ -17,7 +17,7 @@ The repayment work was implemented using Spring Job Scheduler, and the logic is 
 - RSA: The login page uses RSA in Base64 format for encryption.
 - Spring Security: Password storage and verification are encrypted using "BCryptPasswordEncoder".
 
-## 🌍 Environment
+## ⚙️ Environment
 - Java 8
 - Spring framework 3.2.8
 - jQuery
